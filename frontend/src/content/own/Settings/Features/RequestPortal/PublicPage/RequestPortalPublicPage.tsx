@@ -398,16 +398,7 @@ export default function RequestPortalPublicPage() {
               <Typography
                 variant="body2"
                 display={{ xs: 'none', sm: 'block' }}
-                sx={{
-                  color: 'text.secondary',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    color: 'primary.main'
-                  }
-                }}
-                onClick={() => {
-                  window.open(brandConfig.website, '_blank');
-                }}
+                sx={{ color: 'text.secondary' }}
               >
                 Powered by {brandConfig.name}
               </Typography>

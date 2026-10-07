@@ -118,7 +118,7 @@ public class SubscriptionService {
 
     public void scheduleEnd(Subscription subscription) {
         boolean shouldSchedule =
-                !subscription.getSubscriptionPlan().getCode().equals("FREE") && subscription.getEndsOn() != null && subscription.getPaddleSubscriptionId() == null;
+                false; // Standalone accounts never expire or require payment
         JobKey jobKey = new JobKey("subscription-end-job-" + subscription.getId(), "subscription-group");
         if (shouldSchedule) {
             try {
@@ -160,26 +160,8 @@ public class SubscriptionService {
     }
 
     public void resetToFreePlan(Subscription subscription) {
-        Optional<Company> optionalCompany = companyRepository.findBySubscription_Id(subscription.getId());
-        if (optionalCompany.isEmpty()) return;
-
-        subscription.setActivated(false);
-        subscription.setUsersCount(3);
-        subscription.setMonthly(true);
-//        subscription.setPaddleSubscriptionId(null);
-        Long companyId = optionalCompany.get().getId();
-        int currentUsersCount =
-                (int) userRepository.findByCompany_Id(companyId).stream().filter(User::isEnabledInSubscriptionAndPaid).count();
-        if (currentUsersCount > subscription.getUsersCount()) {
-            subscription.setDowngradeNeeded(true);
-        }
-        subscription.setScheduledChangeType(null);
-        subscription.setScheduledChangeDate(null);
-        subscription.setSubscriptionPlan(subscriptionPlanService.findByCode("FREE").get());
-        scheduleRepository.updateDisabledTrueByCompanyId(companyId);
-        subscription.setStartsOn(new Date());
-        subscription.setEndsOn(null);
-        subscriptionRepository.save(subscription);
+        // Standalone accounts cannot be downgraded by legacy billing jobs or webhooks.
+        scheduleEnd(subscription);
     }
 
 }

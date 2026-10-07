@@ -188,39 +188,7 @@ export const CompanySettingsProvider: FC = ({ children }) => {
     });
     return [fields, shape];
   };
-  const requestSubscriptionChange = () => {
-    window.open(
-      mailToLink({
-        to: brandConfig.mail,
-        subject: 'Subscription change request',
-        body: `Dear ${brandConfig.name} Team,
-
-I would like to request an upgrade to my current ${brandConfig.name} plan.
-
-Account Information:
-- Company Name: ${company.name}
-- Current Plan: ${company.subscription.subscriptionPlan.name}
-- Account Email: ${user.email}
-
-Upgrade Details:
-- Desired Plan: [Basic/Professional/Enterprise]
-- Number of Users Needed: [Number]
-- Preferred Billing Cycle: [Monthly/Annual]
-- Preferred Payment Method: [Credit Card/Bank Transfer]
-
-Additional Comments:
-[Add any specific requirements or questions here]
-
-Thank you for your assistance.
-
-Best regards,
-${user.firstName} ${user.lastName}
-[Your Position]
-${company.name}
-`
-      })
-    );
-  };
+  const requestSubscriptionChange = () => {};
   useEffect(() => {
     if (isAuthenticated) dispatch(getUsersMini(true));
   }, [isAuthenticated]);

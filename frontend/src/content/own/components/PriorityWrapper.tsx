@@ -21,22 +21,19 @@ export default function PriorityWrapper(props: {
   const { t }: { t: any } = useTranslation();
   const theme = useTheme();
   if (!priority) return null;
+  const background =
+    priority === 'LOW'
+      ? theme.colors.info.main
+      : priority === 'HIGH'
+      ? theme.colors.error.main
+      : theme.colors.warning.main;
   return priority === 'NONE' ? (
     <Typography>{getPriorityLabel(priority, t)}</Typography>
   ) : (
     <LabelWrapper
       sx={{
-        background:
-          priority === 'LOW'
-            ? `${theme.colors.info.main}`
-            : priority === 'HIGH'
-            ? `${theme.colors.error.main}`
-            : `${theme.colors.warning.main}`,
-        color: `${theme.palette.getContrastText(
-          priority === 'HIGH'
-            ? theme.colors.info.dark
-            : theme.colors.success.dark
-        )}`
+        background,
+        color: theme.palette.getContrastText(background)
       }}
     >
       {t(priority)} {withSuffix ? t('priority') : null}

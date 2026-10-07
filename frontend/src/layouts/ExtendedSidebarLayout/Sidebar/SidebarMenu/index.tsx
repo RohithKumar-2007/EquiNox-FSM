@@ -262,50 +262,7 @@ function SidebarMenu() {
   }, [user.id]);
   return (
     <>
-      {isCloudVersion &&
-        !company.demo &&
-        user.ownsCompany &&
-        !company.subscription.activated &&
-        user.superAccountRelations.length === 0 && (
-          <Stack
-            sx={{
-              backgroundColor: 'rgb(51, 194, 255)',
-              p: 2,
-              mx: 2,
-              mt: 2,
-              borderRadius: 2
-            }}
-            spacing={1}
-          >
-            <Typography color={'white'} fontSize={'16px'} fontWeight={'bold'}>
-              {daysLeft > 0
-                ? `Your trial ends in ${daysLeft} days`
-                : `Your trial has ended`}
-            </Typography>
-            <Typography color={'white'} fontSize={'14px'}>
-              You are on the {company.subscription.subscriptionPlan.name} plan
-            </Typography>
-            <Button
-              component={Link}
-              href={
-                isCloudVersion
-                  ? '/app/subscription/plans'
-                  : getLocalizedHomeUrl(
-                      'pricing?type=selfhosted',
-                      i18n.language
-                    )
-              }
-              {...(isCloudVersion
-                ? {}
-                : { target: '_blank', rel: 'noopener noreferrer' })}
-              variant="contained"
-              color="primary"
-              sx={{ mt: 1 }}
-            >
-              Upgrade
-            </Button>
-          </Stack>
-        )}
+
       <>
         {(user.superAccountRelations.length
           ? [

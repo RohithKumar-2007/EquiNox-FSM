@@ -22,6 +22,12 @@ import java.util.Date;
 @NoArgsConstructor
 @Schema(description = "Subscription entity for managing company subscription details")
 public class Subscription extends Audit {
+    // Preserve the database schema without requiring payment activation or seat limits.
+    public boolean isActivated() { return true; }
+    public boolean isUpgradeNeeded() { return false; }
+    public boolean isDowngradeNeeded() { return false; }
+    public int getUsersCount() { return Integer.MAX_VALUE; }
+    public Date getEndsOn() { return null; }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Schema(description = "Unique identifier", accessMode = Schema.AccessMode.READ_ONLY)

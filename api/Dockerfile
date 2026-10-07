@@ -3,7 +3,8 @@ FROM maven:3.9.9-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean package -DskipTests
+# Keep downloaded libraries between builds so only the first build downloads them.
+RUN --mount=type=cache,target=/root/.m2 MAVEN_OPTS="-Xmx1024m" mvn -B -ntp clean package -DskipTests
 
 # Runtime Stage
 FROM eclipse-temurin:17-jre

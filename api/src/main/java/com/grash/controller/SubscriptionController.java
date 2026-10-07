@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 @RestController
+@org.springframework.context.annotation.Profile("billing")
 @RequestMapping("/subscriptions")
 @Tag(name = "Subscriptions", description = "Operations on subscriptions")
 @RequiredArgsConstructor

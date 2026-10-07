@@ -120,8 +120,6 @@ interface CustomDatagrid2Props<TData extends RowData> {
   getRowId?: (row: TData) => string;
 }
 
-const PINNED_BG = '#F2F5F9';
-
 function CustomDatagrid2<TData extends RowData>({
   columns,
   data,
@@ -156,6 +154,9 @@ function CustomDatagrid2<TData extends RowData>({
 }: CustomDatagrid2Props<TData>) {
   const { t } = useTranslation();
   const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  const pinnedBackground = isDark ? theme.palette.background.paper : '#F2F5F9';
+  const headerBackground = isDark ? theme.palette.background.paper : '#E8EAEE';
   const { height } = useWindowDimensions();
   const tableRef = useRef<HTMLDivElement>(null);
   const [tableHeight, setTableHeight] = useState<number>(500);
@@ -505,7 +506,9 @@ function CustomDatagrid2<TData extends RowData>({
             borderRadius: 4
           },
           '&::-webkit-scrollbar-track': {
-            backgroundColor: theme.palette.grey[100]
+            backgroundColor: isDark
+              ? theme.palette.background.default
+              : theme.palette.grey[100]
           }
         }}
       >
@@ -524,7 +527,8 @@ function CustomDatagrid2<TData extends RowData>({
                 fontWeight: 'bold',
                 textTransform: 'uppercase',
                 borderBottom: `1px solid ${theme.palette.divider}`,
-                backgroundColor: '#E8EAEE',
+                backgroundColor: headerBackground,
+                color: theme.palette.text.primary,
                 position: 'sticky',
                 top: 0,
                 zIndex: 3
@@ -559,12 +563,12 @@ function CustomDatagrid2<TData extends RowData>({
                         whiteSpace: 'nowrap',
                         position: isPinned ? 'sticky' : 'relative',
                         left: isPinned ? stickyLeft : undefined,
-                        backgroundColor: PINNED_BG,
+                        backgroundColor: pinnedBackground,
                         userSelect: isResizing ? 'none' : 'auto',
                         cursor: canDrag ? 'pointer' : 'default',
                         borderRight: isPinned
                           ? `2px solid ${theme.palette.divider}`
-                          : `1px solid #F2F5F9`,
+                          : `1px solid ${isDark ? theme.palette.divider : '#F2F5F9'}`,
                         boxShadow: isPinned
                           ? `2px 0 4px ${alpha(
                               theme.palette.common.black,
@@ -724,7 +728,9 @@ function CustomDatagrid2<TData extends RowData>({
                     ? theme.colors.primary.light
                     : theme.palette.primary.main
                   : undefined;
-                const textColor = isNested ? 'white' : undefined;
+                const textColor = isNested
+                  ? theme.palette.getContrastText(backgroundColor!)
+                  : theme.palette.text.primary;
 
                 return (
                   <TableRow
@@ -736,7 +742,7 @@ function CustomDatagrid2<TData extends RowData>({
                       color: textColor,
                       '&:hover': {
                         backgroundColor: isNested
-                          ? theme.palette.primary.main
+                          ? backgroundColor
                           : alpha(theme.palette.primary.main, 0.04)
                       }
                     }}
@@ -763,7 +769,9 @@ function CustomDatagrid2<TData extends RowData>({
                             textOverflow: 'ellipsis',
                             position: isPinned ? 'sticky' : undefined,
                             left: isPinned ? stickyLeft : undefined,
-                            backgroundColor: isPinned ? PINNED_BG : undefined,
+                            backgroundColor: isPinned
+                              ? backgroundColor || pinnedBackground
+                              : undefined,
                             borderRight: isPinned
                               ? `2px solid ${theme.palette.divider}`
                               : undefined,
@@ -804,7 +812,7 @@ function CustomDatagrid2<TData extends RowData>({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: alpha(theme.palette.common.white, 0.5),
+            backgroundColor: alpha(theme.palette.background.paper, 0.5),
             zIndex: 10,
             pointerEvents: 'none'
           }}

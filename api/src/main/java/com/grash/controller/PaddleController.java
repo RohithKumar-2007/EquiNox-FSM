@@ -25,6 +25,7 @@ import jakarta.validation.Valid;
 import java.util.Optional;
 
 @RestController
+@org.springframework.context.annotation.Profile("billing")
 @RequestMapping("/paddle")
 @Hidden
 @RequiredArgsConstructor

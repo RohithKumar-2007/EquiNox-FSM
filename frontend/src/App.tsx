@@ -32,7 +32,7 @@ import { useBrand } from './hooks/useBrand';
 import { useTranslation } from 'react-i18next';
 import { UtmTrackerProvider } from '@nik0di3m/utm-tracker-hook';
 import { useLicenseEntitlement } from './hooks/useLicenseEntitlement';
-import { initializePaddle } from '@paddle/paddle-js';
+
 import { getDateLocale, loadLanguage, supportedLanguages } from './i18n/i18n';
 
 if (!IS_LOCALHOST && googleTrackingId)
@@ -131,19 +131,6 @@ function App() {
       });
   }, [location]);
 
-  useEffect(() => {
-    const arr = location.pathname.split('/');
-    if (
-      !['downgrade', 'upgrade'].includes(arr[arr.length - 1]) &&
-      isInitialized &&
-      isAuthenticated
-    )
-      if (company.subscription.downgradeNeeded) {
-        navigate('/app/downgrade');
-      } else if (user.ownsCompany && company.subscription.upgradeNeeded) {
-        navigate('/app/upgrade');
-      }
-  }, [company, isInitialized, isAuthenticated, location]);
 
   useEffect(() => {
     const arr = location.pathname.split('/');
@@ -188,16 +175,7 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isCloudVersion) {
-      if (user && !user.paddleUserId) return;
-      initializePaddle({
-        environment: paddleEnvironment,
-        token: PADDLE_SECRET_TOKEN,
-        pwCustomer: user ? { id: user.paddleUserId } : undefined
-      });
-    }
-  }, [user]);
+
 
   return (
     <UtmTrackerProvider customParams={['msclkid', 'ref']}>

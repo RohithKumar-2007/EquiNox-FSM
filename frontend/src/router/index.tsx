@@ -17,9 +17,6 @@ const Loader = (Component) => (props) =>
     </Suspense>
   );
 
-const PaymentSuccess = Loader(
-  lazy(() => import('../content/pages/Payment/Success'))
-);
 
 const RequestPortalPublicPage = Loader(
   lazy(
@@ -38,7 +35,7 @@ const router: RouteObject[] = [
   { path: 'oauth2', children: oauthRoutes },
   {
     path: 'payment/success',
-    element: <PaymentSuccess />
+    element: <Navigate to="/app/work-orders" replace />
   },
   {
     path: 'request-portal/:uuid',

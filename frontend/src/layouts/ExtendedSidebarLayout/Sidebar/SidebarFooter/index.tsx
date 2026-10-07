@@ -13,12 +13,6 @@ import EventTwoToneIcon from '@mui/icons-material/EventTwoTone';
 import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import useAuth from 'src/hooks/useAuth';
-import UpgradeTwoToneIcon from '@mui/icons-material/UpgradeTwoTone';
-import QuestionMarkTwoToneIcon from '@mui/icons-material/QuestionMarkTwoTone';
-import { homeUrl, isCloudVersion } from '../../../../config';
-import { getLocalizedHomeUrl } from '../../../../utils/urlPaths';
-import { useContext } from 'react';
-import { CompanySettingsContext } from '../../../../contexts/CompanySettingsContext';
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -36,10 +30,9 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
 }));
 
 function SidebarFooter() {
-  const { t, i18n }: { t: any; i18n: any } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const theme = useTheme();
   const { logout, user } = useAuth();
-  const { requestSubscriptionChange } = useContext(CompanySettingsContext);
   const navigate = useNavigate();
 
   const handleLogout = async (): Promise<void> => {
@@ -60,52 +53,6 @@ function SidebarFooter() {
       alignItems="center"
       justifyContent="center"
     >
-      {user.ownsCompany && user.superAccountRelations.length === 0 && (
-        <LightTooltip placement="top" arrow title={t('upgrade_now')}>
-          <IconButton
-            sx={{
-              background: `${theme.colors.alpha.trueWhite[10]}`,
-              color: `${theme.colors.alpha.trueWhite[70]}`,
-              transition: `${theme.transitions.create(['all'])}`,
-
-              '&:hover': {
-                background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`,
-                color: `${theme.colors.alpha.trueWhite[100]}`
-              }
-            }}
-            component={isCloudVersion ? RouterLink : 'a'}
-            {...(isCloudVersion
-              ? { to: '/app/subscription/plans' }
-              : {
-                  href: getLocalizedHomeUrl(
-                    'pricing?type=selfhosted',
-                    i18n.language
-                  ),
-                  target: '_blank',
-                  rel: 'noopener noreferrer'
-                })}
-          >
-            <UpgradeTwoToneIcon fontSize="small" />
-          </IconButton>
-        </LightTooltip>
-      )}
-      <LightTooltip placement="top" arrow title={t('documentation')}>
-        <IconButton
-          sx={{
-            background: `${theme.colors.alpha.trueWhite[10]}`,
-            color: `${theme.colors.alpha.trueWhite[70]}`,
-            transition: `${theme.transitions.create(['all'])}`,
-
-            '&:hover': {
-              background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`,
-              color: `${theme.colors.alpha.trueWhite[100]}`
-            }
-          }}
-          onClick={() => window.open('https://grashjs.github.io/user-guide')}
-        >
-          <QuestionMarkTwoToneIcon fontSize="small" />
-        </IconButton>
-      </LightTooltip>
       {user.superAccountRelations.length === 0 && (
         <LightTooltip placement="top" arrow title={t('wo_calendar')}>
           <IconButton

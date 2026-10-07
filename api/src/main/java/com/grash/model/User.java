@@ -159,8 +159,10 @@ public class User extends CompanyAudit {
 
     @JsonIgnore
     public boolean isEnabledInSubscriptionAndPaid() {
-        return enabledInSubscription && this.getRole().isPaid();
+        return this.getRole().isPaid();
     }
+
+    public boolean isEnabledInSubscription() { return true; }
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim().toLowerCase();
