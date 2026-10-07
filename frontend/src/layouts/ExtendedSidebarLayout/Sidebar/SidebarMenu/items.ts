@@ -50,7 +50,77 @@ export interface MenuItems {
 
 const ownMenuItems: MenuItems[] = [
   {
-    heading: '',
+    heading: 'COMMAND CENTER',
+    items: [
+      {
+        name: 'Command Center',
+        link: '/app/orchestration/command-center',
+        icon: SpeedTwoToneIcon
+      },
+      {
+        name: 'Service Requests',
+        link: '/app/orchestration/requests/sr-1042',
+        icon: AssignmentTwoToneIcon
+      },
+      {
+        name: 'Exceptions Desk',
+        link: '/app/orchestration/exceptions',
+        icon: ErrorTwoToneIcon
+      }
+    ]
+  },
+  {
+    heading: 'ASSETS & SITES',
+    items: [
+      {
+        name: 'Machinery Fleet',
+        link: '/app/orchestration/machines',
+        icon: Inventory2TwoToneIcon
+      },
+      {
+        name: 'Plant Sites',
+        link: '/app/orchestration/sites',
+        icon: LocationOnTwoToneIcon
+      }
+    ]
+  },
+  {
+    heading: 'WORKFORCE',
+    items: [
+      {
+        name: 'Technicians & Skills',
+        link: '/app/orchestration/workforce',
+        icon: AssignmentIndTwoToneIcon
+      },
+      {
+        name: 'Technician Workspace',
+        link: '/app/orchestration/technician-workspace',
+        icon: HandymanTwoToneIcon
+      }
+    ]
+  },
+  {
+    heading: 'RESOURCES & CONTROL',
+    items: [
+      {
+        name: 'Spare Parts & Stock',
+        link: '/app/orchestration/resources',
+        icon: Inventory2TwoToneIcon
+      },
+      {
+        name: 'SLA Monitor & Approvals',
+        link: '/app/orchestration/control',
+        icon: PendingActionsTwoToneIcon
+      },
+      {
+        name: 'Customer Portal',
+        link: '/app/orchestration/customer-portal',
+        icon: MoveToInboxTwoToneIcon
+      }
+    ]
+  },
+  {
+    heading: 'CLASSIC CMMS',
     items: [
       {
         name: 'work_orders',

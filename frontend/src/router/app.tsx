@@ -14,6 +14,36 @@ const Loader = (Component) => (props) =>
 const SettingsLayout = Loader(
   lazy(() => import('../content/own/Settings/SettingsLayout'))
 );
+const CommandCenter = Loader(
+  lazy(() => import('../content/own/Orchestration/CommandCenter'))
+);
+const RequestDetails = Loader(
+  lazy(() => import('../content/own/Orchestration/RequestDetails'))
+);
+const ExceptionsDesk = Loader(
+  lazy(() => import('../content/own/Orchestration/Exceptions'))
+);
+const TechnicianWorkspace = Loader(
+  lazy(() => import('../content/own/Orchestration/TechnicianWorkspace'))
+);
+const CustomerPortal = Loader(
+  lazy(() => import('../content/own/Orchestration/CustomerPortal'))
+);
+const WorkforceHub = Loader(
+  lazy(() => import('../content/own/Orchestration/Workforce'))
+);
+const ResourcesHub = Loader(
+  lazy(() => import('../content/own/Orchestration/Resources'))
+);
+const ControlHub = Loader(
+  lazy(() => import('../content/own/Orchestration/Control'))
+);
+const MachinesHub = Loader(
+  lazy(() => import('../content/own/Orchestration/Machines'))
+);
+const SitesHub = Loader(
+  lazy(() => import('../content/own/Orchestration/Sites'))
+);
 const GeneralSettings = Loader(
   lazy(() => import('../content/own/Settings/General'))
 );
@@ -166,6 +196,23 @@ const SwitchAccount = Loader(
   lazy(() => import('../content/own/SwitchAccount'))
 );
 const appRoutes = [
+  {
+    path: 'orchestration',
+    children: [
+      { path: '', element: <Navigate to="command-center" /> },
+      { path: 'command-center', element: <CommandCenter /> },
+      { path: 'requests/:id', element: <RequestDetails /> },
+      { path: 'create-request', element: <CustomerPortal /> },
+      { path: 'exceptions', element: <ExceptionsDesk /> },
+      { path: 'technician-workspace', element: <TechnicianWorkspace /> },
+      { path: 'customer-portal', element: <CustomerPortal /> },
+      { path: 'workforce', element: <WorkforceHub /> },
+      { path: 'resources', element: <ResourcesHub /> },
+      { path: 'control', element: <ControlHub /> },
+      { path: 'machines', element: <MachinesHub /> },
+      { path: 'sites', element: <SitesHub /> }
+    ]
+  },
   {
     path: 'settings',
     element: <SettingsLayout />,
