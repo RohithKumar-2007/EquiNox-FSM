@@ -1,10 +1,10 @@
 {
-  "name": "atlas-cmms",
+  "name": "equinox-cmms",
   "version": "1.8.0",
-  "title": "Atlas CMMS",
+  "title": "Equinox CMMS",
   "description": "Free Open Source CMMS.",
   "private": true,
-  "homepage": "https://atlas-cmms.com",
+  "homepage": "https://equinox-cmms.com",
   "dependencies": {
     "@auth0/auth0-spa-js": "1.22.0",
     "@emotion/react": "11.9.0",

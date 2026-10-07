@@ -627,7 +627,7 @@ function BottomTabNavigator({ navigation }: RootTabScreenProps<'Home'>) {
                   fontWeight: 'bold'
                 }}
               >
-                Atlas
+                Equinox
               </Text>
             ),
             title: t('home'),

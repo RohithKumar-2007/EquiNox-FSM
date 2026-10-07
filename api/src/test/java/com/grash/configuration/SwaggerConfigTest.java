@@ -13,6 +13,6 @@ class SwaggerConfigTest {
     void publicApi_hasExpectedGroup() {
         GroupedOpenApi groupedOpenApi = swaggerConfig.publicApi();
 
-        assertEquals("atlas-cmms", groupedOpenApi.getGroup());
+        assertEquals("equinox-cmms", groupedOpenApi.getGroup());
     }
 }

@@ -1,5 +1,5 @@
-# Atlas CMMS Subscription Plans Configuration
-Proceed with the following steps if you have a license to white label. Follow [this](./Run%20SQL%20command.md) if you don't know how to run SQL commands against Atlas database.
+# Equinox CMMS Subscription Plans Configuration
+Proceed with the following steps if you have a license to white label. Follow [this](./Run%20SQL%20command.md) if you don't know how to run SQL commands against Equinox database.
 ## Available Plan Codes
 
 - `FREE`

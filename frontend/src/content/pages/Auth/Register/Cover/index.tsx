@@ -158,7 +158,7 @@ function RegisterCover() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { logo } = useBrand();
   const icons = {
-    Atlas: logo.dark,
+    Equinox: logo.dark,
     JWT: '/static/images/logo/jwt.svg',
     Amplify: '/static/images/logo/amplify.svg'
   };
@@ -167,27 +167,27 @@ function RegisterCover() {
     {
       title: 'request_system',
       description: 'work-requests.checks.0',
-      image: icons.Atlas
+      image: icons.Equinox
     },
     {
       title: 'eam.title',
       description: 'eam.description.short',
-      image: icons.Atlas
+      image: icons.Equinox
     },
     {
       title: 'preventive_maintenance',
       description: 'pm.descriptions.0',
-      image: icons.Atlas
+      image: icons.Equinox
     },
     {
       title: 'work_orders',
       description: 'work-orders.description.short',
-      image: icons.Atlas
+      image: icons.Equinox
     },
     {
       title: 'parts_inventory',
       description: 'part.description.short',
-      image: icons.Atlas
+      image: icons.Equinox
     }
   ];
   return (

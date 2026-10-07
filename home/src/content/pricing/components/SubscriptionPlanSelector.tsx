@@ -77,10 +77,10 @@ export default function SubscriptionPlanSelector({ monthly, setMonthly, selfHost
   const paddle = useRef<Paddle | null>(null);
   const selfHostedPlans = getSelfHostedPlans(t);
 
-  const emailSubject = encodeURIComponent("Atlas CMMS Perpetual License Request");
+  const emailSubject = encodeURIComponent("Equinox CMMS Perpetual License Request");
 
   const emailBody = encodeURIComponent(
-    `Hello Atlas CMMS team,
+    `Hello Equinox CMMS team,
 
 I am interested in purchasing a perpetual license.
 
@@ -95,7 +95,7 @@ ${selfHostedPlans
 Thank you.`,
   );
 
-  const mailtoLink = `mailto:contact@atlas-cmms.com?subject=${emailSubject}&body=${emailBody}`;
+  const mailtoLink = `mailto:contact@equinox-cmms.com?subject=${emailSubject}&body=${emailBody}`;
 
   const handleOpenModal = (plan) => {
     setSelectedPlan(plan);

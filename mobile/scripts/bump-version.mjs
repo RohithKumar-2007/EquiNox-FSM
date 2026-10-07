@@ -77,11 +77,11 @@ updateFile('android/app/src/main/res/values/strings.xml', (content) =>
   )
 );
 
-updateFile('ios/AtlasCMMS/Info.plist', (content) =>
+updateFile('ios/EquinoxCMMS/Info.plist', (content) =>
   content.split(currentVersion).join(nextVersion)
 );
 
-updateFile('ios/AtlasCMMS/Supporting/Expo.plist', (content) =>
+updateFile('ios/EquinoxCMMS/Supporting/Expo.plist', (content) =>
   content.split(currentVersion).join(nextVersion)
 );
 

@@ -1,5 +1,5 @@
 # Set up TLS
-TLS encrypts traffic between users and Atlas CMMS, enabling secure HTTPS connections. For production deployments, configure one of the options below
+TLS encrypts traffic between users and Equinox CMMS, enabling secure HTTPS connections. For production deployments, configure one of the options below
 ## Caddy (simplest, auto-HTTPS)
 
 Caddy automatically provisions and renews Let's Encrypt certificates.
@@ -33,7 +33,7 @@ the published port:
 ```yaml
   nginx:
     image: nginx:1.27-alpine
-    container_name: atlas_nginx
+    container_name: equinox_nginx
     depends_on:
       - frontend
       - api
@@ -42,10 +42,10 @@ the published port:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.atlas.rule=Host(`cmms.example.com`)"
-      - "traefik.http.routers.atlas.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.atlas.entrypoints=websecure"
-      - "traefik.http.services.atlas.loadbalancer.server.port=80"
+      - "traefik.http.routers.equinox.rule=Host(`cmms.example.com`)"
+      - "traefik.http.routers.equinox.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.equinox.entrypoints=websecure"
+      - "traefik.http.services.equinox.loadbalancer.server.port=80"
 ```
 
 Remove the `ports` section from the nginx service — Traefik handles
@@ -55,10 +55,10 @@ inbound traffic.
 
 ## NGINX Proxy Manager (GUI)
 
-1. Deploy NGINX Proxy Manager alongside Atlas CMMS.
+1. Deploy NGINX Proxy Manager alongside Equinox CMMS.
 2. In the admin UI, add a new proxy host:
    - Domain: `cmms.example.com`
-   - Forward Hostname / IP: `atlas_nginx`
+   - Forward Hostname / IP: `equinox_nginx`
    - Forward Port: `80`
 3. Enable "Block Common Exploits" and "Websockets Support".
 4. Under SSL, request a new certificate with Let's Encrypt.
@@ -73,7 +73,7 @@ edge.
 1. Install `cloudflared` on your host.
 2. Create a tunnel:
    ```bash
-   cloudflared tunnel create atlas-cmms
+   cloudflared tunnel create equinox-cmms
    ```
 3. Add a DNS record pointing `cmms.example.com` to the tunnel.
 4. Create a config file `config.yml`:
@@ -83,14 +83,14 @@ edge.
 
    ingress:
      - hostname: cmms.example.com
-       service: http://atlas_nginx:80
+       service: http://equinox_nginx:80
      - service: http_status:404
    ```
 5. Run the tunnel:
    ```bash
    docker run -d \
      --name cloudflared \
-     --network <atlas-network> \
+     --network <equinox-network> \
      -v ./config.yml:/etc/cloudflared/config.yml:ro \
      -v /root/.cloudflared:/root/.cloudflared:ro \
      cloudflared tunnel --config /etc/cloudflared/config.yml run

@@ -357,7 +357,7 @@ class WebhookController {
 
             mailServiceFactory.getMailService().sendMessageUsingThymeleafTemplate(
                     new String[]{email},
-                    "Atlas CMMS license key",
+                    "Equinox CMMS license key",
                     model,
                     "checkout-complete.html",
                     Locale.getDefault(),
@@ -433,7 +433,7 @@ class WebhookController {
 
             mailServiceFactory.getMailService().sendMessageUsingThymeleafTemplate(
                     new String[]{email},
-                    "Atlas CMMS license key renewal",
+                    "Equinox CMMS license key renewal",
                     model,
                     "checkout-complete.html",
                     Locale.getDefault(),

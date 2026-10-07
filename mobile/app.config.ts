@@ -33,7 +33,7 @@ const plugins: ExpoConfig['plugins'] = [
   [
     'expo-camera',
     {
-      cameraPermission: 'Allow Atlas to access camera.'
+      cameraPermission: 'Allow Equinox to access camera.'
     }
   ],
   [
@@ -65,12 +65,12 @@ if (process.env.SENTRY_AUTH_TOKEN) {
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: 'Atlas CMMS',
-  slug: 'atlas-cmms',
+  name: 'Equinox CMMS',
+  slug: 'equinox-cmms',
   version: '1.0.48',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
-  scheme: 'atlascmms',
+  scheme: 'equinoxcmms',
   userInterfaceStyle: 'automatic',
   newArchEnabled: false,
   notification: {
@@ -87,7 +87,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     assetPatternsToBeBundled: ['**/*']
   },
   ios: {
-    bundleIdentifier: 'com.cmms.atlas',
+    bundleIdentifier: 'com.cmms.equinox',
     buildNumber: '2',
     jsEngine: 'hermes',
     supportsTablet: false,
@@ -103,7 +103,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#ffffff'
     },
     versionCode: 31,
-    package: 'com.atlas.cmms',
+    package: 'com.equinox.cmms',
     jsEngine: 'hermes',
     edgeToEdgeEnabled: true,
     googleServicesFile: androidGoogleServicesPath,

@@ -1618,7 +1618,7 @@ const trJSON = {
     get_your_license: "Ehliyetinizi alın",
     title: "Fiyatlandırma",
     description:
-      "Atlas CMMS için esnek fiyatlandırma planları. Bakım operasyonlarınızı optimize etmek için açık kaynaklı CMMS'mizin Bulut ve Kendi Sunucunuzda Barındırılan sürümleri arasından seçim yapın.",
+      "Equinox CMMS için esnek fiyatlandırma planları. Bakım operasyonlarınızı optimize etmek için açık kaynaklı CMMS'mizin Bulut ve Kendi Sunucunuzda Barındırılan sürümleri arasından seçim yapın.",
   },
   get_started: "Başlayın",
   workflow_automation: "İş Akışı Otomasyonu",
@@ -1692,9 +1692,9 @@ const trJSON = {
   },
   overview_1: {
     description:
-      "Atlas CMMS, iş emirlerini, önleyici bakımı, varlıkları ve tesisleri yönetmek için ücretsiz, açık kaynaklı bir CMMS'dir. Bakım operasyonlarınızı bugün kolaylaştırın.",
+      "Equinox CMMS, iş emirlerini, önleyici bakımı, varlıkları ve tesisleri yönetmek için ücretsiz, açık kaynaklı bir CMMS'dir. Bakım operasyonlarınızı bugün kolaylaştırın.",
     keywords:
-      "CMMS, bilgisayarlı bakım yönetim sistemi, EAM, kurumsal varlık yönetimi, açık kaynaklı CMMS, ücretsiz bakım yazılımı, iş emri yönetimi, önleyici bakım, varlık takibi, tesis yönetimi, bakım takip yazılımı, ekipman bakımı, Atlas CMMS",
+      "CMMS, bilgisayarlı bakım yönetim sistemi, EAM, kurumsal varlık yönetimi, açık kaynaklı CMMS, ücretsiz bakım yazılımı, iş emri yönetimi, önleyici bakım, varlık takibi, tesis yönetimi, bakım takip yazılımı, ekipman bakımı, Equinox CMMS",
   },
   prefer_one_time_purchase: "Tek seferlik satın almayı mı tercih edersiniz? Süresiz lisanslar aylık ücretin 36 katına mevcuttur.",
 };
