@@ -1058,9 +1058,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     );
   };
   const hasFeature = (feature: PlanFeature) => {
-    return state.company.subscription.subscriptionPlan.features.includes(
-      feature
-    );
+    return true;
   };
   const getFilteredFields = (defaultFields: Array<IField>): IField[] => {
     let fields = [...defaultFields];

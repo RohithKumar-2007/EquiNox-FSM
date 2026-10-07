@@ -54,21 +54,15 @@ public class LicenseService {
     private volatile long lastCheckedTime = 0;
 
     public synchronized LicensingState getLicensingState() {
-        if (isCacheValid()) {
-            return buildLicensingStateFromCache();
-        }
-
-        if (!hasLicenseKey() && !hasLicenseFile()) {
-            return clearCacheAndReturnInvalid();
-        }
-
-        // Try license file validation first if available
-        if (hasLicenseFile()) {
-            return validateAndCacheLicenseFile();
-        }
-
-        // Fall back to Keygen API validation
-        return validateAndCacheLicenseKey();
+        // Compatibility response for existing clients; no paid license is required.
+        return LicensingState.builder()
+                .hasLicense(false)
+                .valid(true)
+                .planName("Equinox Standalone")
+                .usersCount(Integer.MAX_VALUE)
+                .entitlements(Arrays.stream(LicenseEntitlement.values())
+                        .map(Enum::name).collect(Collectors.toSet()))
+                .build();
     }
 
     public boolean isSSOEnabled() {

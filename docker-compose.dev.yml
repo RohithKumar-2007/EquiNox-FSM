@@ -1,0 +1,14 @@
+# Local development: run only the database and file storage in Docker, reachable from this PC,
+# so the backend (scripts/dev-backend.ps1) and frontend (npm start) can run with hot reload.
+# Start with:
+# docker compose -p atlas-cmms -f docker-compose.yml -f docker-compose.local.yml -f docker-compose.dev.yml up -d postgres minio
+services:
+  postgres:
+    container_name: atlas_db
+    ports:
+      - "127.0.0.1:5433:5432"
+  minio:
+    container_name: atlas_minio
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"

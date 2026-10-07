@@ -41,6 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @RestController
+@org.springframework.context.annotation.Profile("billing")
 @RequestMapping("/webhooks")
 @Hidden
 @RequiredArgsConstructor

@@ -31,7 +31,6 @@ import { inviteUsers } from '../../../../slices/user';
 import { useDispatch } from '../../../../store';
 import { homeUrl } from '../../../../config';
 import { isNetworkError } from '../../../../utils/api';
-import { getLocalizedHomeUrl } from '../../../../utils/urlPaths';
 
 function RegisterJWT({
   email,
@@ -272,21 +271,6 @@ function RegisterJWT({
           >
             {t(invitationMode ? 'invite' : 'create_your_account')}
           </Button>
-          {!invitationMode && (
-            <Typography mt={2} variant="body2">
-              {t('i_accept')}{' '}
-              <Typography
-                color={'primary'}
-                href={getLocalizedHomeUrl('terms-of-service', i18n.language)}
-                target={'_blank'}
-                component="a"
-                style={{ cursor: 'pointer' }}
-              >
-                {t('terms_conditions')}
-              </Typography>
-              .
-            </Typography>
-          )}
         </form>
       )}
     </Formik>

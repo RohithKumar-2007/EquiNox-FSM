@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 # Keep downloaded libraries between builds so only the first build downloads them.
-RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -DskipTests
+RUN --mount=type=cache,target=/root/.m2 MAVEN_OPTS="-Xmx1024m" mvn -B -ntp clean package -DskipTests
 
 # Runtime Stage
 FROM eclipse-temurin:17-jre

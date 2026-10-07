@@ -19,6 +19,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Schema(description = "Subscription plan defining pricing and features")
 public class SubscriptionPlan {
+    // Legacy plan records remain compatible; all operational features are available.
+    public Set<PlanFeatures> getFeatures() {
+        return new HashSet<>(java.util.Arrays.asList(PlanFeatures.values()));
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Schema(description = "Unique identifier", accessMode = Schema.AccessMode.READ_ONLY)

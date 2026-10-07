@@ -115,9 +115,7 @@ export default function InviteUserDialog({
                 height: 50,
                 width: 50
               }}
-              alt={
-                "<a href='https://www.flaticon.com/free-icons/team' title='team icons'>Team icons created by Freepik - Flaticon</a>"
-              }
+              alt="Team"
               src="/static/images/team.png"
             />
             <Typography variant="h5">{t('bring_people_team')}</Typography>

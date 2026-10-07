@@ -125,9 +125,6 @@ const TimeCategories = Loader(
 const CostCategories = Loader(
   lazy(() => import('../content/own/Categories/Cost'))
 );
-const SubscriptionPlans = Loader(
-  lazy(() => import('../content/own/Subscription/Plans'))
-);
 const Files = Loader(lazy(() => import('../content/own/Files')));
 const Meters = Loader(lazy(() => import('../content/own/Meters')));
 const PurchaseOrders = Loader(
@@ -156,12 +153,6 @@ const PeopleAndTeams = Loader(
 );
 
 const Imports = Loader(lazy(() => import('../content/own/Imports')));
-const Upgrade = Loader(
-  lazy(() => import('../content/own/UpgradeAndDowngrade/Upgrade'))
-);
-const Downgrade = Loader(
-  lazy(() => import('../content/own/UpgradeAndDowngrade/Downgrade'))
-);
 const SwitchAccount = Loader(
   lazy(() => import('../content/own/SwitchAccount'))
 );
@@ -278,7 +269,7 @@ const appRoutes = [
     children: [
       {
         path: 'plans',
-        element: <SubscriptionPlans />
+        element: <Navigate to="/app/work-orders" replace />
       }
     ]
   },
@@ -480,8 +471,8 @@ const appRoutes = [
       { path: 'preventive-maintenances', element: <Imports /> }
     ]
   },
-  { path: 'upgrade', element: <Upgrade /> },
-  { path: 'downgrade', element: <Downgrade /> },
+  { path: 'upgrade', element: <Navigate to="/app/work-orders" replace /> },
+  { path: 'downgrade', element: <Navigate to="/app/work-orders" replace /> },
   { path: 'switch-account', element: <SwitchAccount /> }
 ];
 
