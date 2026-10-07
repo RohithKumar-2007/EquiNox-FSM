@@ -25,13 +25,13 @@ class ApiDocsIntegrationTest extends AbstractIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    void atlasCmmsGroup_returnsOpenApiSpec() throws Exception {
-        mockMvc.perform(get("/v3/api-docs/atlas-cmms"))
+    void equinoxCmmsGroup_returnsOpenApiSpec() throws Exception {
+        mockMvc.perform(get("/v3/api-docs/equinox-cmms"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.openapi", startsWith("3.")))
-                .andExpect(jsonPath("$.info.title").value("Atlas CMMS API"))
-                .andExpect(jsonPath("$.servers[*].url", hasItem("https://api.atlas-cmms.com")))
+                .andExpect(jsonPath("$.info.title").value("Equinox CMMS API"))
+                .andExpect(jsonPath("$.servers[*].url", hasItem("https://api.equinox-cmms.com")))
                 .andExpect(jsonPath("$.paths.length()", greaterThan(0)))
                 .andExpect(jsonPath("$.paths['/subscriptions/upgrade'].post").exists())
                 .andExpect(jsonPath("$.components.securitySchemes.apiKey.type").value("apiKey"))
@@ -40,8 +40,8 @@ class ApiDocsIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void atlasCmmsGroup_includesWebhookDocumentation() throws Exception {
-        mockMvc.perform(get("/v3/api-docs/atlas-cmms"))
+    void equinoxCmmsGroup_includesWebhookDocumentation() throws Exception {
+        mockMvc.perform(get("/v3/api-docs/equinox-cmms"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.webhooks.workOrderStatusChange.post.summary")
                         .value("Work Order Status Change"))

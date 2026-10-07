@@ -713,7 +713,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     checkPushNotificationState();
     globalDispatch(getCustomFields());
     getApiUrl().then((apiUrl) => {
-      if (apiUrl.toLowerCase().includes('api.atlas-cmms.com')) {
+      if (apiUrl.toLowerCase().includes('api.equinox-cmms.com')) {
         const clarityId = Constants.expoConfig.extra.CLARITY_ID;
         if (clarityId) {
           initClarity(clarityId, {

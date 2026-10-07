@@ -1658,7 +1658,7 @@ const frJSON = {
     get_your_license: "Obtenez votre licence",
     title: "Tarification",
     description:
-      "Plans tarifaires flexibles pour Atlas CMMS. Choisissez entre les versions Cloud et Auto-hébergée de notre GMAO open-source pour optimiser vos opérations de maintenance.",
+      "Plans tarifaires flexibles pour Equinox CMMS. Choisissez entre les versions Cloud et Auto-hébergée de notre GMAO open-source pour optimiser vos opérations de maintenance.",
   },
   get_started: "Commencer",
   workflow_automation: "Automatisation des flux de travail",
@@ -1736,9 +1736,9 @@ const frJSON = {
   },
   overview_1: {
     description:
-      "Atlas CMMS est une GMAO gratuite et open-source pour gérer les bons de travail, la maintenance préventive, les actifs et les installations. Simplifiez vos opérations de maintenance dès aujourd'hui.",
+      "Equinox CMMS est une GMAO gratuite et open-source pour gérer les bons de travail, la maintenance préventive, les actifs et les installations. Simplifiez vos opérations de maintenance dès aujourd'hui.",
     keywords:
-      "GMAO, système de gestion de maintenance assistée par ordinateur, EAM, gestion des actifs d'entreprise, GMAO open source, logiciel de maintenance gratuit, gestion des bons de travail, maintenance préventive, suivi des actifs, gestion des installations, logiciel de suivi de maintenance, maintenance des équipements, Atlas CMMS",
+      "GMAO, système de gestion de maintenance assistée par ordinateur, EAM, gestion des actifs d'entreprise, GMAO open source, logiciel de maintenance gratuit, gestion des bons de travail, maintenance préventive, suivi des actifs, gestion des installations, logiciel de suivi de maintenance, maintenance des équipements, Equinox CMMS",
   },
   prefer_one_time_purchase: "Vous préférez un achat unique ? Des licences perpétuelles sont disponibles à 36× le tarif mensuel.",
 };

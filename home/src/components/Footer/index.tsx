@@ -77,8 +77,8 @@ export default async function Footer() {
       items: [
         {
           icon: <Mail fontSize="small" />,
-          text: "contact@atlas-cmms.com",
-          href: "mailto:contact@atlas-cmms.com",
+          text: "contact@equinox-cmms.com",
+          href: "mailto:contact@equinox-cmms.com",
         },
         {
           icon: <Phone fontSize="small" />,
@@ -133,14 +133,14 @@ export default async function Footer() {
       type: "apps",
       items: [
         {
-          href: "https://play.google.com/store/apps/details?id=com.atlas.cmms",
+          href: "https://play.google.com/store/apps/details?id=com.equinox.cmms",
           image: "/static/images/overview/playstore-badge.png",
           alt: "playstore badge",
           width: 270,
           height: 80,
         },
         {
-          href: "https://apps.apple.com/us/app/atlas-cmms/id6751547284",
+          href: "https://apps.apple.com/us/app/equinox-cmms/id6751547284",
           image: "/static/images/overview/app_store_badge.svg.webp",
           alt: "app store badge",
           width: 2560,

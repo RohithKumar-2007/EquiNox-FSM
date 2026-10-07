@@ -103,5 +103,5 @@ export const sentryEnvironment = getRuntimeValue(
 );
 export const sentryRelease = getRuntimeValue(
   'SENTRY_RELEASE',
-  'atlas-frontend'
+  'equinox-frontend'
 );

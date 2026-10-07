@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { getWorkOrdersUrl } from "src/utils/urlPaths";
 import { CircularProgress } from "@mui/material";
 
-const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.atlas.cmms";
-const APP_STORE_URL = "https://apps.apple.com/us/app/atlas-cmms/id6751547284";
+const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.equinox.cmms";
+const APP_STORE_URL = "https://apps.apple.com/us/app/equinox-cmms/id6751547284";
 
 export default function MbAppPage() {
   const router = useRouter();

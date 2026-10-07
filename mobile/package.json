@@ -1,5 +1,5 @@
 {
-  "name": "atlas-cmms",
+  "name": "equinox-cmms",
   "version": "1.0.48",
   "scripts": {
     "start": "expo start --dev-client",

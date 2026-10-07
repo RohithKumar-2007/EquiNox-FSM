@@ -8,13 +8,13 @@ const ldJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Atlas CMMS",
+    name: "Equinox CMMS",
     description:
-      "Atlas CMMS is a free, open-source CMMS to manage work orders, preventive maintenance, assets, and facilities.",
+      "Equinox CMMS is a free, open-source CMMS to manage work orders, preventive maintenance, assets, and facilities.",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    url: "https://atlas-cmms.com/",
-    screenshot: "https://atlas-cmms.com/static/images/overview/work_orders_screenshot.png",
+    url: "https://equinox-cmms.com/",
+    screenshot: "https://equinox-cmms.com/static/images/overview/work_orders_screenshot.png",
     // aggregateRating: {
     //   '@type': 'AggregateRating',
     //   ratingValue: '4.5',
@@ -24,8 +24,8 @@ const ldJson = [
     // },
     publisher: {
       "@type": "Organization",
-      name: "Atlas CMMS",
-      url: "https://atlas-cmms.com/",
+      name: "Equinox CMMS",
+      url: "https://equinox-cmms.com/",
     },
     offers: {
       "@type": "Offer",
@@ -36,10 +36,10 @@ const ldJson = [
   {
     "@context": "https://schema.org",
     "@type": "MobileApplication",
-    name: "Atlas CMMS for iOS",
+    name: "Equinox CMMS for iOS",
     operatingSystem: "iOS",
     applicationCategory: "BusinessApplication",
-    downloadUrl: "https://apps.apple.com/us/app/atlas-cmms/id6751547284",
+    downloadUrl: "https://apps.apple.com/us/app/equinox-cmms/id6751547284",
     offers: {
       "@type": "Offer",
       price: "0",
@@ -49,10 +49,10 @@ const ldJson = [
   {
     "@context": "https://schema.org",
     "@type": "MobileApplication",
-    name: "Atlas CMMS for Android",
+    name: "Equinox CMMS for Android",
     operatingSystem: "Android",
     applicationCategory: "BusinessApplication",
-    downloadUrl: "https://play.google.com/store/apps/details?id=com.atlas.cmms",
+    downloadUrl: "https://play.google.com/store/apps/details?id=com.equinox.cmms",
     offers: {
       "@type": "Offer",
       price: "0",

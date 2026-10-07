@@ -1,15 +1,15 @@
-# Upgrading Atlas CMMS
+# Upgrading Equinox CMMS
 
 ## 1. Backup first
 
 Before upgrading, run a full backup following the [Backup Guide](./Backup.md).
 
-- **Windows:** `.\atlas-backup.ps1 backup`
-- **Linux:** `./atlas-backup.sh backup`
+- **Windows:** `.\equinox-backup.ps1 backup`
+- **Linux:** `./equinox-backup.sh backup`
 
 ## 2. Download the latest configuration files
 
-Download these files from the official repository and place them in your Atlas CMMS directory (next to your `.env` file):
+Download these files from the official repository and place them in your Equinox CMMS directory (next to your `.env` file):
 
 - **docker-compose.yml** — [Download latest](https://github.com/Grashjs/cmms/blob/main/docker-compose.yml)
 - **nginx.conf** — [Download latest](https://github.com/Grashjs/cmms/blob/main/nginx.conf)
