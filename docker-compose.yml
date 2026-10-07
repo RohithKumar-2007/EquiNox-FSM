@@ -13,7 +13,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   api:
-    image: intelloop/atlas-cmms-backend
+    build:
+      context: ./api
+    image: equinox-cmms-backend:local
     container_name: equinox-cmms-backend
     depends_on:
       - postgres
@@ -93,7 +95,9 @@ services:
       - "8080"
 
   frontend:
-    image: intelloop/atlas-cmms-frontend
+    build:
+      context: ./frontend
+    image: equinox-cmms-frontend:local
     container_name: equinox-cmms-frontend
     environment:
       API_URL: /api
