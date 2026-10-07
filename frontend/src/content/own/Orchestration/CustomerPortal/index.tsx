@@ -82,7 +82,7 @@ export default function CustomerPortal() {
       >
         <Box>
           <Typography variant="h3" sx={{ fontWeight: 700 }}>
-            Customer Self-Service &amp; Operations Portal
+            Plant Operator Self-Service &amp; Operations Portal
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
             Submit service requests, monitor live technician travel ETA, and verify completed maintenance
@@ -137,7 +137,7 @@ export default function CustomerPortal() {
                         p: 2,
                         borderRadius: 2,
                         border: `1px solid ${theme.palette.primary.main}`,
-                        background: theme.palette.primary.main + '08'
+                        background: theme.palette.action.hover
                       }}
                     >
                       <Typography variant="caption" sx={{ fontWeight: 700, color: 'primary.main', display: 'block' }}>
@@ -164,7 +164,7 @@ export default function CustomerPortal() {
                       </Stack>
                     </Paper>
 
-                    {/* Completion Verification Screen for Customer (Phase 18) */}
+                    {/* Completion Verification Screen for Operator (Phase 18) */}
                     {req.status === 'COMPLETION_SUBMITTED' && req.completionPackage && (
                       <Paper
                         elevation={0}
@@ -172,11 +172,11 @@ export default function CustomerPortal() {
                           p: 2,
                           borderRadius: 2,
                           border: `2px solid ${theme.palette.success.main}`,
-                          background: theme.palette.success.main + '08'
+                          background: theme.palette.action.hover
                         }}
                       >
                         <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'success.main' }}>
-                          Service Completed — Verification Required
+                          Service Completed — Operator Verification Required
                         </Typography>
                         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
                           Technician has uploaded service report and photographic evidence. Please inspect and approve.
@@ -188,7 +188,7 @@ export default function CustomerPortal() {
                           fullWidth
                           sx={{ mt: 2, fontWeight: 700 }}
                           startIcon={<CheckCircleIcon />}
-                          onClick={() => verifyAndComplete(req.id, 'Plant Supervisor (Customer)')}
+                          onClick={() => verifyAndComplete(req.id, 'Plant Operator')}
                         >
                           [ APPROVE COMPLETION &amp; RESTORE MACHINE ]
                         </Button>

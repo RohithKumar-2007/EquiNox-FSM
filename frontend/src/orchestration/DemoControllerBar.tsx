@@ -10,226 +10,273 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SecurityIcon from '@mui/icons-material/Security';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import PersonIcon from '@mui/icons-material/Person';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useOrchestration } from './useOrchestration';
 import { useNavigate } from 'react-router-dom';
+import useAuth from 'src/hooks/useAuth';
 
 export default function DemoControllerBar() {
-  const {
-    state,
-    setRole,
-    resetDemoData,
-    validateRequest,
-    approveAndAssign,
-    acceptJob,
-    updateTravelStatus,
-    startService,
-    triggerTechnicianDropout,
-    reassignTechnician,
-    submitCompletion,
-    verifyAndComplete
-  } = useOrchestration();
+  const { state, setRole, resetDemoData } = useOrchestration();
+  const { logout } = useAuth();
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const mainRequest = state.requests.find((r) => r.id === 'sr-1042') || state.requests[0];
+  const openExceptionsCount = state.exceptions.filter((e) => !e.resolved).length;
 
-  const handleRunScene = (sceneNum: number) => {
-    if (!mainRequest) return;
-    const reqId = mainRequest.id;
-
-    switch (sceneNum) {
-      case 1:
-        // Scene 1: Request Created
-        setRole('CUSTOMER');
+  const handleSelectRole = (
+    role: 'MANAGER' | 'TECHNICIAN' | 'CUSTOMER' | 'ADMIN' | 'EXTERNAL_VENDOR'
+  ) => {
+    setRole(role as any);
+    localStorage.setItem('active_role', role);
+    switch (role) {
+      case 'MANAGER':
         navigate('/app/orchestration/command-center');
         break;
-      case 2:
-        // Scene 2: Automated Validation
-        setRole('MANAGER');
-        validateRequest(reqId);
-        navigate(`/app/orchestration/requests/${reqId}`);
-        break;
-      case 3:
-        // Scene 3: Intelligent Matching & Approval
-        setRole('MANAGER');
-        if (mainRequest.status === 'NEW') validateRequest(reqId);
-        approveAndAssign(reqId, 'tech-b', 'Operations Manager');
-        navigate(`/app/orchestration/requests/${reqId}`);
-        break;
-      case 4:
-        // Scene 4: Technician Execution
-        setRole('TECHNICIAN');
-        acceptJob(reqId);
-        updateTravelStatus(reqId, 'EN_ROUTE');
-        setTimeout(() => updateTravelStatus(reqId, 'ON_SITE'), 400);
-        setTimeout(() => startService(reqId), 800);
+      case 'TECHNICIAN':
         navigate('/app/orchestration/technician-workspace');
         break;
-      case 5:
-        // Scene 5: The WOW Moment (Dropout & Auto-Recovery)
-        setRole('MANAGER');
-        triggerTechnicianDropout(reqId);
-        navigate('/app/orchestration/exceptions');
+      case 'EXTERNAL_VENDOR':
+        navigate('/app/orchestration/vendor-workspace');
         break;
-      case 6:
-        // Scene 6: Completion Package Upload
-        setRole('TECHNICIAN');
-        submitCompletion(reqId, {
-          serviceReport:
-            'Replaced blown proportional seal and main drive coupling on Hydraulic Pump Assembly HP-800. Flushed hydraulic line, recharged accumulator to 210 Bar. Full diagnostic cycle verified.',
-          workObservations:
-            'High pressure cavitation observed in secondary circuit. Inlet filter cleaned. No secondary contamination.',
-          measurements: [
-            { parameter: 'Working Pressure', value: '248.5', unit: 'Bar', normalRange: '240 - 255' },
-            { parameter: 'Operating Temp', value: '54.2', unit: '°C', normalRange: '45 - 65' },
-            { parameter: 'Flow Rate', value: '118.0', unit: 'L/min', normalRange: '110 - 125' },
-            { parameter: 'Vibration Level', value: '1.2', unit: 'mm/s', normalRange: '< 2.5' }
-          ],
-          partsUsed: [{ partId: 'part-pump', partName: 'Hydraulic Pump Assembly 250 Bar', quantity: 1 }],
-          toolsUsed: ['Hydraulic Service Kit', 'Digital Pressure Gauge Rig'],
-          beforePhotoUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
-          afterPhotoUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80',
-          submittedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          technicianNotes: 'Machine tested with 10 dry cycles and 5 stamping loads. Clean handoff.'
-        });
-        navigate(`/app/orchestration/requests/${reqId}`);
+      case 'CUSTOMER':
+        navigate('/app/orchestration/customer-portal');
         break;
-      case 7:
-        // Scene 7: Verification & Signoff
-        setRole('MANAGER');
-        verifyAndComplete(reqId, 'Operations Manager', 'All tolerances validated. Pressure steady.');
-        navigate(`/app/orchestration/requests/${reqId}`);
-        break;
-      case 8:
-        // Scene 8: Closed-Loop Command Center
-        setRole('MANAGER');
-        navigate('/app/orchestration/command-center');
+      case 'ADMIN':
+        navigate('/app/orchestration/admin-panel');
         break;
       default:
         break;
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/app');
+  };
+
   return (
     <Paper
-      elevation={3}
+      elevation={2}
       sx={{
         p: 1.5,
-        mb: 2,
+        mb: 2.5,
         borderRadius: 2,
         background: theme.palette.mode === 'dark' ? '#1e242c' : '#ffffff',
         border: `1px solid ${theme.palette.divider}`,
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
+        boxShadow: '0 2px 12px rgba(0,0,0,0.06)'
       }}
     >
       <Stack
-        direction={{ xs: 'column', md: 'row' }}
-        alignItems={{ xs: 'flex-start', md: 'center' }}
+        direction={{ xs: 'column', lg: 'row' }}
+        alignItems={{ xs: 'flex-start', lg: 'center' }}
         justifyContent="space-between"
-        spacing={1.5}
+        spacing={2}
       >
-        {/* Left: Persona Switcher */}
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Chip
-            size="small"
-            label="DATAQUEST 3.0"
-            color="primary"
-            sx={{ fontWeight: 'bold', fontSize: '0.75rem' }}
-          />
-          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary' }}>
-            Active Persona:
-          </Typography>
-          <ButtonGroup size="small" variant="outlined">
-            <Button
-              variant={state.currentRole === 'MANAGER' ? 'contained' : 'outlined'}
-              onClick={() => setRole('MANAGER')}
-              startIcon={<SupervisorAccountIcon fontSize="small" />}
-            >
-              Manager
-            </Button>
-            <Button
-              variant={state.currentRole === 'TECHNICIAN' ? 'contained' : 'outlined'}
-              onClick={() => setRole('TECHNICIAN')}
-              startIcon={<EngineeringIcon fontSize="small" />}
-            >
-              Technician
-            </Button>
-            <Button
-              variant={state.currentRole === 'CUSTOMER' ? 'contained' : 'outlined'}
-              onClick={() => setRole('CUSTOMER')}
-              startIcon={<PersonIcon fontSize="small" />}
-            >
-              Customer
-            </Button>
-            <Button
-              variant={state.currentRole === 'ADMIN' ? 'contained' : 'outlined'}
-              onClick={() => setRole('ADMIN')}
-              startIcon={<SecurityIcon fontSize="small" />}
-            >
-              Admin
-            </Button>
-          </ButtonGroup>
+        {/* Left: Role identity & Role-specific Navigation */}
+        <Stack direction="row" alignItems="center" spacing={1.5} flexWrap="wrap">
+          {state.currentRole === 'CUSTOMER' && (
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Chip
+                icon={<PersonIcon />}
+                size="small"
+                label="OPERATOR PORTAL"
+                color="success"
+                sx={{ fontWeight: 700 }}
+              />
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                Logged in as: Vikram Mehta (Plant Operator)
+              </Typography>
+            </Stack>
+          )}
+
+          {state.currentRole === 'TECHNICIAN' && (
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Chip
+                icon={<EngineeringIcon />}
+                size="small"
+                label="TECHNICIAN WORKSPACE"
+                color="info"
+                sx={{ fontWeight: 700 }}
+              />
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                Logged in as: Arjun Raman (Field Specialist)
+              </Typography>
+            </Stack>
+          )}
+
+          {state.currentRole === 'ADMIN' && (
+            <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+              <Chip
+                icon={<SecurityIcon />}
+                size="small"
+                label="ADMIN CONSOLE"
+                color="secondary"
+                sx={{ fontWeight: 700 }}
+              />
+              <Typography variant="body2" sx={{ fontWeight: 600, mr: 1 }}>
+                Superuser Oversight:
+              </Typography>
+              <ButtonGroup size="small" variant="outlined">
+                <Button
+                  variant={state.currentRole === 'ADMIN' ? 'contained' : 'outlined'}
+                  color="primary"
+                  onClick={() => handleSelectRole('ADMIN')}
+                  startIcon={<SecurityIcon fontSize="small" />}
+                >
+                  Admin Panel
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => handleSelectRole('MANAGER')}
+                  startIcon={<SupervisorAccountIcon fontSize="small" />}
+                >
+                  Command Center
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => handleSelectRole('TECHNICIAN')}
+                  startIcon={<EngineeringIcon fontSize="small" />}
+                >
+                  Plant Crew
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  onClick={() => handleSelectRole('EXTERNAL_VENDOR')}
+                  startIcon={<EngineeringIcon fontSize="small" />}
+                >
+                  Contractor (Vendor)
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => handleSelectRole('CUSTOMER')}
+                  startIcon={<PersonIcon fontSize="small" />}
+                >
+                  Operator View
+                </Button>
+              </ButtonGroup>
+            </Stack>
+          )}
+
+          {state.currentRole === 'MANAGER' && (
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Chip
+                icon={<SupervisorAccountIcon />}
+                size="small"
+                label="MANAGER COMMAND"
+                color="primary"
+                sx={{ fontWeight: 700 }}
+              />
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                Fleet Operations &amp; Dispatch Manager
+              </Typography>
+            </Stack>
+          )}
         </Stack>
 
-        {/* Right: Demo Workflow Stepper */}
-        <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
-          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', mr: 0.5 }}>
-            5-Min Demo:
-          </Typography>
-          <ButtonGroup size="small" variant="contained" color="secondary">
-            <Tooltip title="Scene 1: Customer creates Machine Failure SR-1042">
-              <Button onClick={() => handleRunScene(1)}>1. Failure</Button>
-            </Tooltip>
-            <Tooltip title="Scene 2: Automated 5-point validation">
-              <Button onClick={() => handleRunScene(2)}>2. Validate</Button>
-            </Tooltip>
-            <Tooltip title="Scene 3: Intelligent technician scoring & approval">
-              <Button onClick={() => handleRunScene(3)}>3. Match & Assign</Button>
-            </Tooltip>
-            <Tooltip title="Scene 4: Technician accepts, travels & starts work">
-              <Button onClick={() => handleRunScene(4)}>4. Execute</Button>
-            </Tooltip>
-            <Tooltip title="Scene 5: WOW MOMENT - Technician drop & 1-click reassignment">
+        {/* Right: Quick actions tailored to the logged-in user */}
+        <Stack direction="row" alignItems="center" spacing={1.5} flexWrap="wrap">
+          {state.currentRole === 'CUSTOMER' && (
+            <Stack direction="row" spacing={1} alignItems="center">
               <Button
-                color="error"
-                startIcon={<WarningAmberIcon fontSize="small" />}
-                onClick={() => handleRunScene(5)}
+                size="small"
+                variant="contained"
+                color="primary"
+                startIcon={<AddCircleOutlineIcon fontSize="small" />}
+                onClick={() => navigate('/app/orchestration/customer-portal')}
               >
-                5. Exception & Reassign
+                Submit Request
               </Button>
-            </Tooltip>
-            <Tooltip title="Scene 6: Technician submits completion dossier & photos">
-              <Button onClick={() => handleRunScene(6)}>6. Completion</Button>
-            </Tooltip>
-            <Tooltip title="Scene 7: Two-party completion verification">
-              <Button onClick={() => handleRunScene(7)}>7. Verify</Button>
-            </Tooltip>
-            <Tooltip title="Scene 8: Sealed loop - Closed status, inventory & audit">
-              <Button onClick={() => handleRunScene(8)}>8. Audit & Close</Button>
-            </Tooltip>
-          </ButtonGroup>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => navigate('/app/orchestration/customer-portal')}
+              >
+                Track Repairs
+              </Button>
+            </Stack>
+          )}
 
-          <Tooltip title="Reset demo to initial state">
+          {state.currentRole === 'TECHNICIAN' && (
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                startIcon={<EngineeringIcon fontSize="small" />}
+                onClick={() => navigate('/app/orchestration/technician-workspace')}
+              >
+                Active Field HUD
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => navigate('/app/orchestration/resources')}
+              >
+                Spare Parts Stock
+              </Button>
+            </Stack>
+          )}
+
+          {state.currentRole === 'ADMIN' && (
+            <Stack direction="row" spacing={1} alignItems="center">
+              {openExceptionsCount > 0 && (
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color="error"
+                  startIcon={<ErrorOutlineIcon fontSize="small" />}
+                  onClick={() => navigate('/app/orchestration/exceptions')}
+                >
+                  Exceptions ({openExceptionsCount})
+                </Button>
+              )}
+              <Button
+                size="small"
+                variant="outlined"
+                color="secondary"
+                endIcon={<OpenInNewIcon fontSize="small" />}
+                onClick={() => navigate('/app/orchestration/admin-panel')}
+              >
+                Governance Console
+              </Button>
+            </Stack>
+          )}
+
+          <Tooltip title="Reset platform demo data">
             <Button
               size="small"
-              variant="outlined"
+              variant="text"
               color="inherit"
               onClick={() => {
                 resetDemoData();
-                navigate('/app/orchestration/command-center');
               }}
               startIcon={<RestartAltIcon fontSize="small" />}
             >
-              Reset Demo
+              Reset Data
             </Button>
           </Tooltip>
+
+          <Button
+            size="small"
+            variant="outlined"
+            color="inherit"
+            startIcon={<LogoutIcon fontSize="small" />}
+            onClick={handleLogout}
+          >
+            Switch Login / Logout
+          </Button>
         </Stack>
       </Stack>
     </Paper>

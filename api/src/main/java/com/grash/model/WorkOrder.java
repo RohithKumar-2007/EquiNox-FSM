@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.grash.dto.IdDTO;
 import com.grash.model.abstracts.WorkOrderBase;
 import com.grash.model.enums.PermissionEntity;
+import com.grash.model.enums.ServiceType;
 import com.grash.model.enums.Status;
 import com.grash.utils.Helper;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -73,6 +74,16 @@ public class WorkOrder extends WorkOrderBase {
 
     @Schema(description = "Feedback provided upon work order completion")
     private String feedback;
+
+    @Enumerated(EnumType.STRING)
+    @Schema(description = "Service type: INTERNAL for plant crew or EXTERNAL for contractor")
+    private ServiceType serviceType = ServiceType.INTERNAL;
+
+    @Schema(description = "Reason for escalation to external vendor")
+    private String escalationReason;
+
+    @Schema(description = "URL pointing to the diagnostic telemetry and photographic snapshot")
+    private String diagnosticSnapshotUrl;
 
 
     @Schema(description = "The preventive maintenance schedule that generated this work order", implementation =

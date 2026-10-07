@@ -38,7 +38,13 @@ export type ExceptionSeverity = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 
 export type SlaHealthStatus = 'ON_TRACK' | 'AT_RISK' | 'BREACHED';
 
-export type UserRoleType = 'ADMIN' | 'MANAGER' | 'TECHNICIAN' | 'CUSTOMER';
+export type UserRoleType =
+  | 'ADMIN'
+  | 'MANAGER'
+  | 'INTERNAL_TECHNICIAN'
+  | 'EXTERNAL_VENDOR'
+  | 'TECHNICIAN'
+  | 'CUSTOMER';
 
 export interface SiteLocation {
   id: string;
@@ -260,6 +266,24 @@ export interface ServiceRequest {
 
   // Completion
   completionPackage?: CompletionPackage;
+  completedAt?: string;
+  verifiedAt?: string;
+  verifiedBy?: string;
+  verificationNotes?: string;
+
+  // Escalation & Vendor Dispatch
+  serviceType?: 'INTERNAL' | 'EXTERNAL';
+  escalationReason?: string;
+  diagnosticSnapshotUrl?: string;
+  diagnosticSnapshot?: {
+    notes: string;
+    telemetry: Record<string, any>;
+    photos: string[];
+    escalatedAt: string;
+    escalatedBy: string;
+    targetAgency?: string;
+  };
+  assignedVendorAgency?: string;
 
   // Audit
   auditTrail: ServiceAuditEvent[];

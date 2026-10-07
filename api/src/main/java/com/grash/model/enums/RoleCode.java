@@ -8,4 +8,6 @@ public enum RoleCode {
     VIEW_ONLY,
     REQUESTER,
     USER_CREATED,
+    INTERNAL_TECHNICIAN,
+    EXTERNAL_VENDOR,
 }

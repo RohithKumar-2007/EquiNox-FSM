@@ -47,6 +47,7 @@ type Listener = () => void;
 
 class OrchestrationStore {
   private state: OrchestrationState;
+
   private listeners: Set<Listener> = new Set();
 
   constructor() {
@@ -755,6 +756,137 @@ class OrchestrationStore {
       availableTechs,
       lowStockParts
     };
+  }
+
+  // ==========================================
+  // CONTEXT-PRESERVING VENDOR ESCALATION
+  // ==========================================
+  public escalateToVendor(
+    requestId: string,
+    payload: {
+      reason: string;
+      diagnosticNotes: string;
+      telemetryData: Record<string, any>;
+      photoUrls: string[];
+      targetVendorAgency?: string;
+    }
+  ) {
+    const request = this.state.requests.find((r) => r.id === requestId);
+    if (!request) return;
+
+    const targetAgency =
+      payload.targetVendorAgency || 'Apex Hydraulics & OEM Automation Ltd';
+    const snapshotUrl = `/storage/snapshots/${request.id}/snap-${Date.now().toString(36)}.json`;
+
+    request.serviceType = 'EXTERNAL';
+    request.escalationReason = payload.reason;
+    request.assignedVendorAgency = targetAgency;
+    request.diagnosticSnapshotUrl = snapshotUrl;
+    request.diagnosticSnapshot = {
+      notes: payload.diagnosticNotes,
+      telemetry: payload.telemetryData,
+      photos: payload.photoUrls,
+      escalatedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      escalatedBy: request.assignedTechnicianName || 'Arjun Raman (Plant Crew)',
+      targetAgency
+    };
+
+    // Release internal technician
+    if (request.assignedTechnicianId) {
+      const tech = this.state.technicians.find((t) => t.id === request.assignedTechnicianId);
+      if (tech) {
+        tech.activeStatus = 'AVAILABLE';
+        tech.currentWorkload = Math.max(0, tech.currentWorkload - 1);
+        tech.currentJobId = undefined;
+      }
+    }
+
+    // Set request status & create exception for Exceptions Desk
+    request.status = 'ASSIGNED';
+    request.assignedTechnicianName = `${targetAgency} (OEM Field Partner)`;
+
+    const exceptionId = `exc-${Date.now()}`;
+    const newException: ServiceExceptionRecord = {
+      id: exceptionId,
+      requestId: request.id,
+      requestTitle: request.title,
+      machineCode: request.machineCode,
+      type: 'RESOURCE_CONFLICT',
+      severity: 'HIGH',
+      description: `Escalated to External Vendor (${targetAgency}): ${payload.reason}`,
+      detectedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      resolved: false,
+      suggestedAction: `Contractor agency ${targetAgency} dispatched with preserved telemetry snapshot.`
+    };
+
+    request.activeExceptions.push(newException);
+    this.state.exceptions.unshift(newException);
+
+    // Audit Trail entry
+    request.auditTrail.push(
+      createAuditLogEntry(
+        request.id,
+        14,
+        'ESCALATED_TO_EXTERNAL_VENDOR',
+        'IN_PROGRESS',
+        'ASSIGNED',
+        request.diagnosticSnapshot.escalatedBy,
+        'INTERNAL_TECHNICIAN',
+        `Internal tech escalated ticket to ${targetAgency}. Reason: ${payload.reason}. Diagnostic snapshot generated at ${snapshotUrl}.`
+      )
+    );
+
+    this.saveToStorage();
+    this.notify();
+  }
+
+  public vendorAcceptContract(requestId: string) {
+    const request = this.state.requests.find((r) => r.id === requestId);
+    if (!request) return;
+    request.acceptedAt = new Date().toISOString();
+    request.status = 'ACCEPTED';
+    request.auditTrail.push(
+      createAuditLogEntry(
+        request.id,
+        10,
+        'VENDOR_CONTRACT_ACCEPTED',
+        'ASSIGNED',
+        'ACCEPTED',
+        request.assignedVendorAgency || 'Apex Hydraulics',
+        'EXTERNAL_VENDOR',
+        'External vendor confirmed acceptance of contractual SLA terms.'
+      )
+    );
+    this.saveToStorage();
+    this.notify();
+  }
+
+  public vendorUpdateMilestone(
+    requestId: string,
+    milestone: 'EN_ROUTE' | 'ON_SITE' | 'IN_PROGRESS'
+  ) {
+    const request = this.state.requests.find((r) => r.id === requestId);
+    if (!request) return;
+    const oldStatus = request.status;
+    request.status = milestone;
+    if (milestone === 'EN_ROUTE') request.enRouteAt = new Date().toISOString();
+    if (milestone === 'ON_SITE') request.onSiteAt = new Date().toISOString();
+    if (milestone === 'IN_PROGRESS') request.inProgressAt = new Date().toISOString();
+
+    request.auditTrail.push(
+      createAuditLogEntry(
+        request.id,
+        milestone === 'EN_ROUTE' ? 11 : milestone === 'ON_SITE' ? 12 : 13,
+        `VENDOR_MILESTONE_${milestone}`,
+        oldStatus,
+        milestone,
+        request.assignedVendorAgency || 'Apex Hydraulics',
+        'EXTERNAL_VENDOR',
+        `Contractor crew reached milestone: ${milestone}.`
+      )
+    );
+    this.saveToStorage();
+    this.notify();
   }
 }
 

@@ -24,7 +24,14 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getRoleType().getAuthority()));
+        java.util.List<GrantedAuthority> authorities = new java.util.ArrayList<>();
+        if (user.getRole() != null && user.getRole().getRoleType() != null) {
+            authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleType().getAuthority()));
+            if (user.getRole().getCode() != null) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getCode().name()));
+            }
+        }
+        return authorities;
     }
 
     @Override

@@ -84,7 +84,7 @@ export default function CommandCenter() {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 3, mb: 4 }}>
-      {/* 5-Min Demo Bar */}
+      {/* Active Role & Workspace Bar */}
       <DemoControllerBar />
 
       {/* Header */}

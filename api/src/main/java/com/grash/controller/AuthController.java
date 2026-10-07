@@ -65,12 +65,72 @@ public class AuthController {
             }
         }
         AuthTokens tokens = userService.signin(userLoginRequest.getEmail().toLowerCase(),
-                userLoginRequest.getPassword(), userLoginRequest.getType());
+                userLoginRequest.getPassword(), userLoginRequest.getType(), userLoginRequest.getRole());
         if (rateLimiterService.isBruteForceEnabled()) {
             rateLimiterService.resetLoginAttempts(key);
         }
         AuthResponse authResponse = AuthResponse.of(tokens);
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
+    }
+
+    @PostMapping(
+            path = "/signin/admin",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
+    public ResponseEntity<AuthResponse> loginAdmin(
+            @Parameter(description = "Admin login credentials") @Valid @RequestBody UserLoginRequest req) {
+        req.setRole("ADMIN");
+        return login(req);
+    }
+
+    @PostMapping(
+            path = "/signin/technician",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
+    public ResponseEntity<AuthResponse> loginTechnician(
+            @Parameter(description = "Technician login credentials") @Valid @RequestBody UserLoginRequest req) {
+        req.setRole("INTERNAL_TECHNICIAN");
+        return login(req);
+    }
+
+    @PostMapping(
+            path = "/signin/internal-technician",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
+    public ResponseEntity<AuthResponse> loginInternalTechnician(
+            @Parameter(description = "Internal Technician login credentials") @Valid @RequestBody UserLoginRequest req) {
+        req.setRole("INTERNAL_TECHNICIAN");
+        return login(req);
+    }
+
+    @PostMapping(
+            path = "/signin/external-vendor",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
+    public ResponseEntity<AuthResponse> loginExternalVendor(
+            @Parameter(description = "External Vendor login credentials") @Valid @RequestBody UserLoginRequest req) {
+        req.setRole("EXTERNAL_VENDOR");
+        return login(req);
+    }
+
+    @PostMapping(
+            path = "/signin/customer",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
+    public ResponseEntity<AuthResponse> loginCustomer(
+            @Parameter(description = "Customer login credentials") @Valid @RequestBody UserLoginRequest req) {
+        req.setRole("CUSTOMER");
+        return login(req);
     }
 
     @PostMapping(

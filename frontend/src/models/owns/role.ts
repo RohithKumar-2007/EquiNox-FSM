@@ -23,6 +23,8 @@ export type PermissionRoot =
 export type RoleCode =
   | 'ADMIN'
   | 'LIMITED_ADMIN'
+  | 'INTERNAL_TECHNICIAN'
+  | 'EXTERNAL_VENDOR'
   | 'TECHNICIAN'
   | 'LIMITED_TECHNICIAN'
   | 'VIEW_ONLY'

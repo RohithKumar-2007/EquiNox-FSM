@@ -301,6 +301,7 @@ export const INITIAL_REQUESTS: ServiceRequest[] = [
     estimatedDurationHours: 1.5,
     slaDurationMinutes: 60,
     slaDeadline: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    serviceType: 'INTERNAL',
     slaHealth: 'ON_TRACK',
     reservations: [],
     activeExceptions: [],
@@ -316,6 +317,99 @@ export const INITIAL_REQUESTS: ServiceRequest[] = [
         fromStatus: '-',
         toStatus: 'NEW',
         summary: 'Service Request SR-1042 created for Machine M-104 (Hydraulic pressure failure)'
+      }
+    ]
+  },
+  {
+    id: 'sr-1088',
+    customId: 'SR-1088',
+    title: 'High-Pressure Servo Inverter OEM Recalibration',
+    description:
+      'Internal technician diagnosed inverter phase balance mismatch (Error E-702). Escalated to external contractor Apex Hydraulics Ltd due to OEM warranty and proprietary calibration kit requirement.',
+    machineId: 'mach-208',
+    machineCode: 'M-208',
+    machineName: 'CNC Milling Center',
+    siteId: 'site-chennai',
+    siteName: 'Chennai Plant A',
+    priority: 'HIGH',
+    requiredSkill: 'CNC / PLC Controls',
+    status: 'ASSIGNED',
+    serviceType: 'EXTERNAL',
+    escalationReason: 'Active OEM Warranty & Lack of Proprietary Calibration Jig',
+    assignedVendorAgency: 'Apex Hydraulics & OEM Automation Ltd',
+    diagnosticSnapshotUrl: '/storage/snapshots/sr-1088/snap-inverter-diag.json',
+    diagnosticSnapshot: {
+      notes:
+        'Phase W current distortion exceeds 14%. Requires Bosch Rexroth certified firmware flasher and high-voltage diagnostic probe.',
+      telemetry: {
+        'Working Pressure': '182.4 Bar',
+        'Operating Temp': '68.2 °C',
+        'Phase Imbalance': '14.8 %',
+        'Vibration Level': '2.8 mm/s'
+      },
+      photos: [
+        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'
+      ],
+      escalatedAt: '09:42 AM',
+      escalatedBy: 'Arjun Raman (Plant Crew)',
+      targetAgency: 'Apex Hydraulics & OEM Automation Ltd'
+    },
+    createdAt: new Date(Date.now() - 3600000).toISOString(),
+    updatedAt: new Date().toISOString(),
+    createdBy: 'Vikram Mehta (Plant Operator)',
+    creatorRole: 'CUSTOMER',
+    contactName: 'Vikram Mehta',
+    contactPhone: '+91 98401 23456',
+    requiredPartId: 'part-bearing',
+    requiredPartName: 'Precision Spindle Bearing Set',
+    requiredPartQuantity: 1,
+    requiredTools: ['Proprietary Rexroth Calibration Rig', 'Class 0 Fluke Probe'],
+    estimatedDurationHours: 2.0,
+    slaDurationMinutes: 120,
+    slaDeadline: new Date(Date.now() + 90 * 60 * 1000).toISOString(),
+    slaHealth: 'ON_TRACK',
+    reservations: [],
+    activeExceptions: [
+      {
+        id: 'exc-vendor-1',
+        requestId: 'sr-1088',
+        requestTitle: 'High-Pressure Servo Inverter OEM Recalibration',
+        machineCode: 'M-208',
+        type: 'RESOURCE_CONFLICT',
+        severity: 'HIGH',
+        description:
+          'Escalated to External Vendor (Apex Hydraulics Ltd): Active OEM Warranty & Lack of Proprietary Calibration Jig',
+        detectedAt: '09:42 AM',
+        resolved: false,
+        suggestedAction:
+          'Contractor agency Apex Hydraulics Ltd dispatched with preserved telemetry snapshot.'
+      }
+    ],
+    auditTrail: [
+      {
+        id: 'aud-v1',
+        requestId: 'sr-1088',
+        stepNumber: 1,
+        eventType: 'REQUEST_CREATED',
+        timestamp: '09:30 AM',
+        actorName: 'Vikram Mehta',
+        actorRole: 'CUSTOMER',
+        fromStatus: '-',
+        toStatus: 'NEW',
+        summary: 'Service Request SR-1088 created for CNC Milling Center M-208'
+      },
+      {
+        id: 'aud-v2',
+        requestId: 'sr-1088',
+        stepNumber: 14,
+        eventType: 'ESCALATED_TO_EXTERNAL_VENDOR',
+        timestamp: '09:42 AM',
+        actorName: 'Arjun Raman (Plant Crew)',
+        actorRole: 'INTERNAL_TECHNICIAN',
+        fromStatus: 'IN_PROGRESS',
+        toStatus: 'ASSIGNED',
+        summary:
+          'Internal technician escalated ticket to Apex Hydraulics Ltd. Reason: Active OEM Warranty & Lack of Proprietary Calibration Jig.'
       }
     ]
   }

@@ -37,6 +37,14 @@ export function useOrchestration() {
       orchestrationStore.submitCompletion(id, pkg),
     verifyAndComplete: (id: string, verifiedBy?: string, notes?: string) =>
       orchestrationStore.verifyAndComplete(id, verifiedBy, notes),
-    evaluateSla: (req: any) => evaluateSlaHealth(req)
+    evaluateSla: (req: any) => evaluateSlaHealth(req),
+    escalateToVendor: (requestId: string, payload: any) =>
+      orchestrationStore.escalateToVendor(requestId, payload),
+    vendorAcceptContract: (requestId: string) =>
+      orchestrationStore.vendorAcceptContract(requestId),
+    vendorUpdateMilestone: (
+      requestId: string,
+      milestone: 'EN_ROUTE' | 'ON_SITE' | 'IN_PROGRESS'
+    ) => orchestrationStore.vendorUpdateMilestone(requestId, milestone)
   };
 }

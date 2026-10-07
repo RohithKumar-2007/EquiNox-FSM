@@ -537,7 +537,7 @@ export default function RequestDetails() {
                         p: 1.5,
                         borderRadius: 1.5,
                         border: `1px dashed ${theme.palette.error.main}`,
-                        background: theme.palette.error.main + '08'
+                        background: theme.palette.action.hover
                       }}
                     >
                       <Stack
@@ -548,10 +548,10 @@ export default function RequestDetails() {
                       >
                         <Box>
                           <Typography variant="caption" sx={{ fontWeight: 700, color: 'error.main' }}>
-                            DEMO SIMULATION: TRIGGER EXCEPTION
+                            OPERATIONAL CONTINGENCY: FIELD EXCEPTION
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            Simulate technician emergency dropout to trigger automated recovery engine.
+                            Report technician emergency or field delay to trigger autonomous recovery engine.
                           </Typography>
                         </Box>
                         <Button
@@ -561,7 +561,7 @@ export default function RequestDetails() {
                           startIcon={<WarningAmberIcon />}
                           onClick={() => triggerTechnicianDropout(request.id)}
                         >
-                          Simulate Technician Dropout
+                          Trigger Emergency Reassignment
                         </Button>
                       </Stack>
                     </Box>

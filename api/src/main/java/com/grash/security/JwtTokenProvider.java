@@ -47,18 +47,31 @@ public class JwtTokenProvider {
     private final CustomUserDetailsService customUserDetailsService;
 
     public String createToken(String username, List<RoleType> roles) {
+        return createToken(username, roles, null);
+    }
 
+    public String createToken(String username, List<RoleType> roles, String roleCode) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder()
+        List<SimpleGrantedAuthority> authorities = roles.stream()
+                .map(s -> new SimpleGrantedAuthority(s.getAuthority()))
+                .collect(Collectors.toList());
+        if (roleCode != null) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + roleCode));
+        }
+
+        var builder = Jwts.builder()
                 .subject(username)
                 .issuedAt(now)
                 .expiration(validity)
-                .claim("auth",
-                        roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList()))
-                .signWith(key)
-                .compact();
+                .claim("auth", authorities);
+
+        if (roleCode != null) {
+            builder.claim("role_code", roleCode);
+        }
+
+        return builder.signWith(key).compact();
     }
 
     public Authentication getAuthentication(String token) {

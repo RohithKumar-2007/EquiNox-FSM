@@ -50,15 +50,40 @@ export interface MenuItems {
 
 const ownMenuItems: MenuItems[] = [
   {
-    heading: 'COMMAND CENTER',
+    heading: 'ROLE WORKSPACES',
     items: [
       {
-        name: 'Command Center',
+        name: 'Manager Command Center',
         link: '/app/orchestration/command-center',
         icon: SpeedTwoToneIcon
       },
       {
-        name: 'Service Requests',
+        name: 'Plant Crew Workspace',
+        link: '/app/orchestration/technician-workspace',
+        icon: HandymanTwoToneIcon
+      },
+      {
+        name: 'Contractor Workspace',
+        link: '/app/orchestration/vendor-workspace',
+        icon: StorefrontTwoToneIcon
+      },
+      {
+        name: 'Operator Portal',
+        link: '/app/orchestration/customer-portal',
+        icon: MoveToInboxTwoToneIcon
+      },
+      {
+        name: 'Admin Governance Panel',
+        link: '/app/orchestration/admin-panel',
+        icon: VpnKeyTwoToneIcon
+      }
+    ]
+  },
+  {
+    heading: 'OPERATIONS & WORKFLOW',
+    items: [
+      {
+        name: 'Service Requests (19-Step)',
         link: '/app/orchestration/requests/sr-1042',
         icon: AssignmentTwoToneIcon
       },
@@ -66,6 +91,11 @@ const ownMenuItems: MenuItems[] = [
         name: 'Exceptions Desk',
         link: '/app/orchestration/exceptions',
         icon: ErrorTwoToneIcon
+      },
+      {
+        name: 'SLA Monitor & Approvals',
+        link: '/app/orchestration/control',
+        icon: PendingActionsTwoToneIcon
       }
     ]
   },
@@ -85,7 +115,7 @@ const ownMenuItems: MenuItems[] = [
     ]
   },
   {
-    heading: 'WORKFORCE',
+    heading: 'WORKFORCE & INVENTORY',
     items: [
       {
         name: 'Technicians & Skills',
@@ -93,29 +123,9 @@ const ownMenuItems: MenuItems[] = [
         icon: AssignmentIndTwoToneIcon
       },
       {
-        name: 'Technician Workspace',
-        link: '/app/orchestration/technician-workspace',
-        icon: HandymanTwoToneIcon
-      }
-    ]
-  },
-  {
-    heading: 'RESOURCES & CONTROL',
-    items: [
-      {
         name: 'Spare Parts & Stock',
         link: '/app/orchestration/resources',
         icon: Inventory2TwoToneIcon
-      },
-      {
-        name: 'SLA Monitor & Approvals',
-        link: '/app/orchestration/control',
-        icon: PendingActionsTwoToneIcon
-      },
-      {
-        name: 'Customer Portal',
-        link: '/app/orchestration/customer-portal',
-        icon: MoveToInboxTwoToneIcon
       }
     ]
   },

@@ -341,20 +341,56 @@ function SidebarMenu() {
 
               return hasPermission && featured && inUiConfig;
             });
-            if (index === 0) {
-              //ownItems
-              sectionClone.items = sectionClone.items.map((item) => {
-                if (item.name === 'work_orders') {
-                  item.badge = urgentCount > 0 ? urgentCount.toString() : null;
-                } else if (item.name === 'requests') {
-                  item.badge =
-                    pendingCount > 0 ? pendingCount.toString() : null;
-                }
-                return item;
-              });
+            // Role-based visibility filtering
+            const activeRole =
+              localStorage.getItem('active_role') ||
+              (user?.role?.code === 'REQUESTER'
+                ? 'CUSTOMER'
+                : user?.role?.code === 'EXTERNAL_VENDOR'
+                ? 'EXTERNAL_VENDOR'
+                : user?.role?.code === 'INTERNAL_TECHNICIAN' || user?.role?.code === 'TECHNICIAN' || user?.role?.code === 'LIMITED_TECHNICIAN'
+                ? 'INTERNAL_TECHNICIAN'
+                : 'ADMIN');
+
+            if (activeRole === 'EXTERNAL_VENDOR') {
+              if (sectionClone.heading === 'ROLE WORKSPACES') {
+                sectionClone.items = sectionClone.items.filter(
+                  (item) => item.link === '/app/orchestration/vendor-workspace'
+                );
+              } else {
+                sectionClone.items = [];
+              }
+            } else if (activeRole === 'CUSTOMER') {
+              if (sectionClone.heading === 'ROLE WORKSPACES') {
+                sectionClone.items = sectionClone.items.filter(
+                  (item) => item.link === '/app/orchestration/customer-portal'
+                );
+              } else if (sectionClone.heading === 'OPERATIONS & WORKFLOW') {
+                sectionClone.items = [];
+              } else if (sectionClone.heading === 'WORKFORCE & INVENTORY') {
+                sectionClone.items = [];
+              } else if (sectionClone.heading === 'CLASSIC CMMS') {
+                sectionClone.items = [];
+              }
+            } else if (activeRole === 'INTERNAL_TECHNICIAN' || activeRole === 'TECHNICIAN') {
+              if (sectionClone.heading === 'ROLE WORKSPACES') {
+                sectionClone.items = sectionClone.items.filter(
+                  (item) => item.link === '/app/orchestration/technician-workspace'
+                );
+              } else if (sectionClone.heading === 'OPERATIONS & WORKFLOW') {
+                sectionClone.items = [];
+              } else if (sectionClone.heading === 'WORKFORCE & INVENTORY') {
+                sectionClone.items = sectionClone.items.filter(
+                  (item) => item.link === '/app/orchestration/resources'
+                );
+              } else if (sectionClone.heading === 'CLASSIC CMMS') {
+                sectionClone.items = [];
+              }
             }
+
             return sectionClone;
           })
+          .filter((section) => section.items.length > 0)
           .map((section) => (
             <MenuWrapper key={section.heading}>
               <List

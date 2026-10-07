@@ -39,6 +39,7 @@ import { addDays } from 'date-fns';
 import { shutdown } from '@intercom/messenger-js-sdk';
 import Clarity from '@microsoft/clarity';
 import { clarityId, IS_LOCALHOST } from '../config';
+import { orchestrationStore } from 'src/orchestration/store';
 
 interface AuthState {
   isInitialized: boolean;
@@ -580,6 +581,16 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
         const user = await updateUserInfos();
         const company = await api.get<Company>(`companies/${user.companyId}`);
         await setupUser(user, company.companySettings);
+        if (user?.role?.code) {
+          const mappedRole =
+            user.role.code === 'REQUESTER'
+              ? 'CUSTOMER'
+              : user.role.code === 'TECHNICIAN' || user.role.code === 'LIMITED_TECHNICIAN'
+              ? 'TECHNICIAN'
+              : 'ADMIN';
+          orchestrationStore.setRole(mappedRole);
+          localStorage.setItem('active_role', mappedRole);
+        }
         dispatch({
           type: 'INITIALIZE',
           payload: {
@@ -646,6 +657,16 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     const user = await updateUserInfos();
     const company = await api.get<Company>(`companies/${user.companyId}`);
     await setupUser(user, company.companySettings);
+    if (user?.role?.code) {
+      const mappedRole =
+        user.role.code === 'REQUESTER'
+          ? 'CUSTOMER'
+          : user.role.code === 'TECHNICIAN' || user.role.code === 'LIMITED_TECHNICIAN'
+          ? 'TECHNICIAN'
+          : 'ADMIN';
+      orchestrationStore.setRole(mappedRole);
+      localStorage.setItem('active_role', mappedRole);
+    }
     //@ts-ignore
     dispatch({
       type: 'LOGIN',

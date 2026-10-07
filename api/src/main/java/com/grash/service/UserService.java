@@ -95,6 +95,10 @@ public class UserService {
     private String[] allowedOrganizationAdmins;
 
     public AuthTokens signin(String email, String password, String type) {
+        return signin(email, password, type, null);
+    }
+
+    public AuthTokens signin(String email, String password, String type, String requiredRole) {
         try {
             cacheService.evictUserFromCache(email);
             Authentication authentication =
@@ -104,6 +108,22 @@ public class UserService {
             }
             Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);
             User user = optionalUser.get();
+            if (requiredRole != null && !requiredRole.trim().isEmpty()) {
+                RoleCode code = user.getRole().getCode();
+                if ((requiredRole.equalsIgnoreCase("OPERATOR") || requiredRole.equalsIgnoreCase("CUSTOMER")) && code != RoleCode.REQUESTER) {
+                    throw new CustomException("Access Denied: This account is not an Operator account. Please use the appropriate login portal.", HttpStatus.FORBIDDEN);
+                }
+                if ((requiredRole.equalsIgnoreCase("INTERNAL_TECHNICIAN") || requiredRole.equalsIgnoreCase("TECHNICIAN")) &&
+                        code != RoleCode.INTERNAL_TECHNICIAN && code != RoleCode.TECHNICIAN && code != RoleCode.LIMITED_TECHNICIAN) {
+                    throw new CustomException("Access Denied: This account is not an Internal Technician (Plant Crew) account. Please use the appropriate login portal.", HttpStatus.FORBIDDEN);
+                }
+                if ((requiredRole.equalsIgnoreCase("EXTERNAL_VENDOR") || requiredRole.equalsIgnoreCase("VENDOR")) && code != RoleCode.EXTERNAL_VENDOR) {
+                    throw new CustomException("Access Denied: This account is not an External Vendor (Contractor) account. Please use the appropriate login portal.", HttpStatus.FORBIDDEN);
+                }
+                if (requiredRole.equalsIgnoreCase("ADMIN") && code != RoleCode.ADMIN && code != RoleCode.LIMITED_ADMIN && user.getRole().getRoleType() != RoleType.ROLE_SUPER_ADMIN) {
+                    throw new CustomException("Access Denied: This account is not an Administrator account. Please use the appropriate login portal.", HttpStatus.FORBIDDEN);
+                }
+            }
             user.setLastLogin(new Date());
             userRepository.save(user);
             return refreshTokenService.createTokenPair(user);
@@ -126,8 +146,9 @@ public class UserService {
         if (sendEmailToSuperAdmins)
             sendRegistrationMailToSuperAdmins(user, userSignupRequest);
         onCompanyAndUserCreation(user);
+        String roleCode = user.getRole() != null && user.getRole().getCode() != null ? user.getRole().getCode().name() : null;
         String accessToken = jwtTokenProvider.createToken(user.getEmail(),
-                Collections.singletonList(user.getRole().getRoleType()));
+                Collections.singletonList(user.getRole().getRoleType()), roleCode);
         String refreshToken = refreshTokenService.createRefreshToken(user);
         return new SignupSuccessResponse<>(true, accessToken, user, refreshToken);
     }

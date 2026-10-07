@@ -26,6 +26,9 @@ const ExceptionsDesk = Loader(
 const TechnicianWorkspace = Loader(
   lazy(() => import('../content/own/Orchestration/TechnicianWorkspace'))
 );
+const VendorWorkspace = Loader(
+  lazy(() => import('../content/own/Orchestration/VendorWorkspace'))
+);
 const CustomerPortal = Loader(
   lazy(() => import('../content/own/Orchestration/CustomerPortal'))
 );
@@ -43,6 +46,9 @@ const MachinesHub = Loader(
 );
 const SitesHub = Loader(
   lazy(() => import('../content/own/Orchestration/Sites'))
+);
+const AdminPanel = Loader(
+  lazy(() => import('../content/own/Orchestration/AdminPanel'))
 );
 const GeneralSettings = Loader(
   lazy(() => import('../content/own/Settings/General'))
@@ -205,12 +211,14 @@ const appRoutes = [
       { path: 'create-request', element: <CustomerPortal /> },
       { path: 'exceptions', element: <ExceptionsDesk /> },
       { path: 'technician-workspace', element: <TechnicianWorkspace /> },
+      { path: 'vendor-workspace', element: <VendorWorkspace /> },
       { path: 'customer-portal', element: <CustomerPortal /> },
       { path: 'workforce', element: <WorkforceHub /> },
       { path: 'resources', element: <ResourcesHub /> },
       { path: 'control', element: <ControlHub /> },
       { path: 'machines', element: <MachinesHub /> },
-      { path: 'sites', element: <SitesHub /> }
+      { path: 'sites', element: <SitesHub /> },
+      { path: 'admin-panel', element: <AdminPanel /> }
     ]
   },
   {

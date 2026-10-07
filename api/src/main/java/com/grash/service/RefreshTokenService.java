@@ -32,8 +32,9 @@ public class RefreshTokenService {
     private long refreshTokenValidityInMilliseconds;
 
     public AuthTokens createTokenPair(User user) {
+        String roleCode = user.getRole() != null && user.getRole().getCode() != null ? user.getRole().getCode().name() : null;
         String accessToken = jwtTokenProvider.createToken(user.getEmail(),
-                Collections.singletonList(user.getRole().getRoleType()));
+                Collections.singletonList(user.getRole().getRoleType()), roleCode);
         String refreshToken = createRefreshToken(user);
         return new AuthTokens(accessToken, refreshToken, jwtTokenProvider.computeAccessTokenExpiration());
     }
@@ -81,8 +82,9 @@ public class RefreshTokenService {
         stored.setReplacedByTokenHash(hash(newRawToken));
         refreshTokenRepository.save(stored);
 
+        String roleCode = user.getRole() != null && user.getRole().getCode() != null ? user.getRole().getCode().name() : null;
         String accessToken = jwtTokenProvider.createToken(user.getEmail(),
-                Collections.singletonList(user.getRole().getRoleType()));
+                Collections.singletonList(user.getRole().getRoleType()), roleCode);
         return new AuthTokens(accessToken, newRawToken, jwtTokenProvider.computeAccessTokenExpiration());
     }
 

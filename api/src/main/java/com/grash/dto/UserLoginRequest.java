@@ -20,5 +20,8 @@ public class UserLoginRequest implements Serializable {
     @NotNull
     @Schema(hidden = true)
     private String type = "CLIENT";
+
+    @Schema(description = "Target portal role: ADMIN, TECHNICIAN, or CUSTOMER")
+    private String role;
 }
 
