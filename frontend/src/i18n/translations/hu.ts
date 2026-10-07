@@ -1692,8 +1692,6 @@ const locale = {
   request_portals: 'Kérési portálok',
   recaptcha_failed: 'A reCAPTCHA ellenőrzés sikertelen. Kérjük, próbálja újra.',
   select_date_range: 'Dátumtartomány kiválasztása',
-  get_mobile_app: 'Mobilalkalmazás letöltése',
-  scan_qr_to_download: 'Olvassa be a QR-kódot a mobilalkalmazás letöltéséhez',
   integrations: 'Integrációk',
   api_keys: 'API kulcsok',
   connectors: 'Csatlakozók',

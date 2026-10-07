@@ -1505,8 +1505,6 @@ const locale = {
   request_portals: '请求门户',
   recaptcha_failed: 'reCAPTCHA 验证失败。请重试。',
   select_date_range: '选择日期范围',
-  get_mobile_app: '获取移动应用',
-  scan_qr_to_download: '扫描二维码以下载移动应用',
   integrations: '集成',
   api_keys: 'API 密钥',
   connectors: '连接器',

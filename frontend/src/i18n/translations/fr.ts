@@ -1939,9 +1939,6 @@ const frJSON = {
   company_logo: "Logo de l'entreprise",
   recaptcha_failed: 'La vérification reCAPTCHA a échoué. Veuillez réessayer.',
   select_date_range: 'Sélectionner la plage de dates',
-  get_mobile_app: "Obtenir l'application mobile",
-  scan_qr_to_download:
-    'Scannez le code QR pour télécharger lapplication mobile',
   integrations: 'Intégrations',
   api_keys: 'Clés API',
   connectors: 'Connecteurs',
