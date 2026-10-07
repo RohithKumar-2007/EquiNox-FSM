@@ -29,7 +29,7 @@ Please include as much of the following information as possible:
   (e.g., SQL injection, authentication bypass, XSS, privilege escalation)
 
 - Affected component  
-  (API, Web UI, Mobile App, Docker deployment, etc.)
+  (API, Web UI, Docker deployment, etc.)
 
 - File paths or code locations involved
 

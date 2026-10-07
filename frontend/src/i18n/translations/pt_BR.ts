@@ -1866,8 +1866,6 @@ const ptBRJSON = {
   request_portals: 'Portais de solicitações',
   recaptcha_failed: 'Falha na verificação reCAPTCHA. Tente novamente.',
   select_date_range: 'Selecionar intervalo de datas',
-  get_mobile_app: 'Obter aplicativo móvel',
-  scan_qr_to_download: 'Escaneie o código QR para baixar o aplicativo móvel',
   integrations: 'Integrações',
   api_keys: 'Chaves API',
   connectors: 'Conectores',

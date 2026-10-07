@@ -1836,8 +1836,6 @@ const trJSON = {
   request_portals: 'Talep Portalları',
   recaptcha_failed: 'reCAPTCHA doğrulaması başarısız. Lütfen tekrar deneyin.',
   select_date_range: 'Tarih aralığını seçin',
-  get_mobile_app: 'Mobil Uygulamayı Edinin',
-  scan_qr_to_download: 'Mobil uygulamayı indirmek için QR kodunu tarayın',
   integrations: 'Entegrasyonlar',
   api_keys: 'API Anahtarları',
   connectors: 'Bağlayıcılar',

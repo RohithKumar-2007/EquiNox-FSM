@@ -1822,8 +1822,6 @@ const locale = {
   recaptcha_failed:
     'reCAPTCHA verifikacija nije uspjela. Molimo pokušajte ponovo.',
   select_date_range: 'তারিখ পরিসর নির্বাচন করুন',
-  get_mobile_app: 'Nabavite mobilnu aplikaciju',
-  scan_qr_to_download: 'Skenirajte QR kod da preuzmete mobilnu aplikaciju',
   integrations: 'Integracije',
   api_keys: 'API ključevi',
   connectors: 'Konektori',

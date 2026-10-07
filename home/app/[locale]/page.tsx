@@ -33,32 +33,6 @@ const ldJson = [
       priceCurrency: "USD",
     },
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "MobileApplication",
-    name: "Equinox CMMS for iOS",
-    operatingSystem: "iOS",
-    applicationCategory: "BusinessApplication",
-    downloadUrl: "https://apps.apple.com/us/app/equinox-cmms/id6751547284",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "MobileApplication",
-    name: "Equinox CMMS for Android",
-    operatingSystem: "Android",
-    applicationCategory: "BusinessApplication",
-    downloadUrl: "https://play.google.com/store/apps/details?id=com.equinox.cmms",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  },
 ];
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;

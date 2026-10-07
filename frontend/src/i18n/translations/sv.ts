@@ -1805,8 +1805,6 @@ const locale = {
   request_portals: 'Begäringsportaler',
   recaptcha_failed: 'reCAPTCHA-verifiering misslyckades. Försök igen.',
   select_date_range: 'Välj datumintervall',
-  get_mobile_app: 'Hämta mobilappen',
-  scan_qr_to_download: 'Skanna QR-koden för att ladda ner mobilappen',
   integrations: 'Integrationer',
   api_keys: 'API-nycklar',
   connectors: 'Kopplingar',

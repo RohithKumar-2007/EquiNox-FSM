@@ -1835,8 +1835,6 @@ const locale = {
   request_portals: 'Verzoekportalen',
   recaptcha_failed: 'reCAPTCHA-verificatie mislukt. Probeer het opnieuw.',
   select_date_range: 'Datumbereik selecteren',
-  get_mobile_app: 'Mobiele app ophalen',
-  scan_qr_to_download: 'Scan de QR-code om de mobiele app te downloaden',
   integrations: 'Integraties',
   api_keys: 'API-sleutels',
   connectors: 'Connectors',
