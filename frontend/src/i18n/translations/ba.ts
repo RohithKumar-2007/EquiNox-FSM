@@ -1706,18 +1706,18 @@ const locale = {
   cut_costs_performance:
     'Smanjite troškove softvera za održavanje bez žrtvovanja performansi',
   'free_cmms.title':
-    'Atlas Besplatni CMMS Softver | Nije potrebna kreditna kartica',
+    'Equinox Besplatni CMMS Softver | Nije potrebna kreditna kartica',
   'free_cmms.description':
     'Besplatni CMMS softver — nije probni period. Upravljajte održavanjem, imovinom i radnim nalozima odmah. Nije potrebna kreditna kartica.',
   'free_cmms.keywords':
     'besplatni cmms, softver za upravljanje održavanjem, besplatni softver za radne naloge, praćenje imovine, preventivno održavanje',
   'overview.description':
-    'Atlas CMMS je besplatni CMMS otvorenog koda za upravljanje radnim nalozima, preventivnim održavanjem, imovinom i objektima. Pojednostavite operacije održavanja već danas.',
+    'Equinox CMMS je besplatni CMMS otvorenog koda za upravljanje radnim nalozima, preventivnim održavanjem, imovinom i objektima. Pojednostavite operacije održavanja već danas.',
   'overview.keywords':
-    'CMMS, kompjuterizovani sistem upravljanja održavanjem, EAM, upravljanje korporativnom imovinom, cmms otvorenog koda, besplatni softver za održavanje, upravljanje radnim nalozima, preventivno održavanje, praćenje imovine, upravljanje objektima, softver za praćenje održavanja, održavanje opreme, Atlas CMMS',
-  'pricing.title': 'Cijene - Atlas CMMS',
+    'CMMS, kompjuterizovani sistem upravljanja održavanjem, EAM, upravljanje korporativnom imovinom, cmms otvorenog koda, besplatni softver za održavanje, upravljanje radnim nalozima, preventivno održavanje, praćenje imovine, upravljanje objektima, softver za praćenje održavanja, održavanje opreme, Equinox CMMS',
+  'pricing.title': 'Cijene - Equinox CMMS',
   'pricing.description':
-    'Fleksibilni planovi cijena za Atlas CMMS. Birajte između Cloud i Self-Hosted verzija našeg CMMS-a otvorenog koda za optimizaciju vaših operacija održavanja.',
+    'Fleksibilni planovi cijena za Equinox CMMS. Birajte između Cloud i Self-Hosted verzija našeg CMMS-a otvorenog koda za optimizaciju vaših operacija održavanja.',
   'free_cmms.hero.subtitle': 'Besplatni CMMS Softver',
   'free_cmms.hero.title':
     'Upravljajte radnim nalozima i imovinom - Zauvijek besplatno',
@@ -1822,8 +1822,6 @@ const locale = {
   recaptcha_failed:
     'reCAPTCHA verifikacija nije uspjela. Molimo pokušajte ponovo.',
   select_date_range: 'তারিখ পরিসর নির্বাচন করুন',
-  get_mobile_app: 'Nabavite mobilnu aplikaciju',
-  scan_qr_to_download: 'Skenirajte QR kod da preuzmete mobilnu aplikaciju',
   integrations: 'Integracije',
   api_keys: 'API ključevi',
   connectors: 'Konektori',

@@ -22,21 +22,21 @@ const energyUtilitiesData: IndustryLayoutProps = {
       title: "Critical infrastructure reliability",
       description:
         "Manage maintenance for power plants, substations, water systems, and network equipment with full visibility into assets, failures, and interventions.",
-      imageUrl: "https://atlas-cmms.com/assets/features/assets.png",
+      imageUrl: "https://equinox-cmms.com/assets/features/assets.png",
       learnMoreUrl: "/features/assets",
     },
     {
       title: "Preventive & compliance-driven maintenance",
       description:
         "Automate inspections, regulatory checks, and preventive maintenance schedules to reduce downtime and stay compliant with safety standards.",
-      imageUrl: "https://atlas-cmms.com/assets/features/preventive-maintenance.png",
+      imageUrl: "https://equinox-cmms.com/assets/features/preventive-maintenance.png",
       learnMoreUrl: "/features/preventive-maintenance",
     },
     {
       title: "Field-ready work order management",
       description:
         "Coordinate technicians across sites, track interventions in real time, and maintain a complete service history for every critical asset.",
-      imageUrl: "https://atlas-cmms.com/assets/features/work-orders.png",
+      imageUrl: "https://equinox-cmms.com/assets/features/work-orders.png",
       learnMoreUrl: "/features/work-orders",
     },
   ],
@@ -61,19 +61,19 @@ const energyUtilitiesData: IndustryLayoutProps = {
   ],
   faqs: [
     {
-      question: "Is Atlas CMMS suitable for energy and utility infrastructure?",
+      question: "Is Equinox CMMS suitable for energy and utility infrastructure?",
       answer:
-        "Yes. Atlas CMMS supports complex asset hierarchies, preventive maintenance, inspections, and multi-site operations required in energy and utility environments.",
+        "Yes. Equinox CMMS supports complex asset hierarchies, preventive maintenance, inspections, and multi-site operations required in energy and utility environments.",
     },
     {
-      question: "Can Atlas CMMS handle compliance and safety inspections?",
+      question: "Can Equinox CMMS handle compliance and safety inspections?",
       answer:
         "Absolutely. You can schedule recurring inspections, track maintenance history, and document interventions to support regulatory compliance and audits.",
     },
     {
-      question: "Does Atlas CMMS support on-premise deployment for secure environments?",
+      question: "Does Equinox CMMS support on-premise deployment for secure environments?",
       answer:
-        "Yes. Atlas CMMS is open source and fully self-hostable using Docker, making it suitable for secure or isolated infrastructure networks.",
+        "Yes. Equinox CMMS is open source and fully self-hostable using Docker, making it suitable for secure or isolated infrastructure networks.",
     },
   ],
 

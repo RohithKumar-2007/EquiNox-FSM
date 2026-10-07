@@ -12,6 +12,12 @@ module.exports = {
         })
       );
     }
+    if (env === 'production' && process.env.DISABLE_TYPECHECK === 'true') {
+      // Type checking runs in a separate process that doubles build memory.
+      config.plugins = config.plugins.filter(
+        (plugin) => plugin.constructor.name !== 'ForkTsCheckerWebpackPlugin'
+      );
+    }
     if (env === 'production' && process.env.SENTRY_AUTH_TOKEN) {
       const { sentryWebpackPlugin } = require('@sentry/webpack-plugin');
       config.plugins.push(
@@ -21,7 +27,7 @@ module.exports = {
           authToken: process.env.SENTRY_AUTH_TOKEN,
           release: {
             name:
-              process.env.REACT_APP_SENTRY_RELEASE || 'atlas-frontend',
+              process.env.REACT_APP_SENTRY_RELEASE || 'equinox-frontend',
             create: true
           }
         })

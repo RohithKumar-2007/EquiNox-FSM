@@ -7,11 +7,11 @@ import { getLocalizedMetadata } from "src/utils/metadata";
 const ldJson = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "Atlas CMMS",
+  name: "Equinox CMMS",
   description:
-    "Flexible pricing plans for Atlas CMMS. Choose between Cloud and Self-Hosted versions of our open-source CMMS to optimize your maintenance operations.",
-  url: "https://atlas-cmms.com/pricing",
-  image: "https://atlas-cmms.com/static/images/logo/logo.png",
+    "Flexible pricing plans for Equinox CMMS. Choose between Cloud and Self-Hosted versions of our open-source CMMS to optimize your maintenance operations.",
+  url: "https://equinox-cmms.com/pricing",
+  image: "https://equinox-cmms.com/static/images/logo/logo.png",
   offers: [
     {
       "@type": "Offer",
@@ -44,7 +44,7 @@ const ldJson = {
   ],
   publisher: {
     "@type": "Organization",
-    name: "Atlas CMMS",
+    name: "Equinox CMMS",
   },
 };
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {

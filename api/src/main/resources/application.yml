@@ -143,6 +143,10 @@ management:
       enabled: ${LDAP_ENABLED:false}
 api:
   host: ${PUBLIC_API_URL}
+assistant:
+  gemini:
+    api-key: ${GEMINI_API_KEY:}
+    model: ${GEMINI_MODEL:gemini-3.8-flash}
 storage:
   type: ${STORAGE_TYPE}
   minio:

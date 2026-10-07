@@ -1,0 +1,10 @@
+# Use the existing local Atlas database and storage while running Equinox source.
+# docker compose -p atlas-cmms -f docker-compose.yml -f docker-compose.local.yml up -d --no-deps api frontend
+services:
+  api:
+    container_name: atlas-cmms-backend
+    environment:
+      DB_URL: postgres/atlas
+      MINIO_BUCKET: atlas-bucket
+  frontend:
+    container_name: atlas-cmms-frontend

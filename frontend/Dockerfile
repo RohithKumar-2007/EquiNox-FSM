@@ -4,12 +4,13 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm config set fetch-retry-maxtimeout 6000000 \
-    && npm config set fetch-retry-mintimeout 1000000 \
+RUN --mount=type=cache,target=/root/.npm npm config set fetch-retry-maxtimeout 60000 \
+    && npm config set fetch-retry-mintimeout 1000 \
+    && npm config set fetch-timeout 60000 \
     && npm ci --legacy-peer-deps
 COPY . .
 
-RUN NODE_OPTIONS="--max_old_space_size=4096" npm run build
+RUN GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true DISABLE_TYPECHECK=true NODE_OPTIONS="--max_old_space_size=2048" npm run build
 
 FROM nginx:1.27.0-alpine
 COPY --from=build /usr/src/app/build /usr/share/nginx/html

@@ -4,7 +4,6 @@ import { getFeaturesLinks, getIndustriesLinks } from "src/utils/urlPaths";
 import { getTranslations } from "next-intl/server";
 import { ReactNode } from "react";
 import { FooterAnchor, FooterLink, FooterWrapper, SectionHeading } from "./styles";
-import Image from "next/image";
 
 interface ContactItem {
   icon: ReactNode;
@@ -26,14 +25,6 @@ interface SocialItem {
   href: string;
   icon: ReactNode;
   title: string;
-}
-
-interface AppItem {
-  href: string;
-  image: string;
-  alt: string;
-  width: number;
-  height: number;
 }
 
 interface BaseFooterSection {
@@ -60,12 +51,7 @@ interface SocialSection extends BaseFooterSection {
   items: SocialItem[];
 }
 
-interface AppsSection extends BaseFooterSection {
-  type: "apps";
-  items: AppItem[];
-}
-
-type FooterSection = ContactSection | LinksSection | DynamicSection | SocialSection | AppsSection;
+type FooterSection = ContactSection | LinksSection | DynamicSection | SocialSection;
 
 export default async function Footer() {
   const t = await getTranslations();
@@ -77,8 +63,8 @@ export default async function Footer() {
       items: [
         {
           icon: <Mail fontSize="small" />,
-          text: "contact@atlas-cmms.com",
-          href: "mailto:contact@atlas-cmms.com",
+          text: "contact@equinox-cmms.com",
+          href: "mailto:contact@equinox-cmms.com",
         },
         {
           icon: <Phone fontSize="small" />,
@@ -126,26 +112,6 @@ export default async function Footer() {
           title: "LinkedIn",
         },
         { href: "https://github.com/Grashjs/cmms", icon: <GitHub />, title: "GitHub" },
-      ],
-    },
-    {
-      title: "Mobile apps",
-      type: "apps",
-      items: [
-        {
-          href: "https://play.google.com/store/apps/details?id=com.atlas.cmms",
-          image: "/static/images/overview/playstore-badge.png",
-          alt: "playstore badge",
-          width: 270,
-          height: 80,
-        },
-        {
-          href: "https://apps.apple.com/us/app/atlas-cmms/id6751547284",
-          image: "/static/images/overview/app_store_badge.svg.webp",
-          alt: "app store badge",
-          width: 2560,
-          height: 759,
-        },
       ],
     },
   ];
@@ -214,25 +180,6 @@ export default async function Footer() {
               >
                 {item.icon}
               </FooterAnchor>
-            ))}
-          </Stack>
-        );
-      case "apps":
-        return (
-          <Stack spacing={1} direction={{ xs: "column", lg: "row" }}>
-            {section.items.map((item, index) => (
-              <a key={index} href={item.href} target="_blank" rel="noopener noreferrer">
-                <Image
-                  width={item.width}
-                  height={item.height}
-                  src={item.image}
-                  alt={item.alt}
-                  style={{
-                    width: "150px",
-                    height: "auto",
-                  }}
-                />
-              </a>
             ))}
           </Stack>
         );

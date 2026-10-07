@@ -7,6 +7,7 @@ import Header from './Header';
 import Intercom from '@intercom/messenger-js-sdk';
 import useAuth from '../../hooks/useAuth';
 import { intercomId, isCloudVersion } from '../../config';
+import AssistantWidget from '../../components/AssistantWidget';
 
 interface ExtendedSidebarLayoutProps {
   children?: ReactNode;
@@ -77,6 +78,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
           {/*<ThemeSettings />*/}
         </Box>
       </Box>
+      <AssistantWidget />
     </>
   );
 };

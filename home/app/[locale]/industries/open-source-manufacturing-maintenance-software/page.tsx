@@ -40,21 +40,21 @@ const manufacturingData: IndustryLayoutProps = {
       title: "Production-ready work order management",
       description:
         "Create, prioritize, and track maintenance work orders across machines, lines, and facilities to keep production flowing.",
-      imageUrl: "https://atlas-cmms.com/assets/features/work-orders.png",
+      imageUrl: "https://equinox-cmms.com/assets/features/work-orders.png",
       learnMoreUrl: "/features/work-orders",
     },
     {
       title: "Preventive maintenance for critical equipment",
       description:
         "Automate maintenance schedules based on runtime, cycles, or calendar intervals to prevent costly breakdowns.",
-      imageUrl: "https://atlas-cmms.com/assets/features/preventive-maintenance.png",
+      imageUrl: "https://equinox-cmms.com/assets/features/preventive-maintenance.png",
       learnMoreUrl: "/features/preventive-maintenance",
     },
     {
       title: "Full asset history and cost tracking",
       description:
         "Monitor maintenance history, spare parts usage, downtime causes, and lifecycle costs for every production asset.",
-      imageUrl: "https://atlas-cmms.com/assets/features/assets.png",
+      imageUrl: "https://equinox-cmms.com/assets/features/assets.png",
       learnMoreUrl: "/features/assets",
     },
   ],
@@ -63,19 +63,19 @@ const manufacturingData: IndustryLayoutProps = {
 
   faqs: [
     {
-      question: "Is Atlas CMMS suitable for manufacturing environments?",
+      question: "Is Equinox CMMS suitable for manufacturing environments?",
       answer:
-        "Yes. Atlas CMMS is designed to manage machines, production lines, spare parts, preventive maintenance, and multi-site factory operations.",
+        "Yes. Equinox CMMS is designed to manage machines, production lines, spare parts, preventive maintenance, and multi-site factory operations.",
     },
     {
-      question: "Can Atlas CMMS help reduce equipment downtime?",
+      question: "Can Equinox CMMS help reduce equipment downtime?",
       answer:
         "Absolutely. Preventive scheduling, work order tracking, and asset history insights help teams detect issues early and avoid unexpected failures.",
     },
     {
-      question: "Does Atlas CMMS support on-premise deployment for factories?",
+      question: "Does Equinox CMMS support on-premise deployment for factories?",
       answer:
-        "Yes. Atlas CMMS can be fully self-hosted using Docker, making it ideal for factories with strict security or network requirements.",
+        "Yes. Equinox CMMS can be fully self-hosted using Docker, making it ideal for factories with strict security or network requirements.",
     },
   ],
 

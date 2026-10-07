@@ -28,15 +28,15 @@ export function generateStaticParams() {
 export const revalidate = false;
 
 export async function generateMetadata({ params }: { params: any }): Promise<Metadata> {
-  const baseUrl = "https://atlas-cmms.com";
+  const baseUrl = "https://equinox-cmms.com";
   const { locale } = await params;
   setRequestLocale(locale);
 
   return {
     metadataBase: new URL(baseUrl),
     title: {
-      default: "Atlas CMMS",
-      template: "%s | Atlas CMMS",
+      default: "Equinox CMMS",
+      template: "%s | Equinox CMMS",
     },
     icons: {
       icon: [

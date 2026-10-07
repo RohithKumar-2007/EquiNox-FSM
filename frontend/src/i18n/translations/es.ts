@@ -1739,18 +1739,18 @@ const esJSON = {
   cut_costs_performance:
     'Reduce los costos de software de mantenimiento sin sacrificar el rendimiento',
   'free_cmms.title':
-    'Software GMAO Gratis Atlas | No se requiere tarjeta de crédito',
+    'Software GMAO Gratis Equinox | No se requiere tarjeta de crédito',
   'free_cmms.description':
     'Software GMAO gratuito — no es una versión de prueba. Gestione el mantenimiento, los activos y las órdenes de trabajo al instante. No se requiere tarjeta de crédito.',
   'free_cmms.keywords':
     'gmao gratis, software de gestión de mantenimiento, software de órdenes de trabajo gratis, seguimiento de activos, mantenimiento preventivo',
   'overview.description':
-    'Atlas CMMS es un GMAO gratuito y de código abierto para gestionar órdenes de trabajo, mantenimiento preventivo, activos e instalaciones. Optimice sus operaciones de mantenimiento hoy.',
+    'Equinox CMMS es un GMAO gratuito y de código abierto para gestionar órdenes de trabajo, mantenimiento preventivo, activos e instalaciones. Optimice sus operaciones de mantenimiento hoy.',
   'overview.keywords':
-    'GMAO, sistema de gestión de mantenimiento computarizado, EAM, gestión de activos empresariales, gmao de código abierto, software de mantenimiento gratis, gestión de órdenes de trabajo, mantenimiento preventivo, seguimiento de activos, gestión de instalaciones, software de seguimiento de mantenimiento, mantenimiento de equipos, Atlas CMMS',
-  'pricing.title': 'Precios - Atlas CMMS',
+    'GMAO, sistema de gestión de mantenimiento computarizado, EAM, gestión de activos empresariales, gmao de código abierto, software de mantenimiento gratis, gestión de órdenes de trabajo, mantenimiento preventivo, seguimiento de activos, gestión de instalaciones, software de seguimiento de mantenimiento, mantenimiento de equipos, Equinox CMMS',
+  'pricing.title': 'Precios - Equinox CMMS',
   'pricing.description':
-    'Planes de precios flexibles para Atlas CMMS. Elija entre las versiones en la nube y autoalojadas de nuestro GMAO de código abierto para optimizar sus operaciones de mantenimiento.',
+    'Planes de precios flexibles para Equinox CMMS. Elija entre las versiones en la nube y autoalojadas de nuestro GMAO de código abierto para optimizar sus operaciones de mantenimiento.',
   'free_cmms.hero.subtitle': 'Software GMAO Gratuito',
   'free_cmms.hero.title':
     'Gestione Órdenes de Trabajo y Activos - Gratis para siempre',
@@ -1856,9 +1856,6 @@ const esJSON = {
   requested_from_portal: 'Esta solicitud fue creada desde el portal: ',
   request_portals: 'Portales de solicitudes',
   select_date_range: 'Seleccionar rango de fechas',
-  get_mobile_app: 'Obtener aplicación móvil',
-  scan_qr_to_download:
-    'Escanea el código QR para descargar la aplicación móvil',
   integrations: 'Integraciones',
   api_keys: 'Claves API',
   connectors: 'Conectores',

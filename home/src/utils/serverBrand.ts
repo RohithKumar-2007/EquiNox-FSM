@@ -36,10 +36,10 @@ export interface BrandConfig extends BrandRawConfig {
 
 export async function getBrandServer(): Promise<BrandConfig> {
   const defaultBrand: Omit<BrandConfig, "logo"> = {
-    name: "Atlas CMMS",
-    shortName: "Atlas",
-    website: "https://www.atlas-cmms.com",
-    mail: "contact@atlas-cmms.com",
+    name: "Equinox CMMS",
+    shortName: "Equinox",
+    website: "https://www.equinox-cmms.com",
+    mail: "contact@equinox-cmms.com",
     phone: "+212 6 30 69 00 50",
     addressStreet: "410, Boulevard Zerktouni, Hamad, №1",
     addressCity: "Casablanca-Morocco 20040",

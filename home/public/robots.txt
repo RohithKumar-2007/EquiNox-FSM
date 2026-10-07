@@ -2,4 +2,4 @@
 User-agent: *
 Disallow: /en/
 
-Sitemap: https://atlas-cmms.com/sitemap.xml
+Sitemap: https://equinox-cmms.com/sitemap.xml

@@ -1738,8 +1738,6 @@ const locale = {
   'App Store': 'App Store',
   'GET IT ON': 'で手に入れよう',
   'Google Play': 'Google Play',
-  get_mobile_app: 'モバイルアプリを入手',
-  scan_qr_to_download: 'QRコードをスキャンしてモバイルアプリをダウンロード',
   total_items: '合計アイテム数',
   items_per_page: 'ページあたりのアイテム数',
   integrations: '統合',

@@ -1576,18 +1576,18 @@ const locale = {
   cut_costs_performance:
     'Csökkentse a karbantartási szoftverköltségeket a teljesítmény feláldozása nélkül',
   'free_cmms.title':
-    'Atlas Ingyenes GMAO Szoftver | Nincs szükség hitelkártyára',
+    'Equinox Ingyenes GMAO Szoftver | Nincs szükség hitelkártyára',
   'free_cmms.description':
     'Ingyenes GMAO szoftver — nem próbaverzió. Karbantartás, eszközök és munkarendelések kezelése azonnal. Nincs szükség hitelkártyára.',
   'free_cmms.keywords':
     'ingyenes gmao, karbantartás-kezelő szoftver, ingyenes munkarendelés szoftver, eszköz-követés, megelőző karbantartás',
   'overview.description':
-    'Az Atlas CMMS egy ingyenes, nyílt forráskódú GMAO a munkarendelések, a megelőző karbantartás, az eszközök és a létesítmények kezelésére. Egyszerűsítse karbantartási folyamatait még ma.',
+    'Az Equinox CMMS egy ingyenes, nyílt forráskódú GMAO a munkarendelések, a megelőző karbantartás, az eszközök és a létesítmények kezelésére. Egyszerűsítse karbantartási folyamatait még ma.',
   'overview.keywords':
-    'GMAO, számítógépes karbantartás-kezelő rendszer, EAM, vállalati eszközkezelés, nyílt forráskódú GMAO, ingyenes karbantartási szoftver, munkarendelés-kezelés, megelőző karbantartás, eszköz-követés, létesítménykezelés, karbantartás-követő szoftver, berendezés-karbantartás, Atlas CMMS',
-  'pricing.title': 'Árazás - Atlas CMMS',
+    'GMAO, számítógépes karbantartás-kezelő rendszer, EAM, vállalati eszközkezelés, nyílt forráskódú GMAO, ingyenes karbantartási szoftver, munkarendelés-kezelés, megelőző karbantartás, eszköz-követés, létesítménykezelés, karbantartás-követő szoftver, berendezés-karbantartás, Equinox CMMS',
+  'pricing.title': 'Árazás - Equinox CMMS',
   'pricing.description':
-    'Rugalmas árazási tervek az Atlas CMMS-hez. Válasszon nyílt forráskódú GMAO rendszerünk Cloud és Self-Hosted verziói közül a karbantartási folyamatok optimalizálásához.',
+    'Rugalmas árazási tervek az Equinox CMMS-hez. Válasszon nyílt forráskódú GMAO rendszerünk Cloud és Self-Hosted verziói közül a karbantartási folyamatok optimalizálásához.',
   'free_cmms.hero.subtitle': 'Ingyenes GMAO Szoftver',
   'free_cmms.hero.title':
     'Munkarendelések és eszközök kezelése - Örökké ingyenes',
@@ -1692,8 +1692,6 @@ const locale = {
   request_portals: 'Kérési portálok',
   recaptcha_failed: 'A reCAPTCHA ellenőrzés sikertelen. Kérjük, próbálja újra.',
   select_date_range: 'Dátumtartomány kiválasztása',
-  get_mobile_app: 'Mobilalkalmazás letöltése',
-  scan_qr_to_download: 'Olvassa be a QR-kódot a mobilalkalmazás letöltéséhez',
   integrations: 'Integrációk',
   api_keys: 'API kulcsok',
   connectors: 'Csatlakozók',

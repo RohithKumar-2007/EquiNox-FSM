@@ -1722,8 +1722,6 @@ const locale = {
   request_portals: 'بوابات الطلبات',
   recaptcha_failed: 'فشل التحقق من reCAPTCHA. يرجى المحاولة مرة أخرى.',
   select_date_range: 'حدد نطاق التاريخ',
-  get_mobile_app: 'احصل على التطبيق المحمول',
-  scan_qr_to_download: 'امسح رمز QR ضوئيًا لتنزيل التطبيق المحمول',
   integrations: 'التكاملات',
   api_keys: 'مفاتيح API',
   connectors: 'الموصلات',

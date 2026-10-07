@@ -1409,18 +1409,18 @@ const locale = {
   construction: '建筑业',
   trusted_by_maintenance_teams: '深受各行业维护团队的信赖',
   cut_costs_performance: '在不牺牲性能的情况下降低维护软件成本',
-  'free_cmms.title': 'Atlas 免费 CMMS 软件 | 无需信用卡',
+  'free_cmms.title': 'Equinox 免费 CMMS 软件 | 无需信用卡',
   'free_cmms.description':
     '免费 CMMS 软件 —— 并非试用版。立即管理维护、资产和工单。无需信用卡。',
   'free_cmms.keywords':
     '免费 cmms, 维护管理软件, 免费工单软件, 资产跟踪, 预防性维护',
   'overview.description':
-    'Atlas CMMS 是一款免费、开源的 CMMS，用于管理工单、预防性维护、资产和设施。立即优化您的维护业务。',
+    'Equinox CMMS 是一款免费、开源的 CMMS，用于管理工单、预防性维护、资产和设施。立即优化您的维护业务。',
   'overview.keywords':
-    'CMMS, 计算机化维护管理系统, EAM, 企业资产管理, 开源 CMMS, 免费维护软件, 工单管理, 预防性维护, 资产跟踪, 设施管理, 维护跟踪软件, 设备维护, Atlas CMMS',
-  'pricing.title': '价格 - Atlas CMMS',
+    'CMMS, 计算机化维护管理系统, EAM, 企业资产管理, 开源 CMMS, 免费维护软件, 工单管理, 预防性维护, 资产跟踪, 设施管理, 维护跟踪软件, 设备维护, Equinox CMMS',
+  'pricing.title': '价格 - Equinox CMMS',
   'pricing.description':
-    'Atlas CMMS 灵活的定价计划。在我们的开源 CMMS 的云端版本和自托管版本之间进行选择，以优化您的维护业务。',
+    'Equinox CMMS 灵活的定价计划。在我们的开源 CMMS 的云端版本和自托管版本之间进行选择，以优化您的维护业务。',
   'free_cmms.hero.subtitle': '免费 CMMS 软件',
   'free_cmms.hero.title': '管理工单和资产 - 永久免费',
   'free_cmms.hero.description':
@@ -1505,8 +1505,6 @@ const locale = {
   request_portals: '请求门户',
   recaptcha_failed: 'reCAPTCHA 验证失败。请重试。',
   select_date_range: '选择日期范围',
-  get_mobile_app: '获取移动应用',
-  scan_qr_to_download: '扫描二维码以下载移动应用',
   integrations: '集成',
   api_keys: 'API 密钥',
   connectors: '连接器',

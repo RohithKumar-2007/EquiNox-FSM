@@ -66,14 +66,14 @@ const assetsData: IndustryLayoutProps = {
         "Asset maintenance management is the process of tracking, maintaining, and optimizing physical equipment throughout its lifecycle to reduce downtime, control costs, and improve operational efficiency.",
     },
     {
-      question: "Can Atlas CMMS manage preventive maintenance schedules?",
+      question: "Can Equinox CMMS manage preventive maintenance schedules?",
       answer:
-        "Yes. Atlas CMMS allows you to automate preventive maintenance, inspections, and recurring tasks for every asset in your organization.",
+        "Yes. Equinox CMMS allows you to automate preventive maintenance, inspections, and recurring tasks for every asset in your organization.",
     },
     {
-      question: "Is Atlas CMMS fully open source and self-hosted?",
+      question: "Is Equinox CMMS fully open source and self-hosted?",
       answer:
-        "Absolutely. Atlas CMMS is an open-source, self-hosted platform that gives you full control over your data, customization, and infrastructure.",
+        "Absolutely. Equinox CMMS is an open-source, self-hosted platform that gives you full control over your data, customization, and infrastructure.",
     },
   ],
   relatedContent: [],
