@@ -80,7 +80,9 @@ export function createAppTheme(mode: 'light' | 'dark' = 'light') {
         menuItemBgActive: isDark ? '#29344c' : '#f2f5f9',
         menuItemIconColor: lighten(themeColors.secondary, 0.3),
         menuItemIconColorActive: themeColors.primary,
-        menuItemHeadingColor: darken(themeColors.secondary, 0.3)
+        menuItemHeadingColor: isDark
+          ? themeColors.secondary
+          : darken(themeColors.secondary, 0.3)
       }
     },
     alpha: {
@@ -110,37 +112,49 @@ export function createAppTheme(mode: 'light' | 'dark' = 'light') {
       }
     },
     secondary: {
-      lighter: lighten(themeColors.secondary, 0.85),
+      lighter: isDark
+        ? alpha(themeColors.secondary, 0.15)
+        : lighten(themeColors.secondary, 0.85),
       light: lighten(themeColors.secondary, 0.25),
       main: themeColors.secondary,
       dark: darken(themeColors.secondary, 0.2)
     },
     primary: {
-      lighter: lighten(themeColors.primary, 0.85),
+      lighter: isDark
+        ? alpha(themeColors.primary, 0.15)
+        : lighten(themeColors.primary, 0.85),
       light: lighten(themeColors.primary, 0.3),
       main: themeColors.primary,
       dark: darken(themeColors.primary, 0.2)
     },
     success: {
-      lighter: lighten(themeColors.success, 0.85),
+      lighter: isDark
+        ? alpha(themeColors.success, 0.15)
+        : lighten(themeColors.success, 0.85),
       light: lighten(themeColors.success, 0.3),
       main: themeColors.success,
       dark: darken(themeColors.success, 0.2)
     },
     warning: {
-      lighter: lighten(themeColors.warning, 0.85),
+      lighter: isDark
+        ? alpha(themeColors.warning, 0.15)
+        : lighten(themeColors.warning, 0.85),
       light: lighten(themeColors.warning, 0.3),
       main: themeColors.warning,
       dark: darken(themeColors.warning, 0.2)
     },
     error: {
-      lighter: lighten(themeColors.error, 0.85),
+      lighter: isDark
+        ? alpha(themeColors.error, 0.15)
+        : lighten(themeColors.error, 0.85),
       light: lighten(themeColors.error, 0.3),
       main: themeColors.error,
       dark: darken(themeColors.error, 0.2)
     },
     info: {
-      lighter: lighten(themeColors.info, 0.85),
+      lighter: isDark
+        ? alpha(themeColors.info, 0.15)
+        : lighten(themeColors.info, 0.85),
       light: lighten(themeColors.info, 0.3),
       main: themeColors.info,
       dark: darken(themeColors.info, 0.2)
@@ -413,7 +427,7 @@ export function createAppTheme(mode: 'light' | 'dark' = 'light') {
           },
           code: {
             background: colors.info.lighter,
-            color: colors.info.dark,
+            color: isDark ? colors.info.light : colors.info.dark,
             borderRadius: 4,
             padding: 4
           },
@@ -928,6 +942,8 @@ export function createAppTheme(mode: 'light' | 'dark' = 'light') {
                 color: colors.alpha.black[100],
                 background: isDark
                   ? colors.primary.lighter
+                  : isDark
+                  ? colors.primary.lighter
                   : lighten(colors.primary.lighter, 0.5)
               }
             }
@@ -952,7 +968,7 @@ export function createAppTheme(mode: 'light' | 'dark' = 'light') {
 
             '&:hover': {
               background: colors.error.lighter,
-              color: colors.error.dark
+              color: isDark ? colors.error.light : colors.error.dark
             }
           },
           popupIndicator: {
