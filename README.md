@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./logo/equinox-orbital-mark-transparent.png" alt="Equinox CMMS Logo" width="130" />
+<img src="logo/equinox-orbital-mark-transparent.png" alt="Equinox CMMS Logo" width="130" />
 
 # Equinox CMMS & FSM
 ### Next-Generation Industrial Equipment Maintenance & Field Service Orchestration Platform
