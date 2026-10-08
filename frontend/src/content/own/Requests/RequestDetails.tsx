@@ -10,6 +10,7 @@ import {
   MenuItem,
   Select,
   Stack,
+  Tooltip,
   Typography,
   useTheme
 } from '@mui/material';
@@ -18,15 +19,16 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import ClearTwoToneIcon from '@mui/icons-material/ClearTwoTone';
-import Request from '../../../models/owns/request';
+import Request, { PreApprovalValidationResult } from '../../../models/owns/request';
 import { getPriorityLabel } from '../../../utils/formatters';
 import { useDispatch } from '../../../store';
 import {
   approveRequest,
   cancelRequest,
-  editRequest
+  editRequest,
+  getPreApprovalValidation
 } from '../../../slices/request';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getAssetUrl,
@@ -44,6 +46,7 @@ import BasicField from '../components/BasicField';
 import { editAsset } from '../../../slices/asset';
 import { AssetStatus, assetStatuses } from '../../../models/owns/asset';
 import { getCustomFieldValuesForDetails } from '../type';
+import PreApprovalValidationCard from './PreApprovalValidationCard';
 
 interface RequestDetailsProps {
   request: Request;
@@ -59,6 +62,8 @@ export default function RequestDetails({
   onClose
 }: RequestDetailsProps) {
   const [approving, setApproving] = useState<boolean>(false);
+  const [validationResult, setValidationResult] = useState<PreApprovalValidationResult | null>(null);
+  const [validating, setValidating] = useState<boolean>(false);
   const { t }: { t: any } = useTranslation();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -80,6 +85,21 @@ export default function RequestDetails({
   const [isImageViewerOpen, setIsImageViewerOpen] = useState<boolean>(false);
   const [openCancellationModal, setOpenCancellationModal] =
     useState<boolean>(false);
+
+  const loadValidation = () => {
+    if (request && request.id) {
+      setValidating(true);
+      dispatch(getPreApprovalValidation(request.id))
+        .then((result) => setValidationResult(result))
+        .catch(() => setValidationResult(null))
+        .finally(() => setValidating(false));
+    }
+  };
+
+  useEffect(() => {
+    loadValidation();
+  }, [request?.id]);
+
   const onApprove = () => {
     setApproving(true);
     dispatch(
@@ -90,6 +110,8 @@ export default function RequestDetails({
       })
       .finally(() => setApproving(false));
   };
+
+  const isApprovalBlocked = validationResult && !validationResult.valid;
 
   const fieldsToRender = (
     request: Request
@@ -179,6 +201,15 @@ export default function RequestDetails({
           )}
         </Box>
       </Grid>
+      {!request.workOrder && !request.cancelled && (
+        <Grid item xs={12}>
+          <PreApprovalValidationCard
+            validationResult={validationResult}
+            loading={validating}
+            onRevalidate={loadValidation}
+          />
+        </Grid>
+      )}
       {!showAssetStatuses ? (
         !request.workOrder &&
         !request.cancelled &&
@@ -203,22 +234,27 @@ export default function RequestDetails({
               >
                 {t('reject')}
               </Button>
-              <Button
-                startIcon={
-                  approving ? (
-                    <CircularProgress size="1rem" sx={{ color: 'white' }} />
-                  ) : (
-                    <CheckTwoToneIcon />
-                  )
-                }
-                onClick={() => {
-                  if (request.asset) setShowAssetStatuses(true);
-                  else onApprove();
-                }}
-                variant="contained"
-              >
-                {t('approve')}
-              </Button>
+              <Tooltip title={isApprovalBlocked ? "Approval is blocked because pre-approval validation failed" : ""}>
+                <span>
+                  <Button
+                    disabled={Boolean(isApprovalBlocked)}
+                    startIcon={
+                      approving ? (
+                        <CircularProgress size="1rem" sx={{ color: 'white' }} />
+                      ) : (
+                        <CheckTwoToneIcon />
+                      )
+                    }
+                    onClick={() => {
+                      if (request.asset) setShowAssetStatuses(true);
+                      else onApprove();
+                    }}
+                    variant="contained"
+                  >
+                    {t('approve')}
+                  </Button>
+                </span>
+              </Tooltip>
             </Grid>
           </>
         )
@@ -252,6 +288,7 @@ export default function RequestDetails({
               {t('go_back')}
             </Button>
             <Button
+              disabled={Boolean(isApprovalBlocked)}
               startIcon={
                 approving ? (
                   <CircularProgress size="1rem" sx={{ color: 'white' }} />
