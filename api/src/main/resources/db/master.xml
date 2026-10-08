@@ -243,4 +243,6 @@
              relativeToChangelogFile="true"/>
     <include file="changelog/2026_10_08_00000000001_voice_ops.xml"
              relativeToChangelogFile="true"/>
+    <include file="changelog/2026_10_08_00000000002_add_skill_and_request_requirements.xml"
+             relativeToChangelogFile="true"/>
 </databaseChangeLog>
