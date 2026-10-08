@@ -24,6 +24,7 @@ import SpeedTwoToneIcon from '@mui/icons-material/SpeedTwoTone';
 import MoveToInboxTwoToneIcon from '@mui/icons-material/MoveToInboxTwoTone';
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';
 import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
+import GraphicEqTwoToneIcon from '@mui/icons-material/GraphicEqTwoTone';
 import { PermissionEntity } from '../../../../models/owns/role';
 import { PlanFeature } from '../../../../models/owns/subscriptionPlan';
 import { IS_LOCALHOST } from '../../../../config';
@@ -56,6 +57,12 @@ const ownMenuItems: MenuItems[] = [
         name: 'work_orders',
         link: '/app/work-orders',
         icon: AssignmentTwoToneIcon
+      },
+      {
+        name: 'voice_ops',
+        link: '/app/voice-ops',
+        icon: GraphicEqTwoToneIcon,
+        permission: PermissionEntity.WORK_ORDERS
       },
       {
         name: 'preventive_maintenance',

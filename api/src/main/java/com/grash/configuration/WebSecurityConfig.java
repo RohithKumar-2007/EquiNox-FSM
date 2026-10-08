@@ -1,6 +1,7 @@
 package com.grash.configuration;
 
 import com.grash.security.*;
+import com.grash.voiceops.VoiceToolAuthFilter;
 import com.grash.service.LicenseService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +47,8 @@ public class WebSecurityConfig {
     private boolean ldapEnabled;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, ApiKeyAuthFilter apiKeyAuthFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, ApiKeyAuthFilter apiKeyAuthFilter,
+                                           VoiceToolAuthFilter voiceToolAuthFilter) throws Exception {
 
         // Disable CSRF (cross site request forgery)
         http.csrf(AbstractHttpConfigurer::disable);
@@ -77,6 +79,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/auth/activate-account**").permitAll()
                         .requestMatchers("/demo/generate-account").permitAll()
                         .requestMatchers("/webhooks/**").permitAll()
+                        // Verified by its ElevenLabs-Signature HMAC instead of a login.
+                        .requestMatchers(HttpMethod.POST, "/voice-ops/webhooks/elevenlabs").permitAll()
                         .requestMatchers("/paddle/create-checkout-session").permitAll()
                         .requestMatchers("/auth/reset-pwd-confirm**").permitAll()
                         //request-portal
@@ -114,6 +118,8 @@ public class WebSecurityConfig {
 
         http.addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        // ElevenLabs tool requests on /voice-tools/** (shared secret -> VoiceOps service account).
+        http.addFilterBefore(voiceToolAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.headers(headers -> headers

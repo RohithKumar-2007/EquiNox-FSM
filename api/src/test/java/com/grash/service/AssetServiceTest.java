@@ -34,6 +34,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import com.grash.event.AssetStatusChangedEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -80,6 +82,8 @@ class AssetServiceTest {
     private RequestPortalService requestPortalService;
     @Mock
     private CustomFieldValueService customFieldValueService;
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
     @Mock
     private LocationService locationService;
     @Mock
@@ -697,6 +701,9 @@ class AssetServiceTest {
             verify(assetDowntimeService).create(any(AssetDowntime.class), eq(false));
             verify(webhookDispatchService).dispatchWebhook(eq(company), eq(WebhookEvent.ASSET_STATUS_CHANGE), anyMap(),
                     eq("changedAsset"), any(), isNull(), eq(AssetStatus.DOWN), isNull(), isNull(), isNull());
+            verify(applicationEventPublisher).publishEvent(argThat((Object event) ->
+                    event instanceof AssetStatusChangedEvent changed && changed.wentDown()
+                            && changed.assetId().equals(1L)));
         }
 
         @Test

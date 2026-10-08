@@ -147,6 +147,20 @@ assistant:
   gemini:
     api-key: ${GEMINI_API_KEY:}
     model: ${GEMINI_MODEL:gemini-3.8-flash}
+elevenlabs:
+  api-key: ${ELEVENLABS_API_KEY:}
+  agent-id: ${ELEVENLABS_AGENT_ID:}
+  # Twilio number imported into ElevenLabs, used for outbound technician calls.
+  phone-number-id: ${ELEVENLABS_PHONE_NUMBER_ID:}
+  webhook-secret: ${ELEVENLABS_WEBHOOK_SECRET:}
+  # Optional second agent for outbound technician calls (defaults to agent-id).
+  dispatch-agent-id: ${ELEVENLABS_DISPATCH_AGENT_ID:}
+  # Shared secret ElevenLabs sends in the X-VoiceOps-Token header on tool calls (16+ characters).
+  tool-secret: ${ELEVENLABS_TOOL_SECRET:}
+  # Account the voice tools run as; its role decides what the agent may do.
+  service-user-email: ${ELEVENLABS_SERVICE_USER_EMAIL:}
+  # Phone the on-call technician when an asset goes DOWN or EMERGENCY_SHUTDOWN.
+  auto-dispatch-on-asset-down: ${ELEVENLABS_AUTO_DISPATCH:false}
 storage:
   type: ${STORAGE_TYPE}
   minio:

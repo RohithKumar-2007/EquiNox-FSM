@@ -22,6 +22,8 @@ import com.grash.repository.AssetRepository;
 import com.grash.utils.Helper;
 import com.grash.utils.Sanitizer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import com.grash.event.AssetStatusChangedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Lazy;
@@ -66,6 +68,7 @@ public class AssetService {
     private final RequestPortalService requestPortalService;
     private WebhookDispatchService webhookDispatchService;
     private final CustomFieldValueService customFieldValueService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
     public void setDeps(@Lazy LocationService locationService, @Lazy LaborService laborService,
@@ -723,6 +726,8 @@ public class AssetService {
         Object serializedAsset = assetMapper.toShowDto(asset, this);
         webhookDispatchService.dispatchWebhook(asset.getCompany(), WebhookEvent.ASSET_STATUS_CHANGE, webhookPayload,
                 "changedAsset", serializedAsset, null, newStatus, null, null, null);
+        applicationEventPublisher.publishEvent(new AssetStatusChangedEvent(asset.getId(),
+                asset.getCompany() == null ? null : asset.getCompany().getId(), previousStatus, newStatus));
     }
 }
 
