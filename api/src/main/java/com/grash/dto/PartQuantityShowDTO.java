@@ -1,6 +1,5 @@
 package com.grash.dto;
 
-import com.grash.model.enums.PartReservationStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,4 @@ public class PartQuantityShowDTO extends AuditShowDTO {
     
     @Schema(description = "Part information")
     private PartMiniDTO part;
-
-    @Schema(description = "Reservation status: RESERVED, CONSUMED, RELEASED")
-    private PartReservationStatus reservationStatus;
 }

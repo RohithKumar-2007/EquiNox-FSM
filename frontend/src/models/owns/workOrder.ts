@@ -33,7 +33,6 @@ export default interface WorkOrder extends WorkOrderBase {
 export interface WorkOrderMini {
   id: number;
   title: string;
-  customId?: string;
   status: string;
   createdAt: string;
 }

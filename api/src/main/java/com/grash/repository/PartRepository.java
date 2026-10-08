@@ -1,10 +1,8 @@
 package com.grash.repository;
 
 import com.grash.model.Part;
-import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -19,10 +17,6 @@ public interface PartRepository extends JpaRepository<Part, Long>, JpaSpecificat
     Collection<Part> findByCompany_Id(@Param("x") Long id);
 
     Optional<Part> findByIdAndCompany_Id(Long id, Long companyId);
-
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT p FROM Part p WHERE p.id = :id")
-    Optional<Part> findByIdWithLock(@Param("id") Long id);
 
     List<Part> findByIdInAndCompany_Id(List<Long> ids, Long companyId);
 

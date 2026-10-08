@@ -84,83 +84,35 @@ export default function PartQuantitiesList({
         >
           <ListItemText
             primary={
-              <Box display="flex" alignItems="center" gap={1}>
-                <div
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    maxWidth: '18rem'
-                  }}
+              <div
+                style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  width: '18rem'
+                }}
+              >
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`/app/inventory/parts/${partQuantity.part.id}`}
+                  key={partQuantity.part.id}
+                  variant="h6"
+                  noWrap
                 >
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`/app/inventory/parts/${partQuantity.part.id}`}
-                    key={partQuantity.part.id}
-                    variant="h6"
-                    noWrap
-                  >
-                    {partQuantity.part.name}
-                  </Link>
-                </div>
-                {partQuantity.reservationStatus && (
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      px: 1,
-                      py: 0.25,
-                      borderRadius: 1,
-                      fontWeight: 'bold',
-                      fontSize: '0.7rem',
-                      letterSpacing: '0.5px',
-                      textTransform: 'uppercase',
-                      bgcolor:
-                        partQuantity.reservationStatus === 'CONSUMED'
-                          ? 'success.light'
-                          : partQuantity.reservationStatus === 'RESERVED'
-                          ? 'info.light'
-                          : 'grey.300',
-                      color:
-                        partQuantity.reservationStatus === 'CONSUMED'
-                          ? 'success.dark'
-                          : partQuantity.reservationStatus === 'RESERVED'
-                          ? 'info.dark'
-                          : 'grey.800'
-                    }}
-                  >
-                    {partQuantity.reservationStatus}
-                  </Typography>
-                )}
-              </Box>
+                  {partQuantity.part.name}
+                </Link>
+              </div>
             }
             secondary={
-              <Box>
-                {partQuantity.reservationStatus && (
-                  <Typography
-                    variant="caption"
-                    color="text.secondary"
-                    display="block"
-                    sx={{ fontWeight: 600, mb: 0.5 }}
-                  >
-                    {partQuantity.reservationStatus === 'CONSUMED'
-                      ? `Required: ${partQuantity.quantity} • Consumed: ${partQuantity.quantity} • Status: CONSUMED`
-                      : partQuantity.reservationStatus === 'RESERVED'
-                      ? `Required: ${partQuantity.quantity} • Reserved: ${partQuantity.quantity} • Status: RESERVED`
-                      : `Required: ${partQuantity.quantity} • Status: ${partQuantity.reservationStatus}`}
-                  </Typography>
-                )}
-                <div
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    width: '18rem'
-                  }}
-                >
-                  <Typography variant="body2" color="text.secondary" noWrap>
-                    {partQuantity.part.description}
-                  </Typography>
-                </div>
-              </Box>
+              <div
+                style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  width: '11rem'
+                }}
+              >
+                <Typography noWrap>{partQuantity.part.description}</Typography>
+              </div>
             }
           />
         </ListItem>

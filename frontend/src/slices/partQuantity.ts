@@ -8,33 +8,15 @@ import { revertAll } from 'src/utils/redux';
 
 const basePath = 'part-quantities';
 
-export interface PartAvailabilityItem {
-  partId: number;
-  name: string;
-  required: number;
-  stock: number;
-  reserved: number;
-  available: number;
-  status: 'AVAILABLE' | 'SHORTAGE' | 'RESERVED';
-  shortage: number;
-}
-
-export interface RequestPartsAvailability {
-  canReserve: boolean;
-  parts: PartAvailabilityItem[];
-}
-
 interface PartQuantityState {
   partQuantitiesByWorkOrder: { [id: number]: PartQuantity[] };
   partQuantitiesByPurchaseOrder: { [id: number]: PartQuantity[] };
-  partQuantitiesByRequest: { [id: number]: PartQuantity[] };
   loadingPartQuantities: { [id: number]: boolean };
 }
 
 const initialState: PartQuantityState = {
   partQuantitiesByWorkOrder: {},
   partQuantitiesByPurchaseOrder: {},
-  partQuantitiesByRequest: {},
   loadingPartQuantities: {}
 };
 
@@ -56,13 +38,6 @@ const slice = createSlice({
     ) {
       const { partQuantities, id } = action.payload;
       state.partQuantitiesByPurchaseOrder[id] = partQuantities;
-    },
-    getPartQuantitiesByRequest(
-      state: PartQuantityState,
-      action: PayloadAction<{ id: number; partQuantities: PartQuantity[] }>
-    ) {
-      const { partQuantities, id } = action.payload;
-      state.partQuantitiesByRequest[id] = partQuantities;
     },
     editWOPartQuantity(
       state: PartQuantityState,
@@ -98,9 +73,9 @@ const slice = createSlice({
     },
     setLoadingByWorkOrder(
       state: PartQuantityState,
-      action: PayloadAction<{ id: number; loading: boolean }>
+      action: PayloadAction<{ loading: boolean; id: number }>
     ) {
-      const { id, loading } = action.payload;
+      const { loading, id } = action.payload;
       state.loadingPartQuantities = {
         ...state.loadingPartQuantities,
         [id]: loading
@@ -110,22 +85,17 @@ const slice = createSlice({
       state: PartQuantityState,
       action: PayloadAction<{ id: number }>
     ) {
+      const { id } = action.payload;
       for (const key of Object.keys(state.partQuantitiesByWorkOrder)) {
         state.partQuantitiesByWorkOrder[Number(key)] =
           state.partQuantitiesByWorkOrder[Number(key)].filter(
-            (partQuantity) => partQuantity.id !== action.payload.id
+            (pq) => pq.id !== id
           );
       }
       for (const key of Object.keys(state.partQuantitiesByPurchaseOrder)) {
         state.partQuantitiesByPurchaseOrder[Number(key)] =
           state.partQuantitiesByPurchaseOrder[Number(key)].filter(
-            (partQuantity) => partQuantity.id !== action.payload.id
-          );
-      }
-      for (const key of Object.keys(state.partQuantitiesByRequest)) {
-        state.partQuantitiesByRequest[Number(key)] =
-          state.partQuantitiesByRequest[Number(key)].filter(
-            (partQuantity) => partQuantity.id !== action.payload.id
+            (pq) => pq.id !== id
           );
       }
     }
@@ -162,50 +132,6 @@ export const getPartQuantitiesByPurchaseOrder =
     );
   };
 
-export const getPartQuantitiesByRequest =
-  (id: number): AppThunk =>
-  async (dispatch) => {
-    dispatch(slice.actions.setLoadingByWorkOrder({ id, loading: true }));
-    try {
-      const partQuantities = await api.get<PartQuantity[]>(
-        `requests/${id}/parts`
-      );
-      dispatch(
-        slice.actions.getPartQuantitiesByRequest({ id, partQuantities })
-      );
-      return partQuantities;
-    } catch {
-      return [];
-    } finally {
-      dispatch(slice.actions.setLoadingByWorkOrder({ id, loading: false }));
-    }
-  };
-
-export const getRequestPartsAvailability = async (
-  requestId: number
-): Promise<RequestPartsAvailability> => {
-  return await api.get<RequestPartsAvailability>(
-    `requests/${requestId}/parts/availability`
-  );
-};
-
-export const editRequestPartQuantities =
-  (id: number, partQuantities: { part: Part; quantity: number }[]): AppThunk =>
-  async (dispatch) => {
-    const partQuantitiesResponse = await api.patch<PartQuantity[]>(
-      `requests/${id}/parts`,
-      partQuantities,
-      null
-    );
-    dispatch(
-      slice.actions.getPartQuantitiesByRequest({
-        id,
-        partQuantities: partQuantitiesResponse
-      })
-    );
-    return partQuantitiesResponse;
-  };
-
 export const editWOPartQuantities =
   (id: number, parts: number[]): AppThunk =>
   async (dispatch) => {
@@ -237,7 +163,6 @@ export const editPOPartQuantities =
       })
     );
   };
-
 export const editPartQuantity =
   (rootId: number, id: number, quantity: number, isPO: boolean): AppThunk =>
   async (dispatch) => {

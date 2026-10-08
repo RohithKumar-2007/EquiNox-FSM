@@ -48,7 +48,7 @@ Equinox CMMS is designed and engineered by **Team BucketNCo**:
 | **Yashwant Gokul P** | **Team Lead & Full-Stack Architect** | VoiceOps ElevenLabs telephony engine, outbound auto-dispatch pipeline, Web Audio browser sessions, Gemini AI Copilot integration, Docker orchestration |
 | **Manasa T** | **Full-Stack & Orchestration Engineer** | FSM orchestration workflow, role-based portals (Operator, Technician, Admin), service type routing, authentication & security profiles |
 | **Dharshini S** | **Backend & Systems Specialist** | Asset lifecycle triggers, maintenance metrics, REST API controller layer, data validation rules, database integrity & Liquibase migrations |
-| **Rohith Kumar S** | **DevOps & Integration Specialist** | Docker Compose topology, Nginx reverse proxy routing, MinIO S3 object storage setup, system configuration & deployment pipelines |
+| **Rohit Kumar** | **DevOps & Integration Specialist** | Docker Compose topology, Nginx reverse proxy routing, MinIO S3 object storage setup, system configuration & deployment pipelines |
 | **Santhosh** | **Algorithms & Backend Engineer** | 6-Point Pre-Approval Validation Service, Explainable Multi-Factor Technician Matching & Auto-Assignment Engine, candidate scoring algorithms |
 
 ---

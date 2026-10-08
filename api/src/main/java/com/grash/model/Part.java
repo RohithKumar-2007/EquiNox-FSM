@@ -68,9 +68,6 @@ public class Part extends CompanyAudit {
     @Schema(description = "The current quantity of the part in stock")
     private double quantity;
 
-    @Schema(description = "The quantity of the part reserved for approved/pending requests")
-    private int reservedQuantity = 0;
-
     @Version
     private long version;
 
@@ -213,16 +210,6 @@ public class Part extends CompanyAudit {
     public void setQuantity(double quantity) {
         if (quantity < 0) throw new CustomException("The quantity should not be negative", HttpStatus.NOT_ACCEPTABLE);
         this.quantity = quantity;
-    }
-
-    public void setReservedQuantity(int reservedQuantity) {
-        if (reservedQuantity < 0)
-            throw new CustomException("The reserved quantity should not be negative", HttpStatus.NOT_ACCEPTABLE);
-        this.reservedQuantity = reservedQuantity;
-    }
-
-    public double getAvailableQuantity() {
-        return Math.max(0, quantity - reservedQuantity);
     }
 
     public void setMinQuantity(double minQuantity) {

@@ -108,7 +108,6 @@ public class WorkOrderService {
     private ScheduleService scheduleService;
     private PreventiveMaintenanceService preventiveMaintenanceService;
     private PreventiveMaintenanceMapper preventiveMaintenanceMapper;
-    private SmartPartsReservationService smartPartsReservationService;
     private final FileRepository fileRepository;
 
     @Transactional
@@ -175,8 +174,7 @@ public class WorkOrderService {
                         @Lazy ScheduleService scheduleService,
                         @Lazy PreventiveMaintenanceService preventiveMaintenanceService,
                         @Lazy PreventiveMaintenanceMapper preventiveMaintenanceMapper,
-                        @Lazy WorkflowService workflowService,
-                        @Lazy SmartPartsReservationService smartPartsReservationService) {
+                        @Lazy WorkflowService workflowService) {
         this.laborService = laborService;
         this.additionalCostService = additionalCostService;
         this.partQuantityService = partQuantityService;
@@ -187,7 +185,6 @@ public class WorkOrderService {
         this.preventiveMaintenanceService = preventiveMaintenanceService;
         this.preventiveMaintenanceMapper = preventiveMaintenanceMapper;
         this.workflowService = workflowService;
-        this.smartPartsReservationService = smartPartsReservationService;
     }
 
     void checkUsageBasedLimit(Company company) {
@@ -887,9 +884,6 @@ public class WorkOrderService {
                     originalWorkOrder);
 
             if (patchedWorkOrder.getStatus().equals(Status.COMPLETE) && !savedWorkOrderStatusBefore.equals(Status.COMPLETE)) {
-                if (smartPartsReservationService != null) {
-                    smartPartsReservationService.consumeReservedParts(patchedWorkOrder);
-                }
                 List<User> admins =
                         userService.findWorkersByCompany(user.getCompany().getId()).stream().filter(ownUser -> ownUser.getRole().getViewPermissions().contains(PermissionEntity.SETTINGS) && ownUser.isEnabled() && ownUser.getUserSettings().shouldEmailUpdatesForWorkOrders()).collect(Collectors.toList());
                 notificationService.createMultiple(admins.stream().map(admin -> new Notification(messageSource.getMessage("complete_work_order_content", new String[]{patchedWorkOrder.getTitle(), user.getFullName()}, Helper.getLocale(admin)), admin,

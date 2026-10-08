@@ -54,6 +54,11 @@ public class Request extends WorkOrderBase {
     @ManyToOne(fetch = FetchType.LAZY)
     private Skill requiredSkill;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "request_id")
+    @Schema(description = "List of required spare parts for this request")
+    private List<PartQuantity> requiredParts = new ArrayList<>();
+
     @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
     @ArraySchema(schema = @Schema(implementation = IdDTO.class))
     @Schema(description = "Custom fields", accessMode = Schema.AccessMode.READ_ONLY)

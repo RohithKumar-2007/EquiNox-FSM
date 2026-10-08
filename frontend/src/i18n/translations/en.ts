@@ -33,7 +33,6 @@ const locale = {
   mobile_app: 'Mobile App',
   asset_management: 'Asset Management',
   preventive_maintenance: 'Preventive Maintenance',
-  exceptions: 'Exceptions',
   parts_inventory: 'Parts Inventory',
   custom_dashboards: 'Custom Dashboards',
   'work-orders.title': 'Manage your Work Orders like a Boss',

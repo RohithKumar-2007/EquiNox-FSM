@@ -13,7 +13,4 @@ public class RequestPostDTO extends Request {
 
     @Schema(description = "List of custom field values")
     private List<CustomFieldValuePostDTO> customFields = new ArrayList<>();
-
-    @Schema(description = "List of required parts with quantities")
-    private List<PartQuantityCompletePatchDTO> requiredParts = new ArrayList<>();
 }

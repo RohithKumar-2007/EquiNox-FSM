@@ -3,7 +3,6 @@ package com.grash.service;
 import com.grash.dto.validation.PreApprovalValidationResultDTO;
 import com.grash.dto.validation.ValidationCheckDTO;
 import com.grash.model.*;
-import com.grash.model.enums.PartReservationStatus;
 import com.grash.model.enums.Priority;
 import com.grash.model.enums.ValidationCheckStatus;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +18,6 @@ import java.util.List;
 public class PreApprovalValidationService {
 
     private final UserService userService;
-    private final PartQuantityService partQuantityService;
 
     @Transactional(readOnly = true)
     public PreApprovalValidationResultDTO validateRequest(Request request) {
@@ -190,7 +187,7 @@ public class PreApprovalValidationService {
 
     private List<ValidationCheckDTO> validatePartAvailability(Request request) {
         List<ValidationCheckDTO> partChecks = new ArrayList<>();
-        Collection<PartQuantity> requiredParts = request.getId() == null ? null : partQuantityService.findByRequest(request.getId());
+        List<PartQuantity> requiredParts = request.getRequiredParts();
 
         if (requiredParts == null || requiredParts.isEmpty()) {
             partChecks.add(ValidationCheckDTO.builder()
@@ -205,21 +202,10 @@ public class PreApprovalValidationService {
         for (PartQuantity pq : requiredParts) {
             Part part = pq.getPart();
             double reqQty = pq.getQuantity();
-            // Stock already reserved by other requests is not available; this request's own reservation is.
-            boolean alreadyReserved = PartReservationStatus.RESERVED.equals(pq.getReservationStatus())
-                    || PartReservationStatus.CONSUMED.equals(pq.getReservationStatus());
-            double availQty = part != null ? part.getAvailableQuantity() + (alreadyReserved ? reqQty : 0) : 0.0;
+            double availQty = part != null ? part.getQuantity() : 0.0;
             String partName = part != null ? part.getName() : "Unknown Part";
 
-            if (part != null && part.isNonStock()) {
-                partChecks.add(ValidationCheckDTO.builder()
-                        .code("PART_AVAILABILITY_" + part.getId())
-                        .name("Spare parts available (" + partName + ")")
-                        .status(ValidationCheckStatus.PASS)
-                        .message(partName + " is a non-stock part and is ordered on demand.")
-                        .requiredQuantity(reqQty)
-                        .build());
-            } else if (availQty < reqQty) {
+            if (availQty < reqQty) {
                 partChecks.add(ValidationCheckDTO.builder()
                         .code("PART_AVAILABILITY_" + (part != null ? part.getId() : "0"))
                         .name("Spare parts available (" + partName + ")")

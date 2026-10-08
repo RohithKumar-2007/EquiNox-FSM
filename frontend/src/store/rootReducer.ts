@@ -43,7 +43,6 @@ import { reducer as webhookEndpointReducer } from 'src/slices/webhookEndpoint';
 import { reducer as commentReducer } from 'src/slices/comment';
 import { reducer as customFieldReducer } from 'src/slices/customField';
 import { reducer as workloadReducer } from 'src/slices/workload';
-import { reducer as workOrderExceptionsReducer } from 'src/slices/workOrderException';
 
 const rootReducer = combineReducers({
   customers: customerReducer,
@@ -89,8 +88,7 @@ const rootReducer = combineReducers({
   webhookEndpoints: webhookEndpointReducer,
   comments: commentReducer,
   customFields: customFieldReducer,
-  workload: workloadReducer,
-  workOrderExceptions: workOrderExceptionsReducer
+  workload: workloadReducer
 });
 
 export default rootReducer;

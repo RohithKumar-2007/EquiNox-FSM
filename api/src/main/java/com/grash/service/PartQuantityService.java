@@ -53,10 +53,6 @@ public class PartQuantityService {
         return partQuantityRepository.findByWorkOrder_Id(id);
     }
 
-    public Collection<PartQuantity> findByRequest(Long id) {
-        return partQuantityRepository.findByRequest_Id(id);
-    }
-
     public Collection<PartQuantity> findByPart(Long id) {
         return partQuantityRepository.findByPart_Id(id);
     }

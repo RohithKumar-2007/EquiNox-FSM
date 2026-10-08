@@ -4,7 +4,6 @@ import com.grash.advancedsearch.SearchCriteria;
 import com.grash.dto.*;
 import com.grash.dto.workOrder.WorkOrderShowDTO;
 import com.grash.exception.CustomException;
-import com.grash.mapper.PartQuantityMapper;
 import com.grash.mapper.RequestMapper;
 import com.grash.mapper.WorkOrderMapper;
 import com.grash.model.Request;
@@ -12,7 +11,6 @@ import com.grash.model.User;
 import com.grash.model.enums.PermissionEntity;
 import com.grash.model.enums.RoleType;
 import com.grash.security.CurrentUser;
-import com.grash.service.PartQuantityService;
 import com.grash.service.RequestService;
 import com.grash.utils.TenantAspectUtils;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,10 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/requests")
 @Tag(name = "Requests", description = "Operations on maintenance requests")
@@ -38,8 +32,6 @@ public class RequestController {
     private final RequestService requestService;
     private final RequestMapper requestMapper;
     private final WorkOrderMapper workOrderMapper;
-    private final PartQuantityService partQuantityService;
-    private final PartQuantityMapper partQuantityMapper;
 
     @PostMapping("/search")
     @PreAuthorize("permitAll()")
@@ -95,27 +87,6 @@ public class RequestController {
                                 @PathVariable("id") Long id,
                                 @Parameter(hidden = true) @CurrentUser User user) {
         return requestMapper.toShowDto(requestService.patch(id, request, user));
-    }
-
-    @GetMapping("/{id}/parts")
-    @PreAuthorize("permitAll()")
-    public Collection<PartQuantityShowDTO> getParts(@PathVariable("id") Long id,
-                                                    @Parameter(hidden = true) @CurrentUser User user) {
-        return partQuantityService.findByRequest(id).stream().map(partQuantityMapper::toShowDto).collect(Collectors.toList());
-    }
-
-    @GetMapping("/{id}/parts/availability")
-    @PreAuthorize("permitAll()")
-    public RequestPartsAvailabilityDTO getPartsAvailability(@PathVariable("id") Long id) {
-        return requestService.checkPartsAvailability(id);
-    }
-
-    @PatchMapping("/{id}/parts")
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public Collection<PartQuantityShowDTO> patchParts(@PathVariable("id") Long id,
-                                                      @Valid @RequestBody List<PartQuantityCompletePatchDTO> parts,
-                                                      @Parameter(hidden = true) @CurrentUser User user) {
-        return requestService.patchParts(id, parts, user).stream().map(partQuantityMapper::toShowDto).collect(Collectors.toList());
     }
 
     @PatchMapping("/{id}/approve")
