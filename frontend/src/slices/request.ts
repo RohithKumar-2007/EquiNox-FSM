@@ -238,4 +238,13 @@ export const submitPublicRequest =
     return requestResponse as any;
   };
 
+export const getPreApprovalValidation =
+  (id: number): AppThunk<Promise<import('../models/owns/request').PreApprovalValidationResult>> =>
+  async () => {
+    const response = await api.get<import('../models/owns/request').PreApprovalValidationResult>(
+      `${basePath}/${id}/validation`
+    );
+    return response;
+  };
+
 export default slice;

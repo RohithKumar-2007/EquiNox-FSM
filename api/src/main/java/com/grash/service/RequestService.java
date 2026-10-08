@@ -7,6 +7,8 @@ import com.grash.advancedsearch.SpecificationBuilder;
 import com.grash.dto.RequestApproveDTO;
 import com.grash.dto.RequestPatchDTO;
 import com.grash.dto.RequestPostDTO;
+import com.grash.dto.validation.PreApprovalValidationResultDTO;
+import com.grash.dto.validation.ValidationCheckDTO;
 import com.grash.dto.cutomField.CustomFieldValuePostDTO;
 import com.grash.dto.license.LicenseEntitlement;
 import com.grash.dto.workOrder.WorkOrderPostDTO;
@@ -62,6 +64,7 @@ public class RequestService {
     private final AssetService assetService;
     private final RequestPortalService requestPortalService;
     private final TenantAspect tenantAspect;
+    private final PreApprovalValidationService preApprovalValidationService;
     private WorkflowService workflowService;
 
     @Value("${frontend.url}")
@@ -369,6 +372,11 @@ public class RequestService {
         } else throw new CustomException("Request not found", HttpStatus.NOT_FOUND);
     }
 
+    public PreApprovalValidationResultDTO validatePreApproval(Long id, User user) {
+        Request request = getById(id, user);
+        return preApprovalValidationService.validateRequest(request);
+    }
+
     @Transactional
     public WorkOrder approve(Long id, RequestApproveDTO requestApproveDTO, User user) {
         Optional<Request> optionalRequest = requestRepository.findById(id);
@@ -380,6 +388,17 @@ public class RequestService {
             if (savedRequest.getWorkOrder() != null) {
                 throw new CustomException("Request is already approved", HttpStatus.NOT_ACCEPTABLE);
             }
+            
+            // PRE-APPROVAL VALIDATION ENGINE APPROVAL GATE
+            PreApprovalValidationResultDTO validationResult = preApprovalValidationService.validateRequest(savedRequest);
+            if (!validationResult.isValid()) {
+                String blockingReason = validationResult.getChecks().stream()
+                        .filter(c -> c.getStatus() == com.grash.model.enums.ValidationCheckStatus.BLOCKED)
+                        .map(ValidationCheckDTO::getMessage)
+                        .collect(Collectors.joining("; "));
+                throw new CustomException("Request approval is blocked because pre-approval validation failed: " + blockingReason, HttpStatus.BAD_REQUEST);
+            }
+
             Collection<Workflow> workflows =
                     workflowService.findByMainConditionAndCompany(WFMainCondition.REQUEST_APPROVED,
                             user.getCompany().getId());

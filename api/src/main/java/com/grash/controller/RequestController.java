@@ -59,6 +59,13 @@ public class RequestController {
         return requestMapper.toShowDto(requestService.getById(id, user));
     }
 
+    @GetMapping("/{id}/validation")
+    @PreAuthorize("permitAll()")
+    public com.grash.dto.validation.PreApprovalValidationResultDTO getValidation(@PathVariable("id") Long id,
+                                                                                  @Parameter(hidden = true) @CurrentUser User user) {
+        return requestService.validatePreApproval(id, user);
+    }
+
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     RequestShowDTO create(@Parameter(description = "Request data to create") @Valid @RequestBody RequestPostDTO requestReq,
