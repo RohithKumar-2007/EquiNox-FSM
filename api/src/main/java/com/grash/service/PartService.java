@@ -214,6 +214,17 @@ public class PartService {
                 part.getCompany());
     }
 
+    public double getAvailableQuantity(Part part) {
+        if (part == null) return 0;
+        return Math.max(0, part.getQuantity() - part.getReservedQuantity());
+    }
+
+    public boolean canReservePart(Part part, double requiredQuantity) {
+        if (part == null) return false;
+        if (part.isNonStock()) return true;
+        return getAvailableQuantity(part) >= requiredQuantity;
+    }
+
     public Collection<Part> getAll() {
         return partRepository.findAll();
     }

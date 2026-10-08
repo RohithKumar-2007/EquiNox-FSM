@@ -26,4 +26,13 @@ public class PartMiniDTO {
     
     @Schema(description = "Indicates whether this is a non-stock part")
     private boolean nonStock;
+
+    @Schema(description = "Current quantity in stock")
+    private double quantity;
+
+    @Schema(description = "Reserved quantity")
+    private int reservedQuantity;
+
+    @Schema(description = "Available quantity in stock (quantity - reservedQuantity)")
+    private double availableQuantity;
 }

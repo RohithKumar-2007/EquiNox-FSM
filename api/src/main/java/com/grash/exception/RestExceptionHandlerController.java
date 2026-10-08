@@ -99,6 +99,20 @@ public class RestExceptionHandlerController {
         return new ResponseEntity<>(new SuccessResponse(false, "Resource not found"), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(PartShortageException.class)
+    public ResponseEntity<Map<String, Object>> handlePartShortageException(PartShortageException ex) {
+        Map<String, Object> body = new java.util.LinkedHashMap<>();
+        body.put("status", ex.getStatus());
+        body.put("requestId", ex.getRequestId());
+        body.put("requestInternalId", ex.getRequestInternalId());
+        body.put("severity", ex.getSeverity());
+        body.put("exceptionStatus", ex.getExceptionStatus());
+        body.put("createdTime", ex.getCreatedTime());
+        body.put("parts", ex.getParts());
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<SuccessResponse> handleException(HttpServletResponse res, Exception ex) {
         ex.printStackTrace();

@@ -41,9 +41,10 @@ import { CompanySettingsContext } from '../../../contexts/CompanySettingsContext
 import FilesList from '../components/FilesList';
 import RequestCancellationModal from './RequestCancellationModal';
 import BasicField from '../components/BasicField';
-import { editAsset } from '../../../slices/asset';
 import { AssetStatus, assetStatuses } from '../../../models/owns/asset';
 import { getCustomFieldValuesForDetails } from '../type';
+import { CustomSnackBarContext } from '../../../contexts/CustomSnackBarContext';
+import RequestPartsSection from './RequestPartsSection';
 
 interface RequestDetailsProps {
   request: Request;
@@ -80,13 +81,29 @@ export default function RequestDetails({
   const [isImageViewerOpen, setIsImageViewerOpen] = useState<boolean>(false);
   const [openCancellationModal, setOpenCancellationModal] =
     useState<boolean>(false);
+  const [canReserveParts, setCanReserveParts] = useState<boolean>(true);
+  const [hasShortage, setHasShortage] = useState<boolean>(false);
+  const { showSnackBar } = useContext(CustomSnackBarContext);
+
   const onApprove = () => {
     setApproving(true);
     dispatch(
       approveRequest(request.id, request.asset ? selectedAssetStatus : null)
     )
       .then((workOrderId) => {
+        showSnackBar('✓ Request Approved & Parts Reserved', 'success');
         navigate(`/app/work-orders/${workOrderId}`);
+      })
+      .catch((err: any) => {
+        const data = err?.response?.data;
+        if (data?.status === 'PART_SHORTAGE') {
+          showSnackBar(
+            '🔴 PART SHORTAGE: Request cannot be approved until all required parts are available.',
+            'error'
+          );
+        } else {
+          showSnackBar(err?.response?.data?.message || 'Approval failed', 'error');
+        }
       })
       .finally(() => setApproving(false));
   };
@@ -193,7 +210,8 @@ export default function RequestDetails({
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-around'
+                justifyContent: 'space-around',
+                alignItems: 'center'
               }}
             >
               <Button
@@ -203,22 +221,44 @@ export default function RequestDetails({
               >
                 {t('reject')}
               </Button>
-              <Button
-                startIcon={
-                  approving ? (
-                    <CircularProgress size="1rem" sx={{ color: 'white' }} />
-                  ) : (
-                    <CheckTwoToneIcon />
-                  )
-                }
-                onClick={() => {
-                  if (request.asset) setShowAssetStatuses(true);
-                  else onApprove();
-                }}
-                variant="contained"
-              >
-                {t('approve')}
-              </Button>
+              {hasShortage ? (
+                <Box display="flex" flexDirection="column" alignItems="center" gap={0.5}>
+                  <Typography variant="caption" color="error.main" fontWeight="bold">
+                    ⚠ Part shortage detected
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    disabled={true}
+                    startIcon={<ClearTwoToneIcon />}
+                  >
+                    {t('cannot_approve') || 'Shortage — Cannot Approve'}
+                  </Button>
+                </Box>
+              ) : (
+                <Box display="flex" flexDirection="column" alignItems="center" gap={0.5}>
+                  <Typography variant="caption" color="success.main" fontWeight="bold">
+                    ✓ All parts available
+                  </Typography>
+                  <Button
+                    startIcon={
+                      approving ? (
+                        <CircularProgress size="1rem" sx={{ color: 'white' }} />
+                      ) : (
+                        <CheckTwoToneIcon />
+                      )
+                    }
+                    onClick={() => {
+                      if (request.asset) setShowAssetStatuses(true);
+                      else onApprove();
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    {t('approve_and_reserve') || 'APPROVE & RESERVE'}
+                  </Button>
+                </Box>
+              )}
             </Grid>
           </>
         )
@@ -260,12 +300,23 @@ export default function RequestDetails({
                 )
               }
               variant={'contained'}
+              disabled={hasShortage}
               onClick={onApprove}
             >
-              {t('approve')}
+              {t('approve_and_reserve') || 'APPROVE & RESERVE'}
             </Button>
           </Stack>
         </Stack>
+      )}
+      {request.workOrder && (
+        <Grid item xs={12}>
+          <Alert severity="success" sx={{ width: '100%' }}>
+            ✓ Request Approved &bull; Parts Reserved &bull; Work Order:{' '}
+            <Link href={`/app/work-orders/${request.workOrder.id}`} sx={{ fontWeight: 'bold' }}>
+              {request.workOrder.customId || `WO-${request.workOrder.id}`}
+            </Link>
+          </Alert>
+        </Grid>
       )}
       <Divider />
       <Grid item xs={12}>
@@ -414,6 +465,14 @@ export default function RequestDetails({
               )}
             </>
           </Grid>
+          <RequestPartsSection
+            request={request}
+            canEdit={hasEditPermission(PermissionEntity.REQUESTS, request)}
+            onAvailabilityChange={(canReserve, shortages) => {
+              setCanReserveParts(canReserve);
+              setHasShortage(shortages.length > 0);
+            }}
+          />
         </Box>
       </Grid>
       {isImageViewerOpen && (

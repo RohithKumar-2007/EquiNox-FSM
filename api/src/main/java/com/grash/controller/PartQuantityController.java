@@ -39,6 +39,30 @@ public class PartQuantityController {
     private final WorkOrderService workOrderService;
     private final PartService partService;
     private final PurchaseOrderService purchaseOrderService;
+    private final RequestService requestService;
+
+    @GetMapping("/request/{id}")
+    @PreAuthorize("permitAll()")
+    public Collection<PartQuantityShowDTO> getByRequest(HttpServletRequest req,
+                                                        @PathVariable("id") Long id) {
+        User user = userService.whoami(req);
+        Optional<Request> optionalRequest = requestService.findById(id);
+        if (optionalRequest.isPresent()) {
+            if (!optionalRequest.get().canBeViewedBy(user))
+                throw new CustomException("Access denied", HttpStatus.FORBIDDEN);
+            return partQuantityService.findByRequest(id).stream().map(partQuantityMapper::toShowDto).collect(Collectors.toList());
+        } else throw new CustomException("Not found", HttpStatus.NOT_FOUND);
+    }
+
+    @PatchMapping("/request/{id}")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public Collection<PartQuantityShowDTO> patchRequest(@Parameter(description = "List of part quantities to update for request")
+                                                        @Valid @RequestBody List<PartQuantityCompletePatchDTO> partQuantitiesReq,
+                                                        @PathVariable("id") Long id,
+                                                        HttpServletRequest req) {
+        User user = userService.whoami(req);
+        return requestService.patchParts(id, partQuantitiesReq, user).stream().map(partQuantityMapper::toShowDto).collect(Collectors.toList());
+    }
 
     @GetMapping("/work-order/{id}")
     @PreAuthorize("permitAll()")

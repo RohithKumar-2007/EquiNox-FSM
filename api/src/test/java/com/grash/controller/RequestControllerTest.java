@@ -54,6 +54,10 @@ class RequestControllerTest extends AbstractControllerTest {
     private WorkOrderMapper workOrderMapper;
     @MockitoBean
     private com.grash.service.UserService userService;
+    @MockitoBean
+    private com.grash.service.PartQuantityService partQuantityService;
+    @MockitoBean
+    private com.grash.mapper.PartQuantityMapper partQuantityMapper;
 
     private User clientUser;
     private User nonClientUser;

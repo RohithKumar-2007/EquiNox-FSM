@@ -241,4 +241,6 @@
              relativeToChangelogFile="true"/>
     <include file="changelog/2026_09_09_1788956680_user_settings_language.xml"
              relativeToChangelogFile="true"/>
+    <include file="changelog/2026_10_08_1800000000_smart_parts_reservation.xml"
+             relativeToChangelogFile="true"/>
 </databaseChangeLog>
