@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="2026100800001-1" author="Equinox VoiceOps">
+        <createTable tableName="voice_call">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="conversation_id" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="company_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="caller_number" type="varchar(64)"/>
+            <column name="caller_user_id" type="bigint"/>
+            <column name="language" type="varchar(16)"/>
+            <column name="work_order_id" type="bigint"/>
+            <column name="summary" type="text"/>
+            <column name="started_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ended_at" type="timestamp"/>
+        </createTable>
+        <createIndex tableName="voice_call" indexName="idx_voice_call_company_started">
+            <column name="company_id"/>
+            <column name="started_at"/>
+        </createIndex>
+
+        <createTable tableName="voice_event">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="call_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_voice_event_call" references="voice_call(id)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="company_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="origin" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tool_name" type="varchar(64)"/>
+            <column name="title" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="detail" type="text"/>
+            <column name="duration_ms" type="bigint"/>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="voice_event" indexName="idx_voice_event_call">
+            <column name="call_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

@@ -126,6 +126,7 @@ const CostCategories = Loader(
   lazy(() => import('../content/own/Categories/Cost'))
 );
 const Files = Loader(lazy(() => import('../content/own/Files')));
+const VoiceOps = Loader(lazy(() => import('../content/own/VoiceOps')));
 const Meters = Loader(lazy(() => import('../content/own/Meters')));
 const PurchaseOrders = Loader(
   lazy(() => import('../content/own/PurchaseOrders'))
@@ -339,6 +340,10 @@ const appRoutes = [
       { path: '', element: <Locations /> },
       { path: ':locationId', element: <Locations /> }
     ]
+  },
+  {
+    path: 'voice-ops',
+    element: <VoiceOps />
   },
   {
     path: 'work-orders',

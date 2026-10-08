@@ -28,6 +28,7 @@ const locale = {
     'Some of the features that make {{shortBrandName}} one of the best CMMS available today',
   contribute: 'Contribute',
   work_orders: 'Work Orders',
+  voice_ops: 'VoiceOps',
   request_system: 'Work Request System',
   mobile_app: 'Mobile App',
   asset_management: 'Asset Management',

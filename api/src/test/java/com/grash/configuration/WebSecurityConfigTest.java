@@ -8,6 +8,7 @@ import com.grash.security.OAuth2AuthenticationFailureHandler;
 import com.grash.security.OAuth2AuthenticationSuccessHandler;
 import com.grash.security.RateLimitFilter;
 import com.grash.service.LicenseService;
+import com.grash.voiceops.VoiceToolAuthFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -128,6 +129,7 @@ class WebSecurityConfigTest {
     @Test
     void filterChain_buildsSecurityFilterChain() throws Exception {
         ApiKeyAuthFilter apiKeyAuthFilter = mock(ApiKeyAuthFilter.class);
+        VoiceToolAuthFilter voiceToolAuthFilter = mock(VoiceToolAuthFilter.class);
 
         ObjectPostProcessor<Object> objectPostProcessor = new ObjectPostProcessor<>() {
             @Override
@@ -141,7 +143,7 @@ class WebSecurityConfigTest {
         sharedObjects.put(ApplicationContext.class, realWebContext());
         HttpSecurity http = new HttpSecurity(objectPostProcessor, authBuilder, sharedObjects);
 
-        SecurityFilterChain chain = webSecurityConfig.filterChain(http, apiKeyAuthFilter);
+        SecurityFilterChain chain = webSecurityConfig.filterChain(http, apiKeyAuthFilter, voiceToolAuthFilter);
 
         assertNotNull(chain);
     }
