@@ -477,4 +477,26 @@ export const clearSingleWorkOrder = (): AppThunk => async (dispatch) => {
   dispatch(slice.actions.clearSingleWorkOrder({}));
 };
 export const updateWorkOrderInContent = slice.actions.editWorkOrder;
+export const getTechnicianCandidates =
+  (id: number): AppThunk<Promise<import('../models/owns/technicianCandidate').TechnicianCandidate[]>> =>
+  async () => {
+    const candidates = await api.get<import('../models/owns/technicianCandidate').TechnicianCandidate[]>(
+      `${basePath}/${id}/candidates`
+    );
+    return candidates;
+  };
+
+export const autoAssignTechnician =
+  (id: number, overwrite: boolean = false): AppThunk<Promise<import('../models/owns/technicianCandidate').AutoAssignResponse>> =>
+  async (dispatch) => {
+    const response = await api.post<import('../models/owns/technicianCandidate').AutoAssignResponse>(
+      `${basePath}/${id}/auto-assign?overwrite=${overwrite}`,
+      {}
+    );
+    if (response.assigned && response.assignedTechnician) {
+      dispatch(getSingleWorkOrder(id));
+    }
+    return response;
+  };
+
 export default slice;

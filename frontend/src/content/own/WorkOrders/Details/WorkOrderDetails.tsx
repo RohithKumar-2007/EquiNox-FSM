@@ -98,6 +98,8 @@ import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import EmailTwoToneIcon from '@mui/icons-material/EmailTwoTone';
 import { ContentCopyTwoTone } from '@mui/icons-material';
 
+import SmartTechnicianAssignmentCard from '../SmartTechnicianAssignmentCard';
+
 const LabelWrapper = styled(Box)(
   ({ theme }) => `
     font-size: ${theme.typography.pxToRem(10)};
@@ -594,6 +596,7 @@ export default function WorkOrderDetails(props: WorkOrderDetailsProps) {
       <Grid item xs={12}>
         {currentTab === 'details' && (
           <Box>
+            <SmartTechnicianAssignmentCard workOrder={workOrder} />
             <Grid container spacing={2}>
               <Grid
                 item

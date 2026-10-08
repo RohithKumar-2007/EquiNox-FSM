@@ -46,6 +46,7 @@ public class WorkOrderController {
     private final LocationService locationService;
     private final PartService partService;
     private final FileMapper fileMapper;
+    private final TechnicianMatchingService technicianMatchingService;
 
     @PostMapping("/search")
     @PreAuthorize("permitAll()")
@@ -234,12 +235,22 @@ public class WorkOrderController {
         return workOrderService.addFiles(id, files, user).stream().map(fileMapper::toShowDto).collect(Collectors.toList());
     }
 
-    @DeleteMapping("/files/{id}/{fileId}/remove")
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public List<FileShowDTO> removeFileFromWorkOrder(@PathVariable("id") Long id,
-                                                     @PathVariable("fileId") Long fileId, HttpServletRequest req) {
+    @GetMapping("/{id}/candidates")
+    @PreAuthorize("permitAll()")
+    public List<com.grash.dto.assignment.TechnicianCandidateDTO> getCandidates(@PathVariable("id") Long id,
+                                                                               HttpServletRequest req) {
         User user = userService.whoami(req);
-        return workOrderService.removeFile(id, fileId, user).stream().map(fileMapper::toShowDto).collect(Collectors.toList());
+        WorkOrder workOrder = workOrderService.checkAccessToWorkOrderId(id, user);
+        return technicianMatchingService.getCandidatesForWorkOrder(workOrder, user);
     }
 
+    @PostMapping("/{id}/auto-assign")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public com.grash.dto.assignment.AutoAssignResponseDTO autoAssign(@PathVariable("id") Long id,
+                                                                     @RequestParam(value = "overwrite", defaultValue = "false") boolean overwrite,
+                                                                     HttpServletRequest req) {
+        User user = userService.whoami(req);
+        WorkOrder workOrder = workOrderService.checkAccessToWorkOrderId(id, user);
+        return technicianMatchingService.autoAssignWorkOrder(workOrder, user, overwrite);
+    }
 }
