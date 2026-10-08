@@ -229,7 +229,7 @@ const LoginJWT: FC<LoginJWTProps> = ({ selectedRole = 'CUSTOMER' }) => {
             size="large"
             variant="contained"
           >
-            Sign In as {selectedRole.charAt(0) + selectedRole.slice(1).toLowerCase()}
+            Sign In as {selectedRole === 'CUSTOMER' ? 'Operator' : selectedRole === 'INTERNAL_TECHNICIAN' ? 'Plant Crew' : selectedRole === 'EXTERNAL_VENDOR' ? 'Contractor' : 'Admin'}
           </Button>
         </form>
       )}
