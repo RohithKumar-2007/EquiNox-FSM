@@ -80,6 +80,8 @@ class RequestServiceTest {
     @Mock
     private TenantAspect tenantAspect;
     @Mock
+    private SmartPartsReservationService smartPartsReservationService;
+    @Mock
     private WorkflowService workflowService;
 
     private Company company;

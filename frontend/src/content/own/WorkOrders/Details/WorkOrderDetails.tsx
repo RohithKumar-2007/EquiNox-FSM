@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   CircularProgress,
   debounce,
   Divider,
@@ -994,9 +995,29 @@ export default function WorkOrderDetails(props: WorkOrderDetailsProps) {
             </Box>
             <Box>
               <Divider sx={{ mt: 2 }} />
-              <Typography sx={{ mt: 2, mb: 1 }} variant="h3">
-                {t('parts')}
-              </Typography>
+              <Box display="flex" alignItems="center" gap={1} sx={{ mt: 2, mb: 1 }}>
+                <Typography variant="h3">
+                  {partQuantities.some((pq) => pq.reservationStatus === 'RESERVED')
+                    ? 'Reserved Parts'
+                    : t('parts')}
+                </Typography>
+                {partQuantities.some((pq) => pq.reservationStatus === 'RESERVED') && (
+                  <Chip
+                    label="RESERVED"
+                    color="info"
+                    size="small"
+                    sx={{ fontWeight: 'bold', fontSize: '0.75rem' }}
+                  />
+                )}
+                {partQuantities.some((pq) => pq.reservationStatus === 'CONSUMED') && (
+                  <Chip
+                    label="CONSUMED"
+                    color="success"
+                    size="small"
+                    sx={{ fontWeight: 'bold', fontSize: '0.75rem' }}
+                  />
+                )}
+              </Box>
               {loadingPartQuantities[workOrder.id] ? (
                 <Stack width={'100%'} alignItems={'center'}>
                   <CircularProgress />

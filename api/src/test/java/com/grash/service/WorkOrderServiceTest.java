@@ -133,6 +133,8 @@ class WorkOrderServiceTest {
     private org.springframework.core.env.Environment environment;
     @Mock
     private FileRepository fileRepository;
+    @Mock
+    private SmartPartsReservationService smartPartsReservationService;
 
     private Company company;
     private User user;

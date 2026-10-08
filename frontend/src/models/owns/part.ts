@@ -13,6 +13,8 @@ export default interface Part extends Audit {
   name: string;
   cost: number;
   quantity: number;
+  reservedQuantity?: number;
+  availableQuantity?: number;
   minQuantity: number;
   barcode: string;
   area: string;
@@ -29,10 +31,14 @@ export default interface Part extends Audit {
   unit: string;
   customFieldValues: CustomFieldValue[];
 }
+
 export interface PartMiniDTO {
   unit: string;
   name: string;
   id: number;
   cost: number;
   description: string;
+  quantity?: number;
+  reservedQuantity?: number;
+  availableQuantity?: number;
 }

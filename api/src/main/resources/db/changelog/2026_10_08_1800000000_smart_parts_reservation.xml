@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="2026_10_08_1800000000_smart_parts_reservation_1" author="DataQuest">
+        <addColumn tableName="part">
+            <column name="reserved_quantity" type="int" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2026_10_08_1800000000_smart_parts_reservation_2" author="DataQuest">
+        <addColumn tableName="part_quantity">
+            <!-- request_id is added by 2026_10_08_00000000002_add_skill_and_request_requirements.xml -->
+            <column name="reservation_status" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2026_10_08_1800000000_smart_parts_reservation_3" author="DataQuest">
+        <createIndex indexName="idx_part_quantity_request_id" tableName="part_quantity">
+            <column name="request_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

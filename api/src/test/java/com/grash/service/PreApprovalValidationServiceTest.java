@@ -26,6 +26,9 @@ public class PreApprovalValidationServiceTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private PartQuantityService partQuantityService;
+
     @InjectMocks
     private PreApprovalValidationService validationService;
 
@@ -138,7 +141,7 @@ public class PreApprovalValidationServiceTest {
         bearing.setQuantity(1.0);
 
         PartQuantity pq = new PartQuantity(bearing, null, null, 2.0);
-        request.setRequiredParts(Collections.singletonList(pq));
+        when(partQuantityService.findByRequest(1000L)).thenReturn(Collections.singletonList(pq));
 
         PreApprovalValidationResultDTO result = validationService.validateRequest(request);
 
@@ -159,7 +162,7 @@ public class PreApprovalValidationServiceTest {
         bearing.setQuantity(5.0);
 
         PartQuantity pq = new PartQuantity(bearing, null, null, 2.0);
-        request.setRequiredParts(Collections.singletonList(pq));
+        when(partQuantityService.findByRequest(1000L)).thenReturn(Collections.singletonList(pq));
 
         PreApprovalValidationResultDTO result = validationService.validateRequest(request);
 
