@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="2026100800002-1" author="Yashwant Gokul">
+        <createTable tableName="skill">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="company_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_skill_company" referencedTableName="company"
+                             referencedColumnNames="id" deleteCascade="true"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="BIGINT"/>
+            <column name="updated_by" type="BIGINT"/>
+        </createTable>
+        <createSequence sequenceName="skill_seq" startValue="1" incrementBy="50"/>
+        <createIndex tableName="skill" indexName="idx_skill_company_id">
+            <column name="company_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2026100800002-2" author="Yashwant Gokul">
+        <createTable tableName="t_skill_user_associations">
+            <column name="id_skill" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_skill_user_skill" referencedTableName="skill"
+                             referencedColumnNames="id" deleteCascade="true"/>
+            </column>
+            <column name="id_user" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_skill_user_user" referencedTableName="own_user"
+                             referencedColumnNames="id" deleteCascade="true"/>
+            </column>
+        </createTable>
+        <createIndex tableName="t_skill_user_associations" indexName="idx_skill_user_skill_id">
+            <column name="id_skill"/>
+        </createIndex>
+        <createIndex tableName="t_skill_user_associations" indexName="idx_skill_user_user_id">
+            <column name="id_user"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2026100800002-3" author="Yashwant Gokul">
+        <addColumn tableName="request">
+            <column name="required_skill_id" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="request" baseColumnNames="required_skill_id"
+                                 constraintName="fk_request_required_skill"
+                                 referencedTableName="skill" referencedColumnNames="id"
+                                 onDelete="SET NULL"/>
+        <addColumn tableName="part_quantity">
+            <column name="request_id" type="BIGINT">
+                <constraints foreignKeyName="fk_part_quantity_request" referencedTableName="request"
+                             referencedColumnNames="id" deleteCascade="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
