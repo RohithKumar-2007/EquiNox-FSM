@@ -157,7 +157,14 @@ const Imports = Loader(lazy(() => import('../content/own/Imports')));
 const SwitchAccount = Loader(
   lazy(() => import('../content/own/SwitchAccount'))
 );
+const Exceptions = Loader(
+  lazy(() => import('../content/own/Exceptions'))
+);
 const appRoutes = [
+  {
+    path: 'exceptions',
+    element: <Exceptions />
+  },
   {
     path: 'settings',
     element: <SettingsLayout />,

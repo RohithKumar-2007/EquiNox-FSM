@@ -28,7 +28,7 @@ import {
   editRequest,
   getPreApprovalValidation
 } from '../../../slices/request';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getAssetUrl,
@@ -43,10 +43,11 @@ import { CompanySettingsContext } from '../../../contexts/CompanySettingsContext
 import FilesList from '../components/FilesList';
 import RequestCancellationModal from './RequestCancellationModal';
 import BasicField from '../components/BasicField';
-import { editAsset } from '../../../slices/asset';
 import { AssetStatus, assetStatuses } from '../../../models/owns/asset';
 import { getCustomFieldValuesForDetails } from '../type';
 import PreApprovalValidationCard from './PreApprovalValidationCard';
+import { CustomSnackBarContext } from '../../../contexts/CustomSnackBarContext';
+import RequestPartsSection from './RequestPartsSection';
 
 interface RequestDetailsProps {
   request: Request;
@@ -96,9 +97,24 @@ export default function RequestDetails({
     }
   };
 
+  const [canReserveParts, setCanReserveParts] = useState<boolean>(true);
+  const [hasShortage, setHasShortage] = useState<boolean>(false);
+  const { showSnackBar } = useContext(CustomSnackBarContext);
+
+  // Re-run validation when the request changes or its parts' availability flips,
+  // since the validation includes a spare-parts check.
   useEffect(() => {
     loadValidation();
-  }, [request?.id]);
+  }, [request?.id, hasShortage]);
+
+  // Stable callback, so the parts section doesn't refetch availability on every render.
+  const handleAvailabilityChange = useCallback(
+    (canReserve: boolean, shortages: any[]) => {
+      setCanReserveParts(canReserve);
+      setHasShortage(shortages.length > 0);
+    },
+    []
+  );
 
   const onApprove = () => {
     setApproving(true);
@@ -106,7 +122,19 @@ export default function RequestDetails({
       approveRequest(request.id, request.asset ? selectedAssetStatus : null)
     )
       .then((workOrderId) => {
+        showSnackBar('✓ Request Approved & Parts Reserved', 'success');
         navigate(`/app/work-orders/${workOrderId}`);
+      })
+      .catch((err: any) => {
+        const data = err?.response?.data;
+        if (data?.status === 'PART_SHORTAGE') {
+          showSnackBar(
+            '🔴 PART SHORTAGE: Request cannot be approved until all required parts are available.',
+            'error'
+          );
+        } else {
+          showSnackBar(err?.response?.data?.message || 'Approval failed', 'error');
+        }
       })
       .finally(() => setApproving(false));
   };
@@ -224,7 +252,8 @@ export default function RequestDetails({
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-around'
+                justifyContent: 'space-around',
+                alignItems: 'center'
               }}
             >
               <Button
@@ -234,8 +263,27 @@ export default function RequestDetails({
               >
                 {t('reject')}
               </Button>
-              <Tooltip title={isApprovalBlocked ? "Approval is blocked because pre-approval validation failed" : ""}>
-                <span>
+              {hasShortage ? (
+                <Box display="flex" flexDirection="column" alignItems="center" gap={0.5}>
+                  <Typography variant="caption" color="error.main" fontWeight="bold">
+                    ⚠ Part shortage detected
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    disabled={true}
+                    startIcon={<ClearTwoToneIcon />}
+                  >
+                    {t('cannot_approve') || 'Shortage — Cannot Approve'}
+                  </Button>
+                </Box>
+              ) : (
+                <Box display="flex" flexDirection="column" alignItems="center" gap={0.5}>
+                  <Typography variant="caption" color="success.main" fontWeight="bold">
+                    ✓ All parts available
+                  </Typography>
+                  <Tooltip title={isApprovalBlocked ? "Approval is blocked because pre-approval validation failed" : ""}>
+                    <span>
                   <Button
                     disabled={Boolean(isApprovalBlocked)}
                     startIcon={
@@ -250,11 +298,14 @@ export default function RequestDetails({
                       else onApprove();
                     }}
                     variant="contained"
+                    color="primary"
                   >
-                    {t('approve')}
+                    {t('approve_and_reserve') || 'APPROVE & RESERVE'}
                   </Button>
-                </span>
-              </Tooltip>
+                    </span>
+                  </Tooltip>
+                </Box>
+              )}
             </Grid>
           </>
         )
@@ -288,7 +339,7 @@ export default function RequestDetails({
               {t('go_back')}
             </Button>
             <Button
-              disabled={Boolean(isApprovalBlocked)}
+              disabled={Boolean(isApprovalBlocked) || hasShortage}
               startIcon={
                 approving ? (
                   <CircularProgress size="1rem" sx={{ color: 'white' }} />
@@ -299,10 +350,20 @@ export default function RequestDetails({
               variant={'contained'}
               onClick={onApprove}
             >
-              {t('approve')}
+              {t('approve_and_reserve') || 'APPROVE & RESERVE'}
             </Button>
           </Stack>
         </Stack>
+      )}
+      {request.workOrder && (
+        <Grid item xs={12}>
+          <Alert severity="success" sx={{ width: '100%' }}>
+            ✓ Request Approved &bull; Parts Reserved &bull; Work Order:{' '}
+            <Link href={`/app/work-orders/${request.workOrder.id}`} sx={{ fontWeight: 'bold' }}>
+              {request.workOrder.customId || `WO-${request.workOrder.id}`}
+            </Link>
+          </Alert>
+        </Grid>
       )}
       <Divider />
       <Grid item xs={12}>
@@ -451,6 +512,11 @@ export default function RequestDetails({
               )}
             </>
           </Grid>
+          <RequestPartsSection
+            request={request}
+            canEdit={hasEditPermission(PermissionEntity.REQUESTS, request)}
+            onAvailabilityChange={handleAvailabilityChange}
+          />
         </Box>
       </Grid>
       {isImageViewerOpen && (

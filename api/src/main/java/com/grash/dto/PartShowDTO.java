@@ -36,6 +36,12 @@ public class PartShowDTO extends AuditShowDTO {
     @Schema(description = "Current quantity in stock")
     private double quantity;
 
+    @Schema(description = "Quantity reserved for pending/approved requests")
+    private int reservedQuantity;
+
+    @Schema(description = "Available quantity in stock (quantity - reservedQuantity)")
+    private double availableQuantity;
+
     @Schema(description = "Additional information")
     private String additionalInfos;
 

@@ -4,7 +4,9 @@ import com.grash.aspect.TenantAspect;
 import com.grash.advancedsearch.FilterField;
 import com.grash.advancedsearch.SearchCriteria;
 import com.grash.advancedsearch.SpecificationBuilder;
+import com.grash.dto.PartQuantityCompletePatchDTO;
 import com.grash.dto.RequestApproveDTO;
+import com.grash.dto.RequestPartsAvailabilityDTO;
 import com.grash.dto.RequestPatchDTO;
 import com.grash.dto.RequestPostDTO;
 import com.grash.dto.validation.PreApprovalValidationResultDTO;
@@ -65,6 +67,7 @@ public class RequestService {
     private final RequestPortalService requestPortalService;
     private final TenantAspect tenantAspect;
     private final PreApprovalValidationService preApprovalValidationService;
+    private final SmartPartsReservationService smartPartsReservationService;
     private WorkflowService workflowService;
 
     @Value("${frontend.url}")
@@ -101,7 +104,9 @@ public class RequestService {
 
     @Transactional
     public Request create(Request request, Company company) {
+        List<PartQuantityCompletePatchDTO> initialRequiredParts = null;
         if (request instanceof RequestPostDTO requestPostDTO) {
+            initialRequiredParts = requestPostDTO.getRequiredParts();
             request = requestMapper.fromPostDTO(requestPostDTO);
             if (!requestPostDTO.getCustomFields().isEmpty()) {
                 setRequestCustomFields(request, requestPostDTO.getCustomFields(), company);
@@ -115,6 +120,11 @@ public class RequestService {
 
         Request savedRequest = requestRepository.saveAndFlush(request);
         em.refresh(savedRequest);
+
+        if (initialRequiredParts != null && !initialRequiredParts.isEmpty()) {
+            smartPartsReservationService.patchRequestParts(savedRequest, initialRequiredParts);
+        }
+
         Map<String, Object> webhookPayload = new HashMap<>();
         webhookPayload.put("requestId", savedRequest.getId());
         Object serializedRequest = requestMapper.toShowDto(savedRequest);
@@ -399,12 +409,16 @@ public class RequestService {
                 throw new CustomException("Request approval is blocked because pre-approval validation failed: " + blockingReason, HttpStatus.BAD_REQUEST);
             }
 
+            // Atomic smart parts reservation check & lock before work order creation
+            smartPartsReservationService.reservePartsForRequest(savedRequest, user);
+
             Collection<Workflow> workflows =
                     workflowService.findByMainConditionAndCompany(WFMainCondition.REQUEST_APPROVED,
                             user.getCompany().getId());
             workflows.forEach(workflow -> workflowService.runRequest(workflow, savedRequest));
 
             WorkOrder createdWorkOrder = createWorkOrderFromRequest(savedRequest, user);
+            smartPartsReservationService.linkReservedPartsToWorkOrder(savedRequest, createdWorkOrder);
             if (savedRequest.getAsset() != null && requestApproveDTO.getAssetStatus() != null) {
                 savedRequest.getAsset().setStatus(requestApproveDTO.getAssetStatus());
                 assetService.save(savedRequest.getAsset());
@@ -467,6 +481,7 @@ public class RequestService {
                 throw new CustomException("Please give a reason", HttpStatus.NOT_ACCEPTABLE);
             savedRequest.setCancellationReason(reason);
             savedRequest.setCancelled(true);
+            smartPartsReservationService.releaseReservedPartsForRequest(savedRequest);
             Collection<Workflow> workflows =
                     workflowService.findByMainConditionAndCompany(WFMainCondition.REQUEST_REJECTED,
                             user.getCompany().getId());
@@ -547,6 +562,22 @@ public class RequestService {
                 workflowService.findByMainConditionAndCompany(WFMainCondition.REQUEST_CREATED,
                         company.getId());
         workflows.forEach(workflow -> workflowService.runRequest(workflow, createdRequest));
+    }
+
+    public RequestPartsAvailabilityDTO checkPartsAvailability(Long id) {
+        Request request = requestRepository.findById(id)
+                .orElseThrow(() -> new CustomException("Request not found", HttpStatus.NOT_FOUND));
+        return smartPartsReservationService.checkPartsAvailability(request);
+    }
+
+    @Transactional
+    public Collection<PartQuantity> patchParts(Long id, List<PartQuantityCompletePatchDTO> parts, User user) {
+        Request request = requestRepository.findById(id)
+                .orElseThrow(() -> new CustomException("Request not found", HttpStatus.NOT_FOUND));
+        if (!request.canBeEditedBy(user)) {
+            throw new CustomException("Forbidden", HttpStatus.FORBIDDEN);
+        }
+        return smartPartsReservationService.patchRequestParts(request, parts);
     }
 }
 

@@ -71,6 +71,11 @@ const ownMenuItems: MenuItems[] = [
         permission: PermissionEntity.PREVENTIVE_MAINTENANCES
       },
       {
+        name: 'exceptions',
+        link: '/app/exceptions',
+        icon: ErrorTwoToneIcon
+      },
+      {
         name: 'Statistics',
         icon: InsertChartTwoToneIcon,
         permission: PermissionEntity.ANALYTICS,
