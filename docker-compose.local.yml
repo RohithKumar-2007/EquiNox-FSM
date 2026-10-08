@@ -5,6 +5,12 @@ services:
     container_name: atlas-cmms-backend
     environment:
       DB_URL: postgres/atlas
+      DB_USER: rootUser
+      DB_PWD: mypassword
+      MINIO_ENDPOINT: http://minio:9000
       MINIO_BUCKET: atlas-bucket
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+      JWT_SECRET_KEY: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWYwMTIzNDU2Nzg5YWJjZGVmMDEyMzQ1Njc4OWFiY2RlZg==
   frontend:
     container_name: atlas-cmms-frontend

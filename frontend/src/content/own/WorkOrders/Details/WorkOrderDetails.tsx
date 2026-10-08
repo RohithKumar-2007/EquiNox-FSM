@@ -1,6 +1,12 @@
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
   CircularProgress,
   debounce,
   Divider,
@@ -13,10 +19,17 @@ import {
   ListSubheader,
   Menu,
   MenuItem,
+  Paper,
   Select,
   Stack,
   styled,
   Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Tabs,
   TextField,
   Typography,
@@ -50,6 +63,8 @@ import {
   editWorkOrder,
   removeFileFromWorkOrder
 } from '../../../../slices/workOrder';
+import { getExceptionsByWorkOrder } from '../../../../slices/workOrderException';
+import { WorkOrderException } from '../../../../models/owns/workOrderException';
 import { useDispatch, useSelector } from '../../../../store';
 import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
 import SelectParts from '../../components/form/SelectParts';
@@ -166,6 +181,14 @@ export default function WorkOrderDetails(props: WorkOrderDetailsProps) {
   const additionalCosts = costsByWorkOrder[workOrder.id] ?? [];
   const { commentsCountByWorkOrder } = useSelector((state) => state.comments);
   const commentsCount = commentsCountByWorkOrder[workOrder.id]?.count ?? 0;
+  const { workOrderExceptions } = useSelector((state) => state.workOrderExceptions);
+  const exceptions: WorkOrderException[] = workOrderExceptions[workOrder.id] ?? [];
+  const activeException = exceptions.find(
+    (e) =>
+      e.status === 'OPEN' ||
+      e.status === 'ESCALATED' ||
+      e.status === 'MANUAL_INTERVENTION_REQUIRED'
+  );
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
@@ -243,6 +266,7 @@ export default function WorkOrderDetails(props: WorkOrderDetailsProps) {
     dispatch(getAdditionalCosts(workOrder.id));
     dispatch(getTasksByWorkOrder(workOrder.id));
     dispatch(getRelations(workOrder.id));
+    dispatch(getExceptionsByWorkOrder(workOrder.id));
   }, []);
   useEffect(() => {
     const [hours, minutes] = getHoursAndMinutesAndSeconds(
@@ -397,6 +421,10 @@ export default function WorkOrderDetails(props: WorkOrderDetailsProps) {
     {
       value: 'comments',
       label: `${t('comments')}${commentsCount > 0 ? ` (${commentsCount})` : ''}`
+    },
+    {
+      value: 'exceptions',
+      label: `Exceptions & SLA${exceptions.length > 0 ? ` (${exceptions.length})` : ''}`
     }
   ];
 
@@ -577,6 +605,49 @@ export default function WorkOrderDetails(props: WorkOrderDetailsProps) {
         </Box>
       </Grid>
       <Divider />
+      {activeException && (
+        <Grid item xs={12}>
+          <Alert
+            severity={
+              activeException.severity === 'CRITICAL' ||
+              activeException.status === 'MANUAL_INTERVENTION_REQUIRED'
+                ? 'error'
+                : 'warning'
+            }
+            variant="filled"
+            sx={{ borderRadius: 1 }}
+            action={
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => setCurrentTab('exceptions')}
+                sx={{ fontWeight: 'bold' }}
+              >
+                View SLA Details
+              </Button>
+            }
+          >
+            <AlertTitle sx={{ fontWeight: 'bold' }}>
+              ⚠️ SLA / Exception: {activeException.exceptionType.replace(/_/g, ' ')} ({activeException.severity})
+            </AlertTitle>
+            {activeException.description}
+            {activeException.replacementTechnician && (
+              <Box sx={{ mt: 0.5, fontSize: '0.875rem' }}>
+                <strong>Auto-Reassigned To:</strong>{' '}
+                {activeException.replacementTechnician.firstName}{' '}
+                {activeException.replacementTechnician.lastName}
+                {activeException.autoReassignmentScore != null &&
+                  ` (Match Score: ${Math.round(activeException.autoReassignmentScore)}%)`}
+              </Box>
+            )}
+            {activeException.status === 'MANUAL_INTERVENTION_REQUIRED' && (
+              <Box sx={{ mt: 0.5, fontWeight: 'bold', color: '#fff' }}>
+                Action Required: Max reassignment retries exceeded or part shortage. Manual intervention required.
+              </Box>
+            )}
+          </Alert>
+        </Grid>
+      )}
       <Grid item xs={12}>
         <Tabs
           onChange={handleTabsChange}
@@ -1188,6 +1259,189 @@ export default function WorkOrderDetails(props: WorkOrderDetailsProps) {
             workOrderId={workOrder.id}
             commentId={commentId}
           />
+        )}
+        {currentTab === 'exceptions' && (
+          <Box sx={{ mt: 2 }}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Card variant="outlined">
+                  <CardHeader
+                    title="SLA & Assignment Engine Overview"
+                    subheader="Real-time monitoring for technician availability, SLA compliance, and automated work order routing"
+                    action={
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => navigate('/app/exceptions')}
+                      >
+                        Open Exception Center
+                      </Button>
+                    }
+                  />
+                  <Divider />
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="caption" color="textSecondary">
+                          SLA Due Date
+                        </Typography>
+                        <Typography variant="h6" fontWeight="bold">
+                          {workOrder.dueDate ? getFormattedDate(workOrder.dueDate) : 'No Due Date'}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="caption" color="textSecondary">
+                          Work Order Priority
+                        </Typography>
+                        <Box sx={{ mt: 0.5 }}>
+                          <PriorityWrapper priority={workOrder.priority} />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="caption" color="textSecondary">
+                          Assigned Technician
+                        </Typography>
+                        <Typography variant="h6" fontWeight="bold">
+                          {workOrder.primaryUser
+                            ? `${workOrder.primaryUser.firstName} ${workOrder.primaryUser.lastName}`
+                            : 'Unassigned'}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="caption" color="textSecondary">
+                          Engine Status
+                        </Typography>
+                        <Box sx={{ mt: 0.5 }}>
+                          {activeException ? (
+                            <Chip
+                              size="small"
+                              label={`Active Exception (${activeException.exceptionType})`}
+                              color={activeException.severity === 'CRITICAL' ? 'error' : 'warning'}
+                            />
+                          ) : (
+                            <Chip
+                              size="small"
+                              label="SLA Nominal / Healthy"
+                              color="success"
+                            />
+                          )}
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Card variant="outlined">
+                  <CardHeader
+                    title={`Logged Exceptions (${exceptions.length})`}
+                    subheader="Audit trail of detected breaches and automated reassignment decisions"
+                  />
+                  <Divider />
+                  {exceptions.length === 0 ? (
+                    <Box sx={{ p: 4, textAlign: 'center' }}>
+                      <Typography variant="body1" color="textSecondary">
+                        No exceptions or SLA breaches logged for this work order.
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <TableContainer component={Paper} elevation={0}>
+                      <Table size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Type</TableCell>
+                            <TableCell>Severity</TableCell>
+                            <TableCell>Status</TableCell>
+                            <TableCell>Detected</TableCell>
+                            <TableCell>Reassignment Pathway</TableCell>
+                            <TableCell>Match Score</TableCell>
+                            <TableCell>Resolution / Notes</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {exceptions.map((ex) => (
+                            <TableRow key={ex.id}>
+                              <TableCell>
+                                <Chip
+                                  size="small"
+                                  label={ex.exceptionType.replace(/_/g, ' ')}
+                                  variant="outlined"
+                                />
+                              </TableCell>
+                              <TableCell>
+                                <Chip
+                                  size="small"
+                                  label={ex.severity}
+                                  color={
+                                    ex.severity === 'CRITICAL'
+                                      ? 'error'
+                                      : ex.severity === 'HIGH'
+                                      ? 'warning'
+                                      : ex.severity === 'MEDIUM'
+                                      ? 'info'
+                                      : 'default'
+                                  }
+                                />
+                              </TableCell>
+                              <TableCell>
+                                <Chip
+                                  size="small"
+                                  label={ex.status.replace(/_/g, ' ')}
+                                  color={
+                                    ex.status === 'RESOLVED' || ex.status === 'AUTO_REASSIGNED'
+                                      ? 'success'
+                                      : ex.status === 'MANUAL_INTERVENTION_REQUIRED'
+                                      ? 'error'
+                                      : 'warning'
+                                  }
+                                />
+                              </TableCell>
+                              <TableCell>
+                                {ex.createdAt ? getFormattedDate(ex.createdAt) : '-'}
+                              </TableCell>
+                              <TableCell>
+                                {ex.previousTechnician ? (
+                                  <span>
+                                    {ex.previousTechnician.firstName} {ex.previousTechnician.lastName}
+                                    {' → '}
+                                    <strong>
+                                      {ex.replacementTechnician
+                                        ? `${ex.replacementTechnician.firstName} ${ex.replacementTechnician.lastName}`
+                                        : 'None'}
+                                    </strong>
+                                  </span>
+                                ) : ex.replacementTechnician ? (
+                                  <span>
+                                    Assigned to{' '}
+                                    <strong>
+                                      {ex.replacementTechnician.firstName} {ex.replacementTechnician.lastName}
+                                    </strong>
+                                  </span>
+                                ) : (
+                                  <span style={{ color: '#888' }}>No reassignment</span>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {ex.autoReassignmentScore != null
+                                  ? `${Math.round(ex.autoReassignmentScore)}%`
+                                  : '-'}
+                              </TableCell>
+                              <TableCell sx={{ maxWidth: 300 }}>
+                                <Typography variant="body2" noWrap title={ex.reassignmentNotes || ex.description}>
+                                  {ex.reassignmentNotes || ex.description || '-'}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  )}
+                </Card>
+              </Grid>
+            </Grid>
+          </Box>
         )}
       </Grid>
       <AddFileModal
