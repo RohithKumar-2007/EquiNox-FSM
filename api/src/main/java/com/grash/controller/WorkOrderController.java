@@ -235,6 +235,14 @@ public class WorkOrderController {
         return workOrderService.addFiles(id, files, user).stream().map(fileMapper::toShowDto).collect(Collectors.toList());
     }
 
+    @DeleteMapping("/files/{id}/{fileId}/remove")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public List<FileShowDTO> removeFileFromWorkOrder(@PathVariable("id") Long id,
+                                                     @PathVariable("fileId") Long fileId, HttpServletRequest req) {
+        User user = userService.whoami(req);
+        return workOrderService.removeFile(id, fileId, user).stream().map(fileMapper::toShowDto).collect(Collectors.toList());
+    }
+
     @GetMapping("/{id}/candidates")
     @PreAuthorize("permitAll()")
     public List<com.grash.dto.assignment.TechnicianCandidateDTO> getCandidates(@PathVariable("id") Long id,
